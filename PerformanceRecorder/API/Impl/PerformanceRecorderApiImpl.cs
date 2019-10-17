@@ -8,14 +8,19 @@ namespace PerformanceRecorder.API.Impl
 {
     public class PerformanceRecorderApiImpl : IPerformanceRecorderApi
     {
+        public bool IsRecordingEnabled { 
+            get => StaticRecorderManager.IsRecordingEnabled; 
+            set => StaticRecorderManager.IsRecordingEnabled = value;
+        }
+
         public void DisablePerformanceRecording()
         {
-            StaticRecorderManager.IsRecordingEnabled = false;
+            IsRecordingEnabled = false;
         }
 
         public void EnablePerformanceRecording()
         {
-            StaticRecorderManager.IsRecordingEnabled = true;
+            IsRecordingEnabled = true;
         }
 
         public ICollection<IRecordingResult> GetResults()
