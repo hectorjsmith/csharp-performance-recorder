@@ -18,16 +18,16 @@ namespace PerformanceRecorder.Result.Impl
 
         public double Min { get; private set; }
 
-        public double Avg => Sum / Count;
+        public double Avg => Count > 0 ? Sum / Count : 0;
 
-        public RecordingResultImpl(string id, long result)
+        public RecordingResultImpl(string id, long result) : this(id)
         {
-            Id = id ?? throw new ArgumentNullException(nameof(id));
             AddResult(result);
         }
 
-        public RecordingResultImpl(string id) : this(id, 0)
+        public RecordingResultImpl(string id)
         { 
+            Id = id ?? throw new ArgumentNullException(nameof(id));
         }
 
         public void AddResult(long result)

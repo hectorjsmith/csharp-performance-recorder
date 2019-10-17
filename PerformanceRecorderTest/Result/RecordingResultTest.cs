@@ -27,6 +27,37 @@ namespace PerformanceRecorderTest.Result
             HelperFunctionForRecordingResultTesting(values, values.Sum(), r => r.Sum);
         }
 
+        [Test]
+        [TestCaseSource("NumberProviderForResultObjectTesting")]
+        public void TestGivenResultsWhenAddedToResultObjectThenCountMatchesResultCount(int[] values)
+        {
+            HelperFunctionForRecordingResultTesting(values, values.Length, r => r.Count);
+        }
+
+        [Test]
+        [TestCaseSource("NumberProviderForResultObjectTesting")]
+        public void TestGivenResultsWhenAddedToResultObjectThenMaxMatchesResultMax(int[] values)
+        {
+            double max = values.Any() ? values.Max() : 0.0;
+            HelperFunctionForRecordingResultTesting(values, max, r => r.Max);
+        }
+
+        [Test]
+        [TestCaseSource("NumberProviderForResultObjectTesting")]
+        public void TestGivenResultsWhenAddedToResultObjectThenMinMatchesResultMin(int[] values)
+        {
+            double min = values.Any() ? values.Min() : 0.0;
+            HelperFunctionForRecordingResultTesting(values, min, r => r.Min);
+        }
+
+        [Test]
+        [TestCaseSource("NumberProviderForResultObjectTesting")]
+        public void TestGivenResultsWhenAddedToResultObjectThenAvgMatchesResultAvg(int[] values)
+        {
+            double avg = values.Any() ? values.Average() : 0.0;
+            HelperFunctionForRecordingResultTesting(values, avg, r => r.Avg);
+        }
+
         private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IRecordingResult, double> resultProvider)
         {
             IRecordingResult result = new RecordingResultImpl("test");
