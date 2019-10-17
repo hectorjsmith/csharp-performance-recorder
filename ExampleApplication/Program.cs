@@ -33,7 +33,8 @@ namespace ExampleApplication
 
             foreach (IRecordingResult result in results)
             {
-                Console.WriteLine(string.Format("{0}: count: {1}  avg: {2}", result.Id, result.Count, result.Avg));
+                Console.WriteLine(string.Format("{0}.{1}: count: {2}  avg: {3}", 
+                    result.ClassName, result.MethodName, result.Count, result.Avg));
             }
             Console.WriteLine("Done");
         }
