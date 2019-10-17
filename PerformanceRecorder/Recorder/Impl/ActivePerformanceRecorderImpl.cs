@@ -11,6 +11,11 @@ namespace PerformanceRecorder.Recorder.Impl
     {
         private readonly IDictionary<string, IRecordingResult> _recordedTimes = new Dictionary<string, IRecordingResult>();
 
+        public ICollection<IRecordingResult> GetResults()
+        {
+            return _recordedTimes.Values;
+        }
+
         public void RecordExecutionTime(string actionName, Action action)
         {
             Stopwatch sw = Stopwatch.StartNew();

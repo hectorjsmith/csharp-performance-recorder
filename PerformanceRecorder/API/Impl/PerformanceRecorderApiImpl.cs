@@ -20,12 +20,12 @@ namespace PerformanceRecorder.API.Impl
 
         public ICollection<IRecordingResult> GetResults()
         {
-            throw new NotImplementedException();
+            return StaticRecorderManager.GetResults();
         }
 
         public void ResetRecorder()
         {
-            throw new NotImplementedException();
+            StaticRecorderManager.ResetRecorder();
         }
     }
 }
