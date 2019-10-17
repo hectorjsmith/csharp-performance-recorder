@@ -4,11 +4,10 @@ using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PerformanceRecorderTest.Result
 {
-    class RecordingResultTest
+    internal class RecordingResultTest
     {
         [Test]
         public void TestGivenTwoResultsWhenAddedToResultObjectThenCountEqualsTwo()

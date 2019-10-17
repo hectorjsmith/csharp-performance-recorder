@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ExampleApplication.Worker
+﻿namespace ExampleApplication.Worker
 {
-    interface IWorker
+    internal interface IWorker
     {
         void RunOperationA();
 

@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace ExampleApplication
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // Create a new instance of the performance logging API
             IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
-            
+
             // Enable performance logging (this will enable all attributes)
             api.EnablePerformanceRecording();
 
@@ -22,9 +22,8 @@ namespace ExampleApplication
             app.RunApplication();
 
             // Print out the results
-            PrintResults(api) ;
+            PrintResults(api);
         }
-
 
         public static void PrintResults(IPerformanceRecorderApi api)
         {
@@ -33,7 +32,7 @@ namespace ExampleApplication
 
             foreach (IRecordingResult result in results)
             {
-                Console.WriteLine(string.Format("{0}.{1}: count: {2}  avg: {3}", 
+                Console.WriteLine(string.Format("{0}.{1}: count: {2}  avg: {3}",
                     result.ClassName, result.MethodName, result.Count, result.Avg));
             }
             Console.WriteLine("Done");

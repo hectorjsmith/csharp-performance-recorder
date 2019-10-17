@@ -6,13 +6,10 @@ using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorderTest.API
 {
-    class PerformanceRecorderApiTest
+    internal class PerformanceRecorderApiTest
     {
         [Test]
         public void TestGivenApiObjectWhenRecordingEnabledThenCorrectRecorderTypeUsed()
@@ -61,7 +58,7 @@ namespace PerformanceRecorderTest.API
             RecordDummyData(recorder);
 
             int recorderCount = recorder.GetResults().Count;
-            Assert.AreEqual(recorderCount, api.GetResults().Count, 
+            Assert.AreEqual(recorderCount, api.GetResults().Count,
                 "Expecing correct number of results reported by the API");
 
             api.DisablePerformanceRecording();
@@ -80,16 +77,16 @@ namespace PerformanceRecorderTest.API
                 "GIVEN: Performance recorder should be active");
 
             RecordDummyData(recorder);
-            
+
             api.ResetRecorder();
-            Assert.AreEqual(0, recorder.GetResults().Count, 
+            Assert.AreEqual(0, recorder.GetResults().Count,
                 "All results should be cleared from the recorder");
 
             RecordDummyData(recorder);
             api.DisablePerformanceRecording();
-            
+
             api.ResetRecorder();
-            Assert.AreEqual(0, recorder.GetResults().Count, 
+            Assert.AreEqual(0, recorder.GetResults().Count,
                 "All results should be cleared from the recorder, even when recording disabled");
         }
 

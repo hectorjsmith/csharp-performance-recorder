@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PerformanceRecorder.Manager;
+﻿using PerformanceRecorder.Manager;
 using PerformanceRecorder.Result;
+using System.Collections.Generic;
 
 namespace PerformanceRecorder.API.Impl
 {
     public class PerformanceRecorderApiImpl : IPerformanceRecorderApi
     {
-        public bool IsRecordingEnabled { 
-            get => StaticRecorderManager.IsRecordingEnabled; 
+        public bool IsRecordingEnabled
+        {
+            get => StaticRecorderManager.IsRecordingEnabled;
             set => StaticRecorderManager.IsRecordingEnabled = value;
         }
 

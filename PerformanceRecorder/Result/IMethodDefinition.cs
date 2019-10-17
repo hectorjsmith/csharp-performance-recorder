@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PerformanceRecorder.Result
+﻿namespace PerformanceRecorder.Result
 {
-    interface IMethodDefinition
+    internal interface IMethodDefinition
     {
         string Namespace { get; }
 

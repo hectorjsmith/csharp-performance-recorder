@@ -3,11 +3,10 @@ using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
-    class ActivePerformanceRecorderImpl : IPerformanceRecorder
+    internal class ActivePerformanceRecorderImpl : IPerformanceRecorder
     {
         private readonly IDictionary<string, IRecordingResult> _recordedTimes = new Dictionary<string, IRecordingResult>();
 

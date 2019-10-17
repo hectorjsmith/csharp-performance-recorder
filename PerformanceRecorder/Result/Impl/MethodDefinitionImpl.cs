@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Result.Impl
 {
-    class MethodDefinitionImpl : IMethodDefinition
+    internal class MethodDefinitionImpl : IMethodDefinition
     {
         public string Namespace { get; }
 

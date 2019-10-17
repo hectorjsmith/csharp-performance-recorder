@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Result.Impl
 {
-    class RecordingResultImpl : IRecordingResult
+    internal class RecordingResultImpl : IRecordingResult
     {
         private IMethodDefinition _method;
 
@@ -33,7 +31,7 @@ namespace PerformanceRecorder.Result.Impl
         }
 
         public RecordingResultImpl(IMethodDefinition method)
-        { 
+        {
             _method = method ?? throw new ArgumentNullException(nameof(method));
         }
 

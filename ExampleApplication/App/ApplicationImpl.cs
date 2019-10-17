@@ -1,15 +1,9 @@
 ﻿using ExampleApplication.Worker;
-using PerformanceRecorder.API;
-using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Attribute;
-using PerformanceRecorder.Result;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ExampleApplication.App
 {
-    class ApplicationImpl : IApplication
+    internal class ApplicationImpl : IApplication
     {
         // You can add the attribute to properties
         [PerformanceLogging]
