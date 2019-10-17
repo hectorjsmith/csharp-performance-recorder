@@ -1,4 +1,5 @@
 ﻿using AspectInjector.Broker;
+using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using System;
@@ -9,8 +10,6 @@ namespace PerformanceRecorder.Attribute
     [Injection(typeof(PerformanceLoggingAttribute))]
     public class PerformanceLoggingAttribute : System.Attribute
     {
-        private static readonly IPerformanceRecorderFactory RecorderFactory = new PerformanceRecorderFactoryImpl();
-
         [Advice(Kind.Around)]
         public object HandleMethod(
             [Argument(Source.Name)] string methodName,
@@ -18,7 +17,7 @@ namespace PerformanceRecorder.Attribute
             [Argument(Source.Arguments)] object[] arguments,
             [Argument(Source.Target)] Func<object[], object> method)
         {
-            IPerformanceRecorder recorder = RecorderFactory.New();
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
 
             // Initializing return value to null here since it is used in the lambda
             object result = null;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using PerformanceRecorder.Manager;
 using PerformanceRecorder.Result;
 
 namespace PerformanceRecorder.API.Impl
@@ -9,12 +10,12 @@ namespace PerformanceRecorder.API.Impl
     {
         public void DisablePerformanceRecording()
         {
-            throw new NotImplementedException();
+            StaticRecorderManager.IsRecordingEnabled = false;
         }
 
         public void EnablePerformanceRecording()
         {
-            throw new NotImplementedException();
+            StaticRecorderManager.IsRecordingEnabled = true;
         }
 
         public ICollection<IRecordingResult> GetResults()
