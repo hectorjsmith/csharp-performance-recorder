@@ -18,3 +18,8 @@ test:
     stage: test
     script:
     - dotnet test PerformanceRecorderTest/PerformanceRecorderTest.csproj
+
+example:
+    stage: test
+    script:
+    - dotnet run --project ExampleApplication/ExampleApplication.csproj
