@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ExampleApplication.App;
+using PerformanceRecorder.API.Impl;
+using System;
 
 namespace ExampleApplication
 {
@@ -6,7 +8,9 @@ namespace ExampleApplication
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IApplication app = new ApplicationImpl(new PerformanceRecorderApiImpl());
+            app.RunApplication();
+            app.PrintResults();
         }
     }
 }
