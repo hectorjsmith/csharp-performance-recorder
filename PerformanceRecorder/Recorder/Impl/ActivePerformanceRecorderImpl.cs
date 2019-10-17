@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
-    class PerformanceRecorderImpl : IPerformanceRecorder
+    class ActivePerformanceRecorderImpl : IPerformanceRecorder
     {
         private readonly IDictionary<string, IRecordingResult> _recordedTimes = new Dictionary<string, IRecordingResult>();
 

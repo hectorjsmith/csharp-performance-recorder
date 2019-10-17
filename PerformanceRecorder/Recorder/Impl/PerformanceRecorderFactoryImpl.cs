@@ -8,7 +8,7 @@ namespace PerformanceRecorder.Recorder.Impl
     {
         public IPerformanceRecorder New()
         {
-            return new PerformanceRecorderImpl();
+            return new ActivePerformanceRecorderImpl();
         }
     }
 }
