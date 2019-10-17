@@ -17,4 +17,4 @@ build:
 test:
     stage: test
     script:
-    - dotnet test PerformanceRecorderTest/PerformanceRecorderTest/.csproj
+    - dotnet test PerformanceRecorderTest/PerformanceRecorderTest.csproj
