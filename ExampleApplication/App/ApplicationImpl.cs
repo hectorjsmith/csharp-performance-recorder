@@ -24,7 +24,10 @@ namespace ExampleApplication.App
 
         public void RunApplication()
         {
-            Worker.RunOperationA();
+            for (int i = 0; i < 10; i++)
+            {
+                Worker.RunOperationA();
+            }
         }
 
         public void PrintResults()
