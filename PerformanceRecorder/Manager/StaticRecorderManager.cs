@@ -7,11 +7,11 @@ namespace PerformanceRecorder.Manager
 {
     internal static class StaticRecorderManager
     {
-        public static bool IsRecordingEnabled { get; set; }
-
         private static readonly IPerformanceRecorder _inactiveRecorder = new InactivePerformanceRecorderImpl();
 
         private static IPerformanceRecorder _activeRecorder = new ActivePerformanceRecorderImpl();
+
+        public static bool IsRecordingEnabled { get; set; }
 
         public static ICollection<IRecordingResult> GetResults()
         {

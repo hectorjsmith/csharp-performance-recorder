@@ -9,7 +9,7 @@ namespace ExampleApplication
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // Create a new instance of the performance logging API
             IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
@@ -25,7 +25,7 @@ namespace ExampleApplication
             PrintResults(api);
         }
 
-        public static void PrintResults(IPerformanceRecorderApi api)
+        private static void PrintResults(IPerformanceRecorderApi api)
         {
             // Get the results off the API
             ICollection<IRecordingResult> results = api.GetResults();
