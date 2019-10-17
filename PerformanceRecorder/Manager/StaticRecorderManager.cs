@@ -34,7 +34,8 @@ namespace PerformanceRecorder.Manager
 
         public static void ResetRecorder()
         {
-            _activeRecorder = new ActivePerformanceRecorderImpl();
+            _activeRecorder.Reset();
+            _inactiveRecorder.Reset();
         }
     }
 }

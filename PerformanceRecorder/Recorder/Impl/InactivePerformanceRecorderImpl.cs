@@ -16,5 +16,9 @@ namespace PerformanceRecorder.Recorder.Impl
         {
             action.Invoke();
         }
+
+        public void Reset()
+        {
+        }
     }
 }

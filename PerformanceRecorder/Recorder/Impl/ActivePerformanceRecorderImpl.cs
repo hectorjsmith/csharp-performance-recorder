@@ -27,6 +27,11 @@ namespace PerformanceRecorder.Recorder.Impl
             AddResult(actionName, sw.ElapsedMilliseconds);
         }
 
+        public void Reset()
+        {
+            _recordedTimes.Clear();
+        }
+
         private void AddResult(string actionName, long duration)
         {
             if (_recordedTimes.ContainsKey(actionName))

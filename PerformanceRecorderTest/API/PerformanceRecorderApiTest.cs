@@ -2,6 +2,7 @@
 using PerformanceRecorder.API;
 using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Manager;
+using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,64 @@ namespace PerformanceRecorderTest.API
                 "Performance recording should be off");
             Assert.IsTrue(StaticRecorderManager.GetRecorder() is InactivePerformanceRecorderImpl,
                 "Performance recorder should be inactive");
+        }
+
+        [Test]
+        public void TestGivenActiveRecorderWhenDummyResultsAddedThenResultsReturnedThroughApi()
+        {
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.EnablePerformanceRecording();
+
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            Assert.IsTrue(recorder is ActivePerformanceRecorderImpl,
+                "GIVEN: Performance recorder should be active");
+
+            RecordDummyData(recorder);
+
+            int recorderCount = recorder.GetResults().Count;
+            Assert.AreEqual(recorderCount, api.GetResults().Count, 
+                "Expecing correct number of results reported by the API");
+
+            api.DisablePerformanceRecording();
+            Assert.AreEqual(recorderCount, api.GetResults().Count,
+                "Expecing correct number of results reported by the API, even when recorder disabled");
+        }
+
+        [Test]
+        public void TestGivenActiveRecorderWithDummyDataWhenRecordingResetThenAllResultsRemoved()
+        {
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.EnablePerformanceRecording();
+
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            Assert.IsTrue(recorder is ActivePerformanceRecorderImpl,
+                "GIVEN: Performance recorder should be active");
+
+            RecordDummyData(recorder);
+            
+            api.ResetRecorder();
+            Assert.AreEqual(0, recorder.GetResults().Count, 
+                "All results should be cleared from the recorder");
+
+            RecordDummyData(recorder);
+            api.DisablePerformanceRecording();
+            
+            api.ResetRecorder();
+            Assert.AreEqual(0, recorder.GetResults().Count, 
+                "All results should be cleared from the recorder, even when recording disabled");
+        }
+
+        private void RecordDummyData(IPerformanceRecorder recorder)
+        {
+            int sleepTime = 10;
+            int testCount = 10;
+            for (int i = 0; i < testCount; i++)
+            {
+                recorder.RecordExecutionTime("test" + i, () => System.Threading.Thread.Sleep(sleepTime));
+            }
+
+            Assert.AreEqual(testCount, recorder.GetResults().Count,
+                "GIVEN: Expecing correct number of results added to recorder");
         }
     }
 }

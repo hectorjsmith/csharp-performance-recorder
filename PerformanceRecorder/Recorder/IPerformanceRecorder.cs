@@ -10,5 +10,7 @@ namespace PerformanceRecorder.Recorder
         void RecordExecutionTime(string actionName, Action action);
 
         ICollection<IRecordingResult> GetResults();
+
+        void Reset();
     }
 }
