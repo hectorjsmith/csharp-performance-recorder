@@ -20,10 +20,11 @@ namespace PerformanceRecorder.Attribute
             [Argument(Source.Target)] Func<object[], object> method)
         {
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
 
             // Initializing return value to null here since it is used in the lambda
             object result = null;
-            recorder.RecordExecutionTime(GenerateMethodDefinition(instance.GetType(), methodName),
+            recorder.RecordExecutionTime(methodDefinition,
                 () => result = method.Invoke(arguments));
             return result;
         }
