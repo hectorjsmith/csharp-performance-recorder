@@ -22,4 +22,4 @@ test:
 example:
     stage: test
     script:
-    - dotnet run ExampleApplication/ExampleApplication.csproj
+    - dotnet run --project ExampleApplication/ExampleApplication.csproj
