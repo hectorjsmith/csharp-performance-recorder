@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceRecorder", "PerformanceRecorder\PerformanceRecorder.csproj", "{FCA66EFB-565F-4AC8-A599-477093D5BD29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerformanceRecorder", "PerformanceRecorder\PerformanceRecorder.csproj", "{FCA66EFB-565F-4AC8-A599-477093D5BD29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceRecorderTest", "PerformanceRecorderTest\PerformanceRecorderTest.csproj", "{CF51159C-8382-4A91-A46E-5DEBCC1B9099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FCA66EFB-565F-4AC8-A599-477093D5BD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCA66EFB-565F-4AC8-A599-477093D5BD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCA66EFB-565F-4AC8-A599-477093D5BD29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF51159C-8382-4A91-A46E-5DEBCC1B9099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF51159C-8382-4A91-A46E-5DEBCC1B9099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF51159C-8382-4A91-A46E-5DEBCC1B9099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF51159C-8382-4A91-A46E-5DEBCC1B9099}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
