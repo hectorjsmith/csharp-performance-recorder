@@ -12,7 +12,7 @@ namespace PerformanceRecorder.Recorder.Impl
             return new List<IRecordingResult>();
         }
 
-        public void RecordExecutionTime(string actionName, Action action)
+        public void RecordExecutionTime(IMethodDefinition methodDefinition, Action action)
         {
             action.Invoke();
         }

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +28,7 @@ namespace PerformanceRecorderTest.Recorder
         {
             int initialValue = 10;
             int value = initialValue;
-            recorder.RecordExecutionTime("test", () => value *= value);
+            recorder.RecordExecutionTime(new MethodDefinitionImpl("t", "t", "t"), () => value *= value);
 
             Assert.AreNotEqual(initialValue, value, "Value should have been modified in the performance recorder");
         }

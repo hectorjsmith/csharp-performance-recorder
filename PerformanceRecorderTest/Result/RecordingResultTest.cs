@@ -13,7 +13,7 @@ namespace PerformanceRecorderTest.Result
         [Test]
         public void TestGivenTwoResultsWhenAddedToResultObjectThenCountEqualsTwo()
         {
-            IRecordingResult result = new RecordingResultImpl("test", 110);
+            IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"), 110);
             Assert.AreEqual(1, result.Count, "Result count should be set to 1 on new object");
 
             result.AddResult(186);
@@ -60,7 +60,7 @@ namespace PerformanceRecorderTest.Result
 
         private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IRecordingResult, double> resultProvider)
         {
-            IRecordingResult result = new RecordingResultImpl("test");
+            IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
             foreach (int value in values)
             {
                 result.AddResult(value);

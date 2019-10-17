@@ -6,9 +6,16 @@ namespace PerformanceRecorder.Result.Impl
 {
     class RecordingResultImpl : IRecordingResult
     {
-        private string v;
+        private IMethodDefinition _method;
 
-        public string Id { get; private set; }
+        private string _id;
+        public string Id => _id ?? (_id = _method.ToString());
+
+        public string Namespace => _method.Namespace;
+
+        public string ClassName => _method.ClassName;
+
+        public string MethodName => _method.MethodName;
 
         public double Sum { get; private set; }
 
@@ -20,14 +27,14 @@ namespace PerformanceRecorder.Result.Impl
 
         public double Avg => Count > 0 ? Sum / Count : 0;
 
-        public RecordingResultImpl(string id, long result) : this(id)
+        public RecordingResultImpl(IMethodDefinition method, long result) : this(method)
         {
             AddResult(result);
         }
 
-        public RecordingResultImpl(string id)
+        public RecordingResultImpl(IMethodDefinition method)
         { 
-            Id = id ?? throw new ArgumentNullException(nameof(id));
+            _method = method ?? throw new ArgumentNullException(nameof(method));
         }
 
         public void AddResult(long result)
