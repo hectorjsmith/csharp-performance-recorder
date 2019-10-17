@@ -16,7 +16,7 @@ namespace PerformanceRecorder.Recorder.Impl
             return _recordedTimes.Values;
         }
 
-        public void RecordExecutionTime(string actionName, Action action)
+        public void RecordExecutionTime(IMethodDefinition methodDefinition, Action action)
         {
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -24,7 +24,7 @@ namespace PerformanceRecorder.Recorder.Impl
 
             sw.Stop();
 
-            AddResult(actionName, sw.ElapsedMilliseconds);
+            AddResult(methodDefinition, sw.ElapsedMilliseconds);
         }
 
         public void Reset()
@@ -32,16 +32,17 @@ namespace PerformanceRecorder.Recorder.Impl
             _recordedTimes.Clear();
         }
 
-        private void AddResult(string actionName, long duration)
+        private void AddResult(IMethodDefinition methodDefinition, long duration)
         {
-            if (_recordedTimes.ContainsKey(actionName))
+            string methodId = methodDefinition.ToString();
+            if (_recordedTimes.ContainsKey(methodId))
             {
-                IRecordingResult result = _recordedTimes[actionName];
+                IRecordingResult result = _recordedTimes[methodId];
                 result.AddResult(duration);
             }
             else
             {
-                _recordedTimes[actionName] = new RecordingResultImpl(actionName, duration);
+                _recordedTimes[methodId] = new RecordingResultImpl(methodDefinition, duration);
             }
         }
     }

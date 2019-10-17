@@ -5,9 +5,9 @@ using System.Text;
 
 namespace PerformanceRecorder.Recorder
 {
-    public interface IPerformanceRecorder
+    interface IPerformanceRecorder
     {
-        void RecordExecutionTime(string actionName, Action action);
+        void RecordExecutionTime(IMethodDefinition methodDefinition, Action action);
 
         ICollection<IRecordingResult> GetResults();
 

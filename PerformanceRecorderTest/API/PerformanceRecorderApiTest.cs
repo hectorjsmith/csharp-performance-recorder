@@ -4,6 +4,8 @@ using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Result;
+using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -97,11 +99,16 @@ namespace PerformanceRecorderTest.API
             int testCount = 10;
             for (int i = 0; i < testCount; i++)
             {
-                recorder.RecordExecutionTime("test" + i, () => System.Threading.Thread.Sleep(sleepTime));
+                recorder.RecordExecutionTime(NewMethodDefinition(i), () => System.Threading.Thread.Sleep(sleepTime));
             }
 
             Assert.AreEqual(testCount, recorder.GetResults().Count,
                 "GIVEN: Expecing correct number of results added to recorder");
+        }
+
+        private IMethodDefinition NewMethodDefinition(int index)
+        {
+            return new MethodDefinitionImpl("test", "test", "test." + index);
         }
     }
 }

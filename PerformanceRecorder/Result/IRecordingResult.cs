@@ -8,6 +8,12 @@ namespace PerformanceRecorder.Result
     {
         string Id { get; }
 
+        string Namespace { get; }
+
+        string ClassName { get; }
+        
+        string MethodName { get; }
+
         double Sum { get; }
 
         double Count { get; }

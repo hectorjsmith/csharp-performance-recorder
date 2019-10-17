@@ -2,6 +2,8 @@
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Result;
+using PerformanceRecorder.Result.Impl;
 using System;
 
 namespace PerformanceRecorder.Attribute
@@ -18,17 +20,18 @@ namespace PerformanceRecorder.Attribute
             [Argument(Source.Target)] Func<object[], object> method)
         {
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
 
             // Initializing return value to null here since it is used in the lambda
             object result = null;
-            recorder.RecordExecutionTime(GeneratePerfLogName(instance.GetType(), methodName),
+            recorder.RecordExecutionTime(methodDefinition,
                 () => result = method.Invoke(arguments));
             return result;
         }
 
-        private string GeneratePerfLogName(Type parentType, string methodName)
+        private IMethodDefinition GenerateMethodDefinition(Type parentType, string methodName)
         {
-            return string.Format("{0}.{1}.{2}",
+            return new MethodDefinitionImpl(
                 parentType.Namespace,
                 parentType.Name,
                 methodName);
