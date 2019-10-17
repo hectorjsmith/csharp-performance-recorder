@@ -11,33 +11,19 @@ namespace ExampleApplication.App
 {
     class ApplicationImpl : IApplication
     {
-        private readonly IPerformanceRecorderApi _api;
-
+        // You can add the attribute to properties
         [PerformanceLogging]
         private IWorker Worker => new WorkerImpl();
 
-        public ApplicationImpl(IPerformanceRecorderApi api)
-        {
-            _api = api;
-            api.EnablePerformanceRecording();
-        }
-
+        // You can add the attribute to methods
+        [PerformanceLogging]
         public void RunApplication()
         {
             for (int i = 0; i < 10; i++)
             {
                 Worker.RunOperationA();
             }
-        }
-
-        public void PrintResults()
-        {
-            ICollection<IRecordingResult> results = _api.GetResults();
-            foreach (IRecordingResult result in results)
-            {
-                Console.WriteLine(string.Format("{0}: count: {1}  avg: {2}", result.Id, result.Count, result.Avg));
-            }
-            Console.WriteLine("Done");
+            Worker.RunOperationB();
         }
     }
 }

@@ -5,11 +5,17 @@ using System.Text;
 
 namespace ExampleApplication.Worker
 {
+    // You can add the attribute to entire classes (will apply to all properties and methods)
+    [PerformanceLogging]
     class WorkerImpl : IWorker
     {
-        [PerformanceLogging]
         public void RunOperationA()
         {
+        }
+
+        public void RunOperationB()
+        {
+
         }
     }
 }

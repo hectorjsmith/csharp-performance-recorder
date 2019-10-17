@@ -7,5 +7,7 @@ namespace ExampleApplication.Worker
     interface IWorker
     {
         void RunOperationA();
+
+        void RunOperationB();
     }
 }
