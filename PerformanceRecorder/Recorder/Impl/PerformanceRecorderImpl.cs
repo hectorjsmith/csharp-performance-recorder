@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PerformanceRecorder.Result;
+using PerformanceRecorder.Result.Impl;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -7,7 +9,7 @@ namespace PerformanceRecorder.Recorder.Impl
 {
     class PerformanceRecorderImpl : IPerformanceRecorder
     {
-        private Dictionary<string, long> _recordedTimes;
+        private readonly IDictionary<string, IRecordingResult> _recordedTimes = new Dictionary<string, IRecordingResult>();
 
         public void RecordExecutionTime(string actionName, Action action)
         {
@@ -16,15 +18,20 @@ namespace PerformanceRecorder.Recorder.Impl
             action.Invoke();
 
             sw.Stop();
-            long duration = sw.ElapsedMilliseconds;
 
+            AddResult(actionName, sw.ElapsedMilliseconds);
+        }
+
+        private void AddResult(string actionName, long duration)
+        {
             if (_recordedTimes.ContainsKey(actionName))
             {
-                _recordedTimes[actionName] += duration;
+                IRecordingResult result = _recordedTimes[actionName];
+                result.AddResult(duration);
             }
             else
             {
-                _recordedTimes[actionName] = duration;
+                _recordedTimes[actionName] = new RecordingResultImpl(actionName, duration);
             }
         }
     }
