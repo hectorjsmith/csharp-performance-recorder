@@ -1,7 +1,6 @@
 ﻿using AspectInjector.Broker;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
-using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;

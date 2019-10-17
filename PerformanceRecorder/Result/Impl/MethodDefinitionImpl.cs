@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Result.Impl
 {
-    class MethodDefinitionImpl : IMethodDefinition
+    internal class MethodDefinitionImpl : IMethodDefinition
     {
-        public string Namespace { get; }
-
-        public string ClassName { get; }
-
-        public string MethodName { get; }
-
         public MethodDefinitionImpl(string @namespace, string className, string methodName)
         {
             Namespace = @namespace ?? throw new ArgumentNullException(nameof(@namespace));
             ClassName = className ?? throw new ArgumentNullException(nameof(className));
             MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
         }
+
+        public string Namespace { get; }
+
+        public string ClassName { get; }
+
+        public string MethodName { get; }
 
         public override string ToString()
         {

@@ -2,13 +2,10 @@
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Result.Impl;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorderTest.Recorder
 {
-    class PerformanceRecorderTest
+    internal class PerformanceRecorderTest
     {
         [Test]
         public void TestGivenActivePerformanceRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()

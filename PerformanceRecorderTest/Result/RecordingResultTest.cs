@@ -4,11 +4,10 @@ using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PerformanceRecorderTest.Result
 {
-    class RecordingResultTest
+    internal class RecordingResultTest
     {
         [Test]
         public void TestGivenTwoResultsWhenAddedToResultObjectThenCountEqualsTwo()
@@ -58,17 +57,7 @@ namespace PerformanceRecorderTest.Result
             HelperFunctionForRecordingResultTesting(values, avg, r => r.Avg);
         }
 
-        private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IRecordingResult, double> resultProvider)
-        {
-            IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
-            foreach (int value in values)
-            {
-                result.AddResult(value);
-            }
-            Assert.AreEqual(expected, resultProvider(result));
-        }
-
-        public static IEnumerable<int[]> NumberProviderForResultObjectTesting()
+        private static IEnumerable<int[]> NumberProviderForResultObjectTesting()
         {
             return new List<int[]>()
             {
@@ -80,6 +69,16 @@ namespace PerformanceRecorderTest.Result
                 new int[] { 10, 20 },
                 new int[] { 20, 10},
             };
+        }
+
+        private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IRecordingResult, double> resultProvider)
+        {
+            IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
+            foreach (int value in values)
+            {
+                result.AddResult(value);
+            }
+            Assert.AreEqual(expected, resultProvider(result));
         }
     }
 }

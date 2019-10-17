@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ExampleApplication.App
+﻿namespace ExampleApplication.App
 {
-    interface IApplication
+    internal interface IApplication
     {
         void RunApplication();
     }

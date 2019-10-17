@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PerformanceRecorder.Result
+﻿namespace PerformanceRecorder.Result
 {
     public interface IRecordingResult
     {
@@ -11,7 +7,7 @@ namespace PerformanceRecorder.Result
         string Namespace { get; }
 
         string ClassName { get; }
-        
+
         string MethodName { get; }
 
         double Sum { get; }

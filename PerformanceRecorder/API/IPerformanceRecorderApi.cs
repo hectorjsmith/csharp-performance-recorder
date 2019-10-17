@@ -5,7 +5,7 @@ namespace PerformanceRecorder.API
 {
     public interface IPerformanceRecorderApi
     {
-        bool IsRecordingEnabled { get; set;  }
+        bool IsRecordingEnabled { get; set; }
 
         void EnablePerformanceRecording();
 

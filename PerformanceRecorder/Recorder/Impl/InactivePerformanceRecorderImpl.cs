@@ -1,11 +1,10 @@
-﻿using System;
+﻿using PerformanceRecorder.Result;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using PerformanceRecorder.Result;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
-    class InactivePerformanceRecorderImpl : IPerformanceRecorder
+    internal class InactivePerformanceRecorderImpl : IPerformanceRecorder
     {
         public ICollection<IRecordingResult> GetResults()
         {

@@ -1,14 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Result.Impl
 {
-    class RecordingResultImpl : IRecordingResult
+    internal class RecordingResultImpl : IRecordingResult
     {
         private IMethodDefinition _method;
 
         private string _id;
+
+        public RecordingResultImpl(IMethodDefinition method, long result) : this(method)
+        {
+            AddResult(result);
+        }
+
+        public RecordingResultImpl(IMethodDefinition method)
+        {
+            _method = method ?? throw new ArgumentNullException(nameof(method));
+        }
+
         public string Id => _id ?? (_id = _method.ToString());
 
         public string Namespace => _method.Namespace;
@@ -26,16 +35,6 @@ namespace PerformanceRecorder.Result.Impl
         public double Min { get; private set; }
 
         public double Avg => Count > 0 ? Sum / Count : 0;
-
-        public RecordingResultImpl(IMethodDefinition method, long result) : this(method)
-        {
-            AddResult(result);
-        }
-
-        public RecordingResultImpl(IMethodDefinition method)
-        { 
-            _method = method ?? throw new ArgumentNullException(nameof(method));
-        }
 
         public void AddResult(long result)
         {
