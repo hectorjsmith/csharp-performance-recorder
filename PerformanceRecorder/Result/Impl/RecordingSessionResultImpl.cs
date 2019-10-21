@@ -8,8 +8,9 @@ namespace PerformanceRecorder.Result.Impl
 {
     class RecordingSessionResultImpl : IRecordingSessionResult
     {
-        private IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
-        private ICollection<IRecordingResult> _rawData;
+        private readonly IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
+        private readonly IResultFormatter<string> _formattedFormatter = new FormattedStringResultFormatterImpl();
+        private readonly ICollection<IRecordingResult> _rawData;
 
         public RecordingSessionResultImpl(ICollection<IRecordingResult> rawData)
         {
@@ -17,6 +18,8 @@ namespace PerformanceRecorder.Result.Impl
         }
 
         public bool IncludeNamespaceInString { get; set; }
+
+        public int Count => _rawData.Count;
 
         public ICollection<IRecordingResult> RawData()
         {
@@ -30,7 +33,7 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToRawString()
         {
-            throw new NotImplementedException();
+            return _formattedFormatter.FormatAs(_rawData);
         }
     }
 }
