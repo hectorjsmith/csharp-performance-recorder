@@ -15,14 +15,14 @@ namespace PerformanceRecorderTest.Recorder
     internal class PerformanceRecorderTest
     {
         [Test]
-        public void TestGivenActivePerformanceRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
+        public void TestGivenActiveRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
         {
             IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
             HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
         }
 
         [Test]
-        public void TestGivenInactivePerformanceRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
+        public void TestGivenInactiveRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
         {
             IPerformanceRecorder recorder = new InactivePerformanceRecorderImpl();
             HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
@@ -38,7 +38,7 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [Test]
-        public void TestGivenActivePerformanceRecorderWhenShortMethodRecordedThenNoPrecisionLost()
+        public void TestGivenActiveRecorderWhenShortMethodRecordedThenNoPrecisionLost()
         {
             int runCount = 5_000;
 
@@ -58,7 +58,7 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [Test]
-        public void TestGivenActivePerformanceRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin5PercentDelta()
+        public void TestGivenActiveRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin5PercentDelta()
         {
             int runCount = 5_000;
             double actualExecutionTime = HelperFunctionToRunTimedTest(() => {
@@ -78,7 +78,7 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [Test]
-        public void TestGivenActivePerformanceRecorderWhenSingleLongMethodRecordedThenTotalActualTimeAndTotalRecordedTimeWithin1PercentDelta()
+        public void TestGivenActiveRecorderWhenSingleLongMethodRecordedThenTotalActualTimeAndTotalRecordedTimeWithin1PercentDelta()
         {
             double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToRecordTotalTimeOf1Second());   
 
