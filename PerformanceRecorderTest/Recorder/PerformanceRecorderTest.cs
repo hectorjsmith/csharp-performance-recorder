@@ -5,7 +5,9 @@ using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PerformanceRecorderTest.Recorder
@@ -43,7 +45,7 @@ namespace PerformanceRecorderTest.Recorder
             StaticRecorderManager.IsRecordingEnabled = true;
             for (int i = 0; i < runCount; i++)
             {
-                HelperFunctionToRecord(i);
+                HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
             }
 
             ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
@@ -55,8 +57,56 @@ namespace PerformanceRecorderTest.Recorder
             Assert.Less(firstResult.Avg, 1.0, "Average of all executions should less than 1.0");
         }
 
+        [Test]
+        public void TestGivenActivePerformanceRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin2PercentDelta()
+        {
+            int runCount = 5_000;
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => {
+                for (int i = 0; i < runCount; i++)
+                {
+                    HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
+                }
+            });
+
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(1, results.Count, "Only one result was expected");
+
+            IRecordingResult firstResult = results.First();
+            double percentOfActual = actualExecutionTime * 0.02;
+            Assert.AreEqual(actualExecutionTime, firstResult.Sum, percentOfActual,
+                "Recorded execution time should be within 2% of actual execution time");
+        }
+
+        [Test]
+        public void TestGivenActivePerformanceRecorderWhenSingleLongMethodRecordedThenTotalActualTimeAndTotalRecordedTimeWithin1PercentDelta()
+        {
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToRecordTotalTimeOf1Second());   
+
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(1, results.Count, "Only one result was expected");
+
+            IRecordingResult firstResult = results.First();
+            double tenPercentOfActual = actualExecutionTime * 0.01;
+            Assert.AreEqual(actualExecutionTime, firstResult.Sum, tenPercentOfActual,
+                "Recorded execution time should be within 1% of actual execution time");
+        }
+
+        private double HelperFunctionToRunTimedTest(Action actionToRun)
+        {
+            StaticRecorderManager.IsRecordingEnabled = true;
+            StaticRecorderManager.ResetRecorder();
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            actionToRun?.Invoke();
+
+            stopwatch.Stop();
+            return stopwatch.Elapsed.TotalMilliseconds;
+        }
+
         [PerformanceLogging]
-        private void HelperFunctionToRecord(int i)
+        private void HelperFunctionToRecordAverageTimeBetween0And1Ms(int i)
         {
             if (i % 10 == 0)
             {
@@ -64,6 +114,12 @@ namespace PerformanceRecorderTest.Recorder
                 // This is to ensure this method takes on average, between 0 and 1ms
                 System.Threading.Thread.Sleep(1);
             }
+        }
+
+        [PerformanceLogging]
+        private void HelperFunctionToRecordTotalTimeOf1Second()
+        {
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }

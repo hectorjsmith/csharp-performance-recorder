@@ -23,7 +23,7 @@ namespace PerformanceRecorder.Recorder.Impl
 
             sw.Stop();
 
-            AddResult(methodDefinition, sw.Elapsed.Milliseconds);
+            AddResult(methodDefinition, sw.Elapsed.TotalMilliseconds);
         }
 
         public void Reset()
