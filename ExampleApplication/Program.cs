@@ -28,7 +28,7 @@ namespace ExampleApplication
         private static void PrintResults(IPerformanceRecorderApi api)
         {
             // Get the results off the API
-            ICollection<IRecordingResult> results = api.GetResults();
+            ICollection<IRecordingResult> results = api.GetResults().RawData();
 
             foreach (IRecordingResult result in results)
             {

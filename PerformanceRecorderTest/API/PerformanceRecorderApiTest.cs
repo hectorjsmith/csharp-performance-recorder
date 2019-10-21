@@ -58,11 +58,11 @@ namespace PerformanceRecorderTest.API
             RecordDummyData(recorder);
 
             int recorderCount = recorder.GetResults().Count;
-            Assert.AreEqual(recorderCount, api.GetResults().Count,
+            Assert.AreEqual(recorderCount, api.GetResults().RawData().Count,
                 "Expecing correct number of results reported by the API");
 
             api.DisablePerformanceRecording();
-            Assert.AreEqual(recorderCount, api.GetResults().Count,
+            Assert.AreEqual(recorderCount, api.GetResults().RawData().Count,
                 "Expecing correct number of results reported by the API, even when recorder disabled");
         }
 

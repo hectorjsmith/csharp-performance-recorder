@@ -13,6 +13,6 @@ namespace PerformanceRecorder.API
 
         void ResetRecorder();
 
-        ICollection<IRecordingResult> GetResults();
+        IRecordingSessionResult GetResults();
     }
 }
