@@ -38,7 +38,7 @@ namespace PerformanceRecorderTest.Recorder
         [Test]
         public void TestGivenActivePerformanceRecorderWhenShortMethodRecordedThenNoPrecisionLost()
         {
-            int runCount = 10_000;
+            int runCount = 5_000;
 
             StaticRecorderManager.IsRecordingEnabled = true;
             for (int i = 0; i < runCount; i++)
@@ -50,8 +50,9 @@ namespace PerformanceRecorderTest.Recorder
             Assert.AreEqual(1, results.Count, "Only one result was expected");
 
             IRecordingResult firstResult = results.First();
-            Assert.AreNotEqual(0.0, firstResult.Sum, "Sum of all executions should not be 0.0");
-            Assert.AreNotEqual(0.0, firstResult.Avg, "Average of all executions should not be 0.0");
+            Assert.Greater(firstResult.Sum, 0.0, "Sum of all executions should be greater than 0.0");
+            Assert.Greater(firstResult.Avg, 0.0, "Average of all executions should be greater than 0.0");
+            Assert.Less(firstResult.Avg, 1.0, "Average of all executions should less than 1.0");
         }
 
         [PerformanceLogging]
