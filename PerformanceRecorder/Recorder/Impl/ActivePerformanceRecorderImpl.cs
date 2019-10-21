@@ -23,7 +23,7 @@ namespace PerformanceRecorder.Recorder.Impl
 
             sw.Stop();
 
-            AddResult(methodDefinition, sw.ElapsedMilliseconds);
+            AddResult(methodDefinition, sw.Elapsed.Milliseconds);
         }
 
         public void Reset()
@@ -31,7 +31,7 @@ namespace PerformanceRecorder.Recorder.Impl
             _recordedTimes.Clear();
         }
 
-        private void AddResult(IMethodDefinition methodDefinition, long duration)
+        private void AddResult(IMethodDefinition methodDefinition, double duration)
         {
             string methodId = methodDefinition.ToString();
             if (_recordedTimes.ContainsKey(methodId))

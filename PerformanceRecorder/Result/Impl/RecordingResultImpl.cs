@@ -8,7 +8,7 @@ namespace PerformanceRecorder.Result.Impl
 
         private string _id;
 
-        public RecordingResultImpl(IMethodDefinition method, long result) : this(method)
+        public RecordingResultImpl(IMethodDefinition method, double result) : this(method)
         {
             AddResult(result);
         }
@@ -36,7 +36,7 @@ namespace PerformanceRecorder.Result.Impl
 
         public double Avg => Count > 0 ? Sum / Count : 0;
 
-        public void AddResult(long result)
+        public void AddResult(double result)
         {
             if (Count == 0)
             {
