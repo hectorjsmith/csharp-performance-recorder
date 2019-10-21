@@ -20,6 +20,6 @@
 
         double Avg { get; }
 
-        void AddResult(long result);
+        void AddResult(double result);
     }
 }
