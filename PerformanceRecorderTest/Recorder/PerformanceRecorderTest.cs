@@ -58,7 +58,7 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [Test]
-        public void TestGivenActivePerformanceRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin2PercentDelta()
+        public void TestGivenActivePerformanceRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin5PercentDelta()
         {
             int runCount = 5_000;
             double actualExecutionTime = HelperFunctionToRunTimedTest(() => {
@@ -72,9 +72,9 @@ namespace PerformanceRecorderTest.Recorder
             Assert.AreEqual(1, results.Count, "Only one result was expected");
 
             IRecordingResult firstResult = results.First();
-            double percentOfActual = actualExecutionTime * 0.02;
+            double percentOfActual = actualExecutionTime * 0.05;
             Assert.AreEqual(actualExecutionTime, firstResult.Sum, percentOfActual,
-                "Recorded execution time should be within 2% of actual execution time");
+                "Recorded execution time should be within 5% of actual execution time");
         }
 
         [Test]
