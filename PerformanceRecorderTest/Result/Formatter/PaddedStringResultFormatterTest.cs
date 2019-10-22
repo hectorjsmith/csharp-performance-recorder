@@ -19,9 +19,9 @@ namespace PerformanceRecorderTest.Result.Formatter
 
             string output = formatter.FormatAs(results);
             string expectedOutput
-                = "nnnn.cccc.mmmm2  count: 3  sum: 1240.00  avg:  413.33  max: 1020.00  min:   20.00" + Environment.NewLine
-                + "   nnn.ccc.mmm1  count: 3  sum:  620.00  avg:  206.67  max:  510.00  min:   10.00" + Environment.NewLine
-                + "      nn.cc.mm0  count: 3  sum:    0.00  avg:    0.00  max:    0.00  min:    0.00" + Environment.NewLine;
+                = "nnnn.cccc.mmmm2  count:  3  sum: 1240.00  avg:  413.33  max: 1020.00  min:   20.00" + Environment.NewLine
+                + "   nnn.ccc.mmm1  count:  3  sum:  620.00  avg:  206.67  max:  510.00  min:   10.00" + Environment.NewLine
+                + "      nn.cc.mm0  count: 13  sum:    0.00  avg:    0.00  max:    0.00  min:    0.00" + Environment.NewLine;
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
@@ -46,6 +46,13 @@ namespace PerformanceRecorderTest.Result.Formatter
                     new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i), i * 100);
                 result.AddResult(i * 10);
                 result.AddResult(i * 510);
+                if (i == 0)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        result.AddResult(0.0);
+                    }
+                }
                 results.Add(result);
             }
 
