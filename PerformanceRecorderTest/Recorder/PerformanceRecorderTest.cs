@@ -28,15 +28,6 @@ namespace PerformanceRecorderTest.Recorder
             HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
         }
 
-        private void HelperFunctionToEnsureActionsExectutedInRecorders(IPerformanceRecorder recorder)
-        {
-            int initialValue = 10;
-            int value = initialValue;
-            recorder.RecordExecutionTime(new MethodDefinitionImpl("t", "t", "t"), () => value *= value);
-
-            Assert.AreNotEqual(initialValue, value, "Value should have been modified in the performance recorder");
-        }
-
         [Test]
         public void TestGivenActiveRecorderWhenShortMethodRecordedThenNoPrecisionLost()
         {
@@ -61,7 +52,8 @@ namespace PerformanceRecorderTest.Recorder
         public void TestGivenActiveRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin5PercentDelta()
         {
             int runCount = 5_000;
-            double actualExecutionTime = HelperFunctionToRunTimedTest(() => {
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() =>
+            {
                 for (int i = 0; i < runCount; i++)
                 {
                     HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
@@ -80,7 +72,7 @@ namespace PerformanceRecorderTest.Recorder
         [Test]
         public void TestGivenActiveRecorderWhenSingleLongMethodRecordedThenTotalActualTimeAndTotalRecordedTimeWithin1PercentDelta()
         {
-            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToRecordTotalTimeOf1Second());   
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToRecordTotalTimeOf1Second());
 
             ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
             Assert.AreEqual(1, results.Count, "Only one result was expected");
@@ -89,6 +81,15 @@ namespace PerformanceRecorderTest.Recorder
             double tenPercentOfActual = actualExecutionTime * 0.01;
             Assert.AreEqual(actualExecutionTime, firstResult.Sum, tenPercentOfActual,
                 "Recorded execution time should be within 1% of actual execution time");
+        }
+
+        private void HelperFunctionToEnsureActionsExectutedInRecorders(IPerformanceRecorder recorder)
+        {
+            int initialValue = 10;
+            int value = initialValue;
+            recorder.RecordExecutionTime(new MethodDefinitionImpl("t", "t", "t"), () => value *= value);
+
+            Assert.AreNotEqual(initialValue, value, "Value should have been modified in the performance recorder");
         }
 
         private double HelperFunctionToRunTimedTest(Action actionToRun)

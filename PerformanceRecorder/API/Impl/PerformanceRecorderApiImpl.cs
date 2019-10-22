@@ -1,6 +1,6 @@
 ﻿using PerformanceRecorder.Manager;
 using PerformanceRecorder.Result;
-using System.Collections.Generic;
+using PerformanceRecorder.Result.Impl;
 
 namespace PerformanceRecorder.API.Impl
 {
@@ -22,9 +22,9 @@ namespace PerformanceRecorder.API.Impl
             IsRecordingEnabled = true;
         }
 
-        public ICollection<IRecordingResult> GetResults()
+        public IRecordingSessionResult GetResults()
         {
-            return StaticRecorderManager.GetResults();
+            return new RecordingSessionResultImpl(StaticRecorderManager.GetResults());
         }
 
         public void ResetRecorder()
