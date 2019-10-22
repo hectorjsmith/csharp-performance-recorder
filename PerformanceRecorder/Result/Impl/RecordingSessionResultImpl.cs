@@ -17,7 +17,7 @@ namespace PerformanceRecorder.Result.Impl
             _rawData = rawData ?? throw new ArgumentNullException(nameof(rawData));
         }
 
-        public bool IncludeNamespaceInString { get; set; }
+        public bool IncludeNamespaceInString { get; set; } = true;
 
         public int Count => _rawData.Count;
 
@@ -28,12 +28,14 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToPaddedString()
         {
-            return _plainFormatter.FormatAs(_rawData);
+            _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
+            return _paddedFormatter.FormatAs(_rawData);
         }
 
         public string ToRawString()
         {
-            return _paddedFormatter.FormatAs(_rawData);
+            _plainFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
+            return _plainFormatter.FormatAs(_rawData);
         }
     }
 }

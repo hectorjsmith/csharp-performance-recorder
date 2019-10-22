@@ -9,6 +9,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         private const string RawFormatString = "{0,_key_len_}  count: {1,_count_len_}  sum: {2,_num_len_:0.00}  avg: {3,_num_len_:0.00}  max: {4,_num_len_:0.00}  min: {5,_num_len_:0.00}";
 
+        public bool IncludeNamespaceInString { get; set; }
+
         public string FormatAs(ICollection<IRecordingResult> results)
         {
             if (results.Count == 0)
@@ -28,10 +30,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             StringBuilder sb = new StringBuilder();
             foreach (IRecordingResult result in results.OrderByDescending(r => r.Sum))
             {
-                string resultName = string.Format("{0}.{1}.{2}", result.Namespace, result.ClassName, result.MethodName);
-
                 sb.Append(string.Format(formatString,
-                    resultName, result.Count, result.Sum, result.Avg, result.Max, result.Min));
+                    GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min));
                 sb.Append(Environment.NewLine);
             }
             return sb.ToString();
@@ -39,7 +39,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         private int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
         {
-            return results.Select(r => string.Format("{0}.{1}.{2}", r.Namespace, r.ClassName, r.MethodName).Length).Max();
+            return results.Select(r => GenerateResultName(r).Length).Max();
         }
 
         private int FindLengthOfLongestCount(ICollection<IRecordingResult> results)
@@ -54,5 +54,16 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             return string.Format("{0:0.00}", maxSum).Length;
         }
 
+        private string GenerateResultName(IRecordingResult result)
+        {
+            if (IncludeNamespaceInString)
+            {
+                return string.Format("{0}.{1}.{2}", result.Namespace, result.ClassName, result.MethodName);
+            }
+            else
+            {
+                return string.Format("{0}.{1}", result.ClassName, result.MethodName);
+            }
+        }
     }
 }
