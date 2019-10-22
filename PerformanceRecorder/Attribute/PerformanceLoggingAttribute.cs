@@ -4,6 +4,8 @@ using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace PerformanceRecorder.Attribute
 {
@@ -11,21 +13,30 @@ namespace PerformanceRecorder.Attribute
     [Injection(typeof(PerformanceLoggingAttribute))]
     public class PerformanceLoggingAttribute : System.Attribute
     {
-        [Advice(Kind.Around)]
-        public object HandleMethod(
-            [Argument(Source.Name)] string methodName,
-            [Argument(Source.Instance)] object instance,
-            [Argument(Source.Arguments)] object[] arguments,
-            [Argument(Source.Target)] Func<object[], object> method)
-        {
-            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
-            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
+        private static readonly Stack<(IMethodDefinition, double)> MethodStack = new Stack<(IMethodDefinition, double)>();
 
-            // Initializing return value to null here since it is used in the lambda
-            object result = null;
-            recorder.RecordExecutionTime(methodDefinition,
-                () => result = method.Invoke(arguments));
-            return result;
+        [Advice(Kind.Before)]
+        public void HandleBefore(
+            [Argument(Source.Name)] string methodName,
+            [Argument(Source.Instance)] object instance)
+        {
+            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
+            MethodStack.Push((methodDefinition, GetCurrentTimeInMs()));
+        }
+
+        [Advice(Kind.After)]
+        public void HandleAfter()
+        {
+            double endTime = GetCurrentTimeInMs();
+            (IMethodDefinition method, double startTime) = MethodStack.Pop();
+
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            recorder.RecordStartMethod(method, endTime - startTime);
+        }
+
+        private double GetCurrentTimeInMs()
+        {
+            return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         }
 
         private IMethodDefinition GenerateMethodDefinition(Type parentType, string methodName)

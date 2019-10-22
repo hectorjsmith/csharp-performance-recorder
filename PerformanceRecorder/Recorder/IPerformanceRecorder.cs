@@ -8,6 +8,8 @@ namespace PerformanceRecorder.Recorder
     {
         void RecordExecutionTime(IMethodDefinition methodDefinition, Action action);
 
+        void RecordStartMethod(IMethodDefinition methodDefinition, double duration);
+
         ICollection<IRecordingResult> GetResults();
 
         void Reset();

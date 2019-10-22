@@ -16,6 +16,10 @@ namespace PerformanceRecorder.Recorder.Impl
             action.Invoke();
         }
 
+        public void RecordStartMethod(IMethodDefinition methodDefinition, double duration)
+        {
+        }
+
         public void Reset()
         {
         }

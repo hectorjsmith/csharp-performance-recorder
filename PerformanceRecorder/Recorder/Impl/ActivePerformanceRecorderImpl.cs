@@ -26,6 +26,15 @@ namespace PerformanceRecorder.Recorder.Impl
             AddResult(methodDefinition, sw.Elapsed.TotalMilliseconds);
         }
 
+        public void RecordStartMethod(IMethodDefinition methodDefinition, double duration)
+        {
+            if (duration < 0.0)
+            {
+                throw new ArgumentException(string.Format("Duration cannot be negative. Trying to add {0} duration", duration));
+            }
+            AddResult(methodDefinition, duration);
+        }
+
         public void Reset()
         {
             _recordedTimes.Clear();
