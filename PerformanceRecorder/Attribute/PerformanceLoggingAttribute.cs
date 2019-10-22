@@ -31,7 +31,7 @@ namespace PerformanceRecorder.Attribute
             (IMethodDefinition method, double startTime) = MethodStack.Pop();
 
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
-            recorder.RecordStartMethod(method, endTime - startTime);
+            recorder.RecordMethodDuration(method, endTime - startTime);
         }
 
         private double GetCurrentTimeInMs()

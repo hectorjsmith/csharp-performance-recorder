@@ -15,20 +15,6 @@ namespace PerformanceRecorderTest.Recorder
     internal class PerformanceRecorderTest
     {
         [Test]
-        public void TestGivenActiveRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
-        {
-            IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
-            HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
-        }
-
-        [Test]
-        public void TestGivenInactiveRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
-        {
-            IPerformanceRecorder recorder = new InactivePerformanceRecorderImpl();
-            HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
-        }
-
-        [Test]
         public void TestGivenActiveRecorderWhenShortMethodRecordedThenNoPrecisionLost()
         {
             int runCount = 5_000;
@@ -81,15 +67,6 @@ namespace PerformanceRecorderTest.Recorder
             double tenPercentOfActual = actualExecutionTime * 0.01;
             Assert.AreEqual(actualExecutionTime, firstResult.Sum, tenPercentOfActual,
                 "Recorded execution time should be within 1% of actual execution time");
-        }
-
-        private void HelperFunctionToEnsureActionsExectutedInRecorders(IPerformanceRecorder recorder)
-        {
-            int initialValue = 10;
-            int value = initialValue;
-            recorder.RecordExecutionTime(new MethodDefinitionImpl("t", "t", "t"), () => value *= value);
-
-            Assert.AreNotEqual(initialValue, value, "Value should have been modified in the performance recorder");
         }
 
         private double HelperFunctionToRunTimedTest(Action actionToRun)

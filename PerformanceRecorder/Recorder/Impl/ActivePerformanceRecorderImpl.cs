@@ -2,7 +2,6 @@
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
@@ -15,18 +14,7 @@ namespace PerformanceRecorder.Recorder.Impl
             return _recordedTimes.Values;
         }
 
-        public void RecordExecutionTime(IMethodDefinition methodDefinition, Action action)
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            action.Invoke();
-
-            sw.Stop();
-
-            AddResult(methodDefinition, sw.Elapsed.TotalMilliseconds);
-        }
-
-        public void RecordStartMethod(IMethodDefinition methodDefinition, double duration)
+        public void RecordMethodDuration(IMethodDefinition methodDefinition, double duration)
         {
             if (duration < 0.0)
             {

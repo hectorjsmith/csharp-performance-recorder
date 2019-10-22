@@ -6,9 +6,7 @@ namespace PerformanceRecorder.Recorder
 {
     internal interface IPerformanceRecorder
     {
-        void RecordExecutionTime(IMethodDefinition methodDefinition, Action action);
-
-        void RecordStartMethod(IMethodDefinition methodDefinition, double duration);
+        void RecordMethodDuration(IMethodDefinition methodDefinition, double duration);
 
         ICollection<IRecordingResult> GetResults();
 
