@@ -9,13 +9,13 @@ using System.Text;
 
 namespace PerformanceRecorderTest.Result.Formatter
 {
-    class FormattedStringResultFormatterTest
+    class PaddedStringResultFormatterTest
     {
         [Test]
-        public void TestGivenResultCollectionWhenFormattedAsPlainStringThenOutputMatchesExpected()
+        public void TestGivenResultCollectionWhenFormattedAsPaddedStringThenOutputMatchesExpected()
         {
             ICollection<IRecordingResult> results = GenerateMockResults();
-            IResultFormatter<string> formatter = new FormattedStringResultFormatterImpl();
+            IResultFormatter<string> formatter = new PaddedStringResultFormatterImpl();
 
             string output = formatter.FormatAs(results);
             string expectedOutput
@@ -28,10 +28,10 @@ namespace PerformanceRecorderTest.Result.Formatter
         }
 
         [Test]
-        public void TestGivenEmptyResultCollectionWhenFormattedAsPlainStringThenBlankOutputReturned()
+        public void TestGivenEmptyResultCollectionWhenFormattedAsPaddedStringThenBlankOutputReturned()
         {
             ICollection<IRecordingResult> results = new List<IRecordingResult>();
-            IResultFormatter<string> formatter = new FormattedStringResultFormatterImpl();
+            IResultFormatter<string> formatter = new PaddedStringResultFormatterImpl();
 
             string output = formatter.FormatAs(results);
             Assert.AreEqual(0, output.Length, "Output string length should be zero");

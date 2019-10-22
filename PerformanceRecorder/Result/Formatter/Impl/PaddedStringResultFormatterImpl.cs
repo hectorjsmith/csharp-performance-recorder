@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    class FormattedStringResultFormatterImpl : IResultFormatter<string>
+    class PaddedStringResultFormatterImpl : IResultFormatter<string>
     {
         private const string RawFormatString = "{0,_key_len_}  count: {1,_count_len_}  sum: {2,_num_len_:0.00}  avg: {3,_num_len_:0.00}  max: {4,_num_len_:0.00}  min: {5,_num_len_:0.00}";
 

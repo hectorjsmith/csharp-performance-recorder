@@ -14,6 +14,6 @@ namespace PerformanceRecorder.Result
 
         string ToRawString();
 
-        string ToFormattedString();
+        string ToPaddedString();
     }
 }

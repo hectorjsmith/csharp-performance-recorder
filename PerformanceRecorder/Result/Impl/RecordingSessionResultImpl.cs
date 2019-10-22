@@ -9,7 +9,7 @@ namespace PerformanceRecorder.Result.Impl
     class RecordingSessionResultImpl : IRecordingSessionResult
     {
         private readonly IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
-        private readonly IResultFormatter<string> _formattedFormatter = new FormattedStringResultFormatterImpl();
+        private readonly IResultFormatter<string> _paddedFormatter = new PaddedStringResultFormatterImpl();
         private readonly ICollection<IRecordingResult> _rawData;
 
         public RecordingSessionResultImpl(ICollection<IRecordingResult> rawData)
@@ -26,14 +26,14 @@ namespace PerformanceRecorder.Result.Impl
             return _rawData;
         }
 
-        public string ToFormattedString()
+        public string ToPaddedString()
         {
             return _plainFormatter.FormatAs(_rawData);
         }
 
         public string ToRawString()
         {
-            return _formattedFormatter.FormatAs(_rawData);
+            return _paddedFormatter.FormatAs(_rawData);
         }
     }
 }
