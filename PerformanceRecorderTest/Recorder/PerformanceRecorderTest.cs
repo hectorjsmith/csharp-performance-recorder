@@ -103,6 +103,20 @@ namespace PerformanceRecorderTest.Recorder
                 "Exception should be thrown when attempting to add negative duration");
         }
 
+        [Test]
+        public void TestGivenActiveRecorderWhenCallingNestedFunctionsThenOuterFunctionsAlwaysTakeLongerThanInner()
+        {
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionNestedA());
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(2, results.Count, "Tow results were expected");
+
+            IRecordingResult outerFunctionResult = results.Where(r => r.MethodName.Contains("A")).First();
+            IRecordingResult innerFunctionResult = results.Where(r => r.MethodName.Contains("B")).First();
+
+            Assert.Greater(outerFunctionResult.Sum, innerFunctionResult.Sum,
+                "Outer function should take longer to run that inner functions");
+        }
+
         private double HelperFunctionToRunTimedTest(Action actionToRun)
         {
             StaticRecorderManager.IsRecordingEnabled = true;
@@ -133,5 +147,21 @@ namespace PerformanceRecorderTest.Recorder
         {
             System.Threading.Thread.Sleep(1000);
         }
+
+        [PerformanceLogging]
+        private void HelperFunctionNestedA()
+        {
+            for (int i = 1; i < 10; i++)
+            {
+                HelperFunctionNestedB();
+            }
+        }
+
+        [PerformanceLogging]
+        private void HelperFunctionNestedB()
+        {
+            System.Threading.Thread.Sleep(1);
+        }
+
     }
 }
