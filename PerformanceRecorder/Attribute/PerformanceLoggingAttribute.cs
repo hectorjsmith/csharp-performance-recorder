@@ -36,7 +36,7 @@ namespace PerformanceRecorder.Attribute
 
         private double GetCurrentTimeInMs()
         {
-            return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            return (double)DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         }
 
         private IMethodDefinition GenerateMethodDefinition(Type parentType, string methodName)

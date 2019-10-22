@@ -35,6 +35,25 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [Test]
+        public void TestGivenActiveRecorderWhenShortMethodRecordedThenSumIsNotRounded()
+        {
+            int runCount = 100;
+
+            StaticRecorderManager.IsRecordingEnabled = true;
+            for (int i = 0; i < runCount; i++)
+            {
+                HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
+            }
+
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(1, results.Count, "Only one result was expected");
+
+            IRecordingResult firstResult = results.First();
+            double sum = firstResult.Sum;
+            Assert.AreNotEqual((long)sum, sum, "Sum of all executions should not be rounded");
+        }
+
+        [Test]
         public void TestGivenActiveRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin5PercentDelta()
         {
             int runCount = 5_000;
