@@ -28,14 +28,13 @@ namespace ExampleApplication
         private static void PrintResults(IPerformanceRecorderApi api)
         {
             // Get the results off the API
-            ICollection<IRecordingResult> results = api.GetResults().RawData();
+            IRecordingSessionResult results = api.GetResults();
 
-            foreach (IRecordingResult result in results)
-            {
-                Console.WriteLine(string.Format("{0}.{1}: count: {2}  avg: {3}",
-                    result.ClassName, result.MethodName, result.Count, result.Avg));
-            }
-            Console.WriteLine("Done");
+            // Hide the namespace in the output data
+            results.IncludeNamespaceInString = false;
+
+            // Use the built-in formatter to generate result output
+            Console.Write(results.ToPaddedString());
         }
     }
 }
