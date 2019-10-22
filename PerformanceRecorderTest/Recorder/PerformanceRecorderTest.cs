@@ -117,6 +117,25 @@ namespace PerformanceRecorderTest.Recorder
                 "Outer function should take longer to run that inner functions");
         }
 
+        [Test]
+        public void TestGivenActiveRecorderWhenInstrumentedMethodThrowsExceptionThenMethodTimeStillRecorded()
+        {
+            int sleepBefore = 10;
+            int sleepAfter = 10;
+
+            Assert.Throws<ArgumentException>(() => HelperFunctionToThrowException(1, 1),
+                "GIVEN: Helper method does not throw an exception");
+
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToThrowException(sleepBefore, sleepAfter));
+
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(1, results.Count, "One result was expected, even when exception thrown");
+
+            IRecordingResult firstResult = results.First();
+            Assert.AreEqual(sleepBefore, firstResult.Sum, 1,
+                "Recorded execution time should include the execution time before the exception was thrown");
+        }
+
         private double HelperFunctionToRunTimedTest(Action actionToRun)
         {
             StaticRecorderManager.IsRecordingEnabled = true;
@@ -125,7 +144,13 @@ namespace PerformanceRecorderTest.Recorder
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            actionToRun?.Invoke();
+            try
+            {
+                actionToRun?.Invoke();
+            }
+            catch
+            {
+            }
 
             stopwatch.Stop();
             return stopwatch.Elapsed.TotalMilliseconds;
@@ -163,5 +188,12 @@ namespace PerformanceRecorderTest.Recorder
             System.Threading.Thread.Sleep(1);
         }
 
+        [PerformanceLogging]
+        private void HelperFunctionToThrowException(int sleepBefore, int sleepAfter)
+        {
+            System.Threading.Thread.Sleep(sleepBefore);
+            throw new ArgumentException("Planned exception during helper function");
+            System.Threading.Thread.Sleep(sleepAfter);
+        }
     }
 }

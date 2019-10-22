@@ -5,6 +5,8 @@ using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
+using System.Runtime.Serialization;
 
 namespace PerformanceRecorder.Attribute
 {
@@ -13,6 +15,22 @@ namespace PerformanceRecorder.Attribute
     public class PerformanceLoggingAttribute : System.Attribute
     {
         private static readonly Stack<RecorderStackItem> MethodStack = new Stack<RecorderStackItem>();
+
+        [Advice(Kind.Around)]
+        public object HandleAround(
+            [Argument(Source.Arguments)] object[] arguments,
+            [Argument(Source.Target)] Func<object[], object> method)
+        {
+            try
+            {
+                return method(arguments);
+            }
+            catch
+            {
+                HandleAfter();
+                throw;
+            }
+        }
 
         [Advice(Kind.Before)]
         public void HandleBefore(
