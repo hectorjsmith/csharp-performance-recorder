@@ -18,13 +18,23 @@ namespace PerformanceRecorderTest.Result.Formatter
             IResultFormatter<string> formatter = new PlainStringResultFormatterImpl();
 
             string output = formatter.FormatAs(results);
-            string expectedOutput = "t.t.t1  count: 1  sum: 100.00  avg: 100.00  max: 100.00  min: 100.00"
+            string expectedOutput = "n.c.m1  count: 2  sum: 110.00  avg: 55.00  max: 100.00  min: 10.00"
                 + Environment.NewLine
-                + "t.t.t0  count: 1  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00"
+                + "n.c.m0  count: 2  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00"
                 + Environment.NewLine;
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
+        }
+
+        [Test]
+        public void TestGivenEmptyResultCollectionWhenFormattedAsPlainStringThenBlankOutputReturned()
+        {
+            ICollection<IRecordingResult> results = new List<IRecordingResult>();
+            IResultFormatter<string> formatter = new PlainStringResultFormatterImpl();
+
+            string output = formatter.FormatAs(results);
+            Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
         private ICollection<IRecordingResult> GenerateMockResults()
@@ -32,7 +42,8 @@ namespace PerformanceRecorderTest.Result.Formatter
             ICollection<IRecordingResult> results = new List<IRecordingResult>();
             for (int i = 0; i < 2; i++)
             {
-                IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t" + i), i * 100);
+                IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("n", "c", "m" + i), i * 100);
+                result.AddResult(i * 10);
                 results.Add(result);
             }
 
