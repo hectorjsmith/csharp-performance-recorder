@@ -15,20 +15,6 @@ namespace PerformanceRecorderTest.Recorder
     internal class PerformanceRecorderTest
     {
         [Test]
-        public void TestGivenActiveRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
-        {
-            IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
-            HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
-        }
-
-        [Test]
-        public void TestGivenInactiveRecorderWhenActionExecutionTimeRecordedThenActionIsExecuted()
-        {
-            IPerformanceRecorder recorder = new InactivePerformanceRecorderImpl();
-            HelperFunctionToEnsureActionsExectutedInRecorders(recorder);
-        }
-
-        [Test]
         public void TestGivenActiveRecorderWhenShortMethodRecordedThenNoPrecisionLost()
         {
             int runCount = 5_000;
@@ -46,6 +32,25 @@ namespace PerformanceRecorderTest.Recorder
             Assert.Greater(firstResult.Sum, 0.0, "Sum of all executions should be greater than 0.0");
             Assert.Greater(firstResult.Avg, 0.0, "Average of all executions should be greater than 0.0");
             Assert.Less(firstResult.Avg, 1.0, "Average of all executions should less than 1.0");
+        }
+
+        [Test]
+        public void TestGivenActiveRecorderWhenShortMethodRecordedThenSumIsNotRounded()
+        {
+            int runCount = 100;
+
+            StaticRecorderManager.IsRecordingEnabled = true;
+            for (int i = 0; i < runCount; i++)
+            {
+                HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
+            }
+
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(1, results.Count, "Only one result was expected");
+
+            IRecordingResult firstResult = results.First();
+            double sum = firstResult.Sum;
+            Assert.AreNotEqual((long)sum, sum, "Sum of all executions should not be rounded");
         }
 
         [Test]
@@ -83,13 +88,52 @@ namespace PerformanceRecorderTest.Recorder
                 "Recorded execution time should be within 1% of actual execution time");
         }
 
-        private void HelperFunctionToEnsureActionsExectutedInRecorders(IPerformanceRecorder recorder)
+        [Test]
+        public void TestGivenActiveRecorderWhenAddingNegativeDurationThenExceptionThrown()
         {
-            int initialValue = 10;
-            int value = initialValue;
-            recorder.RecordExecutionTime(new MethodDefinitionImpl("t", "t", "t"), () => value *= value);
+            IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
+            IMethodDefinition method = new MethodDefinitionImpl("n", "c", "m");
 
-            Assert.AreNotEqual(initialValue, value, "Value should have been modified in the performance recorder");
+            Assert.DoesNotThrow(
+                () => recorder.RecordMethodDuration(method, 0.0),
+                "No exception should be thrown when adding zero duration");
+
+            Assert.Throws<ArgumentException>(
+                () => recorder.RecordMethodDuration(method, -1.0),
+                "Exception should be thrown when attempting to add negative duration");
+        }
+
+        [Test]
+        public void TestGivenActiveRecorderWhenCallingNestedFunctionsThenOuterFunctionsAlwaysTakeLongerThanInner()
+        {
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionNestedA());
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(2, results.Count, "Tow results were expected");
+
+            IRecordingResult outerFunctionResult = results.Where(r => r.MethodName.Contains("A")).First();
+            IRecordingResult innerFunctionResult = results.Where(r => r.MethodName.Contains("B")).First();
+
+            Assert.Greater(outerFunctionResult.Sum, innerFunctionResult.Sum,
+                "Outer function should take longer to run that inner functions");
+        }
+
+        [Test]
+        public void TestGivenActiveRecorderWhenInstrumentedMethodThrowsExceptionThenMethodTimeStillRecorded()
+        {
+            int sleepBefore = 10;
+            int sleepAfter = 10;
+
+            Assert.Throws<ArgumentException>(() => HelperFunctionToThrowException(1, 1),
+                "GIVEN: Helper method does not throw an exception");
+
+            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToThrowException(sleepBefore, sleepAfter));
+
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            Assert.AreEqual(1, results.Count, "One result was expected, even when exception thrown");
+
+            IRecordingResult firstResult = results.First();
+            Assert.AreEqual(sleepBefore, firstResult.Sum, 1,
+                "Recorded execution time should include the execution time before the exception was thrown");
         }
 
         private double HelperFunctionToRunTimedTest(Action actionToRun)
@@ -100,7 +144,13 @@ namespace PerformanceRecorderTest.Recorder
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            actionToRun?.Invoke();
+            try
+            {
+                actionToRun?.Invoke();
+            }
+            catch
+            {
+            }
 
             stopwatch.Stop();
             return stopwatch.Elapsed.TotalMilliseconds;
@@ -121,6 +171,29 @@ namespace PerformanceRecorderTest.Recorder
         private void HelperFunctionToRecordTotalTimeOf1Second()
         {
             System.Threading.Thread.Sleep(1000);
+        }
+
+        [PerformanceLogging]
+        private void HelperFunctionNestedA()
+        {
+            for (int i = 1; i < 10; i++)
+            {
+                HelperFunctionNestedB();
+            }
+        }
+
+        [PerformanceLogging]
+        private void HelperFunctionNestedB()
+        {
+            System.Threading.Thread.Sleep(1);
+        }
+
+        [PerformanceLogging]
+        private void HelperFunctionToThrowException(int sleepBefore, int sleepAfter)
+        {
+            System.Threading.Thread.Sleep(sleepBefore);
+            throw new ArgumentException("Planned exception during helper function");
+            System.Threading.Thread.Sleep(sleepAfter);
         }
     }
 }
