@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    class PlainStringResultFormatterImpl : IResultFormatter<string>
+    internal class PlainStringResultFormatterImpl : IResultFormatter<string>
     {
         public bool IncludeNamespaceInString { get; set; }
 

@@ -1,15 +1,12 @@
 ﻿using NUnit.Framework;
 using PerformanceRecorder.Result;
-using PerformanceRecorder.Result.Formatter;
-using PerformanceRecorder.Result.Formatter.Impl;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorderTest.Result.Formatter
 {
-    class PlainStringResultFormatterTest
+    internal class PlainStringResultFormatterTest
     {
         [Test]
         public void TestGivenResultCollectionWhenFormattedAsPlainStringThenOutputMatchesExpected()

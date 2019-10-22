@@ -1,7 +1,6 @@
 ﻿using PerformanceRecorder.Manager;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
-using System.Collections.Generic;
 
 namespace PerformanceRecorder.API.Impl
 {

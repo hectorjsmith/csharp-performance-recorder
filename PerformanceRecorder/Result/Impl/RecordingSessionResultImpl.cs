@@ -2,11 +2,10 @@
 using PerformanceRecorder.Result.Formatter.Impl;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Result.Impl
 {
-    class RecordingSessionResultImpl : IRecordingSessionResult
+    internal class RecordingSessionResultImpl : IRecordingSessionResult
     {
         private readonly IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
         private readonly IResultFormatter<string> _paddedFormatter = new PaddedStringResultFormatterImpl();

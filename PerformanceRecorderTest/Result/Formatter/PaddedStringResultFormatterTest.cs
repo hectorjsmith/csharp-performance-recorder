@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using PerformanceRecorder.Result;
-using PerformanceRecorder.Result.Formatter;
-using PerformanceRecorder.Result.Formatter.Impl;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ using System.Text;
 
 namespace PerformanceRecorderTest.Result.Formatter
 {
-    class PaddedStringResultFormatterTest
+    internal class PaddedStringResultFormatterTest
     {
         [Test]
         public void TestGivenResultCollectionWhenFormattedAsPaddedStringThenOutputMatchesExpected()

@@ -3,7 +3,6 @@ using PerformanceRecorder.API;
 using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Result;
 using System;
-using System.Collections.Generic;
 
 namespace ExampleApplication
 {

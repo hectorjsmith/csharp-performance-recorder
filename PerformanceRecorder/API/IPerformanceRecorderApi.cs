@@ -1,5 +1,4 @@
 ﻿using PerformanceRecorder.Result;
-using System.Collections.Generic;
 
 namespace PerformanceRecorder.API
 {

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PerformanceRecorder.Result.Formatter
 {
-    interface IResultFormatter<TOutputType>
+    internal interface IResultFormatter<TOutputType>
     {
         bool IncludeNamespaceInString { get; set; }
 
