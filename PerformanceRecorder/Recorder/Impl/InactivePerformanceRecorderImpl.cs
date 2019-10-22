@@ -11,7 +11,15 @@ namespace PerformanceRecorder.Recorder.Impl
             return new List<IRecordingResult>();
         }
 
+        public void MethodStart(IMethodDefinition methodDefinition, IMethodDefinition parent)
+        {
+        }
+
         public void RecordMethodDuration(IMethodDefinition methodDefinition, double duration)
+        {
+        }
+
+        public void RecordMethodDuration(IMethodDefinition methodDefinition, IMethodDefinition parent, double duration)
         {
         }
 
