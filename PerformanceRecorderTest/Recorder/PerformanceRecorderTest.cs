@@ -69,6 +69,21 @@ namespace PerformanceRecorderTest.Recorder
                 "Recorded execution time should be within 1% of actual execution time");
         }
 
+        [Test]
+        public void TestGivenActiveRecorderWhenAddingNegativeDurationThenExceptionThrown()
+        {
+            IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
+            IMethodDefinition method = new MethodDefinitionImpl("n", "c", "m");
+
+            Assert.DoesNotThrow(
+                () => recorder.RecordMethodDuration(method, 0.0),
+                "No exception should be thrown when adding zero duration");
+
+            Assert.Throws<ArgumentException>(
+                () => recorder.RecordMethodDuration(method, -1.0),
+                "Exception should be thrown when attempting to add negative duration");
+        }
+
         private double HelperFunctionToRunTimedTest(Action actionToRun)
         {
             StaticRecorderManager.IsRecordingEnabled = true;
