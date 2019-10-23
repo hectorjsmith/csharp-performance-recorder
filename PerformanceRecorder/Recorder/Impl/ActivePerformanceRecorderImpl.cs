@@ -1,4 +1,5 @@
 ﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
@@ -9,7 +10,7 @@ namespace PerformanceRecorder.Recorder.Impl
 {
     internal class ActivePerformanceRecorderImpl : IPerformanceRecorder
     {
-        private TreeNode<IRecordingResult> _resultTree = new TreeNode<IRecordingResult>();
+        private IRecordingTree _resultTree = new RecordingTreeImpl();
 
         public ICollection<IRecordingResult> GetResults()
         {
@@ -37,12 +38,12 @@ namespace PerformanceRecorder.Recorder.Impl
 
         public void Reset()
         {
-            _resultTree = new TreeNode<IRecordingResult>();
+            _resultTree = new RecordingTreeImpl();
         }
 
         private void AddNewMethodToTree(IMethodDefinition methodDefinition, IMethodDefinition parent)
         {
-            TreeNode<IRecordingResult> node = _resultTree.Find(n => n.Id == methodDefinition.ToString());
+            IRecordingTree node = _resultTree.Find(n => n.Id == methodDefinition.ToString());
             if (node == null)
             {
                 IRecordingResult result = new RecordingResultImpl(methodDefinition);
@@ -54,7 +55,7 @@ namespace PerformanceRecorder.Recorder.Impl
                 else
                 {
                     // Find parent
-                    TreeNode<IRecordingResult> parentNode = _resultTree.Find(n => n.Id == parent.ToString());
+                    IRecordingTree parentNode = _resultTree.Find(n => n.Id == parent.ToString());
 
                     // New node
                     parentNode.AddChild(result);
@@ -64,7 +65,7 @@ namespace PerformanceRecorder.Recorder.Impl
 
         private void AddResult(IMethodDefinition methodDefinition, IMethodDefinition parent, double duration)
         {
-            TreeNode<IRecordingResult> node = _resultTree.Find(n => n.Id == methodDefinition.ToString());
+            IRecordingTree node = _resultTree.Find(n => n.Id == methodDefinition.ToString());
             if (node != null)
             {
                 // Update node
