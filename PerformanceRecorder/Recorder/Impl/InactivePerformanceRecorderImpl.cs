@@ -10,7 +10,12 @@ namespace PerformanceRecorder.Recorder.Impl
             return new List<IRecordingResult>();
         }
 
-        public void MethodStart(IMethodDefinition methodDefinition, IMethodDefinition parent)
+        public void RegisterMethd(IMethodDefinition methodDefinition)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent)
         {
         }
 
@@ -18,12 +23,9 @@ namespace PerformanceRecorder.Recorder.Impl
         {
         }
 
-        public void RecordMethodDuration(IMethodDefinition methodDefinition, IMethodDefinition parent, double duration)
-        {
-        }
-
         public void Reset()
         {
         }
+
     }
 }

@@ -97,7 +97,7 @@ namespace PerformanceRecorderTest.API
             for (int i = 0; i < testCount; i++)
             {
                 var method = NewMethodDefinition(i);
-                recorder.MethodStart(method, null);
+                recorder.RegisterMethd(method);
                 recorder.RecordMethodDuration(method, sleepTime);
             }
 

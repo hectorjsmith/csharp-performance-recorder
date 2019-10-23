@@ -93,6 +93,7 @@ namespace PerformanceRecorderTest.Recorder
         {
             IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
             IMethodDefinition method = new MethodDefinitionImpl("n", "c", "m");
+            recorder.RegisterMethd(method);
 
             Assert.DoesNotThrow(
                 () => recorder.RecordMethodDuration(method, 0.0),
