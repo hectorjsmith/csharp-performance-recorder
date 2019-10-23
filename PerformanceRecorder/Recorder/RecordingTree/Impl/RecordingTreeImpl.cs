@@ -1,11 +1,8 @@
 ﻿using PerformanceRecorder.Result;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 {
-    class RecordingTreeImpl : TreeNodeImpl<IRecordingResult, IRecordingTree>, IRecordingTree
+    internal class RecordingTreeImpl : TreeNodeImpl<IRecordingResult, IRecordingTree>, IRecordingTree
     {
         public RecordingTreeImpl(IRecordingResult value) : base(value)
         {
@@ -13,7 +10,6 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 
         public RecordingTreeImpl() : base()
         {
-
         }
 
         protected override IRecordingTree GetDefault()
