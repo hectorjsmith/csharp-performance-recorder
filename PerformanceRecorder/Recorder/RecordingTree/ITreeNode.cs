@@ -13,6 +13,8 @@ namespace PerformanceRecorder.Recorder.RecordingTree
 
         TRec AddChild(TValue value);
 
+        IReadOnlyCollection<TRec> Children();
+
         TRec Find(Func<TValue, bool> matcher);
 
         TRec Find(TValue value);

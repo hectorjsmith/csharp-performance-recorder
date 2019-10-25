@@ -8,6 +8,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     abstract class BaseStringResultFormatter : IResultFormatter<string>
     {
+        protected const string PipeCharacter = "|";
+
         public bool IncludeNamespaceInString { get; set; }
 
         public abstract string FormatAs(IRecordingTree results);
@@ -39,6 +41,31 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             {
                 return string.Format("{0}.{1}", result.ClassName, result.MethodName);
             }
+        }
+
+        protected string AlignAndRemovePipes(string input)
+        {
+            string[] lines = input.Split(Environment.NewLine);
+            int targetIndex = lines.Select(l => l.IndexOf(PipeCharacter)).Max();
+
+            for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
+            {
+                string line = lines[lineIndex];
+                int indexOfPipe = line.IndexOf(PipeCharacter);
+                line = line.Replace(PipeCharacter, RepeatString(" ", targetIndex - indexOfPipe));
+                lines[lineIndex] = line;
+            }
+            return string.Join(Environment.NewLine, lines);
+        }
+
+        protected string RepeatString(string input, int count)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(input);
+            }
+            return sb.ToString();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace PerformanceRecorder.Recorder.RecordingTree
@@ -28,6 +29,11 @@ namespace PerformanceRecorder.Recorder.RecordingTree
             TRec node = GetNew(value, GetMe());
             _children.Add(node);
             return node;
+        }
+
+        public IReadOnlyCollection<TRec> Children()
+        {
+            return _children.AsReadOnly();
         }
 
         public TRec Find(Func<TValue, bool> matcher)

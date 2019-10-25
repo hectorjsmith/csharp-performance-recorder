@@ -11,6 +11,7 @@ namespace PerformanceRecorder.Result.Impl
     {
         private readonly IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
         private readonly IResultFormatter<string> _paddedFormatter = new PaddedStringResultFormatterImpl();
+        private readonly IResultFormatter<string> _nestedFormatter = new NestedStringResultFormatterImpl();
         private readonly IRecordingTree _treeData;
 
         private ICollection<IRecordingResult> _flatData;
@@ -30,11 +31,6 @@ namespace PerformanceRecorder.Result.Impl
             return _FlatData;
         }
 
-        public string ToNestedString()
-        {
-            throw new NotImplementedException();
-        }
-
         public string ToPaddedString()
         {
             _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
@@ -46,5 +42,12 @@ namespace PerformanceRecorder.Result.Impl
             _plainFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
             return _plainFormatter.FormatAs(_treeData);
         }
+
+        public string ToNestedString()
+        {
+            _nestedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
+            return _nestedFormatter.FormatAs(_treeData);
+        }
+
     }
 }

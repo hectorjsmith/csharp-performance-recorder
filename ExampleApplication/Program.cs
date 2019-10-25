@@ -33,7 +33,7 @@ namespace ExampleApplication
             results.IncludeNamespaceInString = false;
 
             // Use the built-in formatter to generate result output
-            Console.Write(results.ToPaddedString());
+            Console.Write(results.ToNestedString());
         }
     }
 }
