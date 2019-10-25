@@ -8,6 +8,8 @@ namespace PerformanceRecorder.Recorder.RecordingTree
     {
         private readonly List<TRec> _children = new List<TRec>();
 
+        public int ChildCount => _children.Count;
+
         public TreeNodeImpl(TValue value)
         {
             Value = value;

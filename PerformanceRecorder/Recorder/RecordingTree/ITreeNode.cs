@@ -5,6 +5,8 @@ namespace PerformanceRecorder.Recorder.RecordingTree
 {
     internal interface ITreeNode<TValue, TRec> where TRec : ITreeNode<TValue, TRec>
     {
+        int ChildCount { get; }
+
         TRec Parent { get; }
 
         TValue Value { get; }
