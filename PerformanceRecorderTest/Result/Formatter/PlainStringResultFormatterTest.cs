@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
@@ -11,7 +13,7 @@ namespace PerformanceRecorderTest.Result.Formatter
         [Test]
         public void TestGivenResultCollectionWhenFormattedAsPlainStringThenOutputMatchesExpected()
         {
-            ICollection<IRecordingResult> results = GenerateMockResults();
+            IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             string output = sessionResult.ToRawString();
@@ -27,7 +29,7 @@ namespace PerformanceRecorderTest.Result.Formatter
         [Test]
         public void TestGivenResultCollectionWhenFormattedAsPlainStringWithoutNamespaceThenOutputMatchesExpected()
         {
-            ICollection<IRecordingResult> results = GenerateMockResults();
+            IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
             sessionResult.IncludeNamespaceInString = false;
 
@@ -43,21 +45,21 @@ namespace PerformanceRecorderTest.Result.Formatter
         [Test]
         public void TestGivenEmptyResultCollectionWhenFormattedAsPlainStringThenBlankOutputReturned()
         {
-            ICollection<IRecordingResult> results = new List<IRecordingResult>();
+            IRecordingTree results = new RecordingTreeImpl();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             string output = sessionResult.ToRawString();
             Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
-        private ICollection<IRecordingResult> GenerateMockResults()
+        private IRecordingTree GenerateMockResults()
         {
-            ICollection<IRecordingResult> results = new List<IRecordingResult>();
+            IRecordingTree results = new RecordingTreeImpl();
             for (int i = 0; i < 2; i++)
             {
                 IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("n", "c", "m" + i), i * 100);
                 result.AddResult(i * 10);
-                results.Add(result);
+                results.AddChild(result);
             }
 
             return results;

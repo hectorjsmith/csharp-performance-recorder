@@ -8,10 +8,12 @@ namespace PerformanceRecorder.Result
 
         int Count { get; }
 
-        ICollection<IRecordingResult> RawData();
+        ICollection<IRecordingResult> FlatData();
 
         string ToRawString();
 
         string ToPaddedString();
+
+        string ToNestedString();
     }
 }

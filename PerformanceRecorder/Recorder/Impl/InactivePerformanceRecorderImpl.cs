@@ -1,18 +1,24 @@
-﻿using PerformanceRecorder.Result;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
+using PerformanceRecorder.Result;
 using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
     internal class InactivePerformanceRecorderImpl : IPerformanceRecorder
     {
-        public ICollection<IRecordingResult> GetResults()
+        public IRecordingTree GetResults()
+        {
+            return new RecordingTreeImpl();
+        }
+
+        public ICollection<IRecordingResult> GetFlatResults()
         {
             return new List<IRecordingResult>();
         }
 
         public void RegisterMethd(IMethodDefinition methodDefinition)
         {
-            throw new System.NotImplementedException();
         }
 
         public void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent)

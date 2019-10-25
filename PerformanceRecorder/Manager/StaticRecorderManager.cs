@@ -1,5 +1,6 @@
 ﻿using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace PerformanceRecorder.Manager
 
         public static bool IsRecordingEnabled { get; set; }
 
-        public static ICollection<IRecordingResult> GetResults()
+        public static IRecordingTree GetResults()
         {
             return _activeRecorder.GetResults();
         }

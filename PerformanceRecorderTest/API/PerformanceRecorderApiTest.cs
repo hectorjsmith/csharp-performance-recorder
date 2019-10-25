@@ -57,7 +57,7 @@ namespace PerformanceRecorderTest.API
 
             RecordDummyData(recorder);
 
-            int recorderCount = recorder.GetResults().Count;
+            int recorderCount = recorder.GetFlatResults().Count;
             Assert.AreEqual(recorderCount, api.GetResults().Count,
                 "Expecing correct number of results reported by the API");
 
@@ -79,14 +79,14 @@ namespace PerformanceRecorderTest.API
             RecordDummyData(recorder);
 
             api.ResetRecorder();
-            Assert.AreEqual(0, recorder.GetResults().Count,
+            Assert.AreEqual(0, recorder.GetFlatResults().Count,
                 "All results should be cleared from the recorder");
 
             RecordDummyData(recorder);
             api.DisablePerformanceRecording();
 
             api.ResetRecorder();
-            Assert.AreEqual(0, recorder.GetResults().Count,
+            Assert.AreEqual(0, recorder.GetFlatResults().Count,
                 "All results should be cleared from the recorder, even when recording disabled");
         }
 
@@ -101,7 +101,7 @@ namespace PerformanceRecorderTest.API
                 recorder.RecordMethodDuration(method, sleepTime);
             }
 
-            Assert.AreEqual(testCount, recorder.GetResults().Count,
+            Assert.AreEqual(testCount, recorder.GetFlatResults().Count,
                 "GIVEN: Expecing correct number of results added to recorder");
         }
 

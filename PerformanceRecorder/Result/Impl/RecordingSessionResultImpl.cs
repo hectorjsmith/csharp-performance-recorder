@@ -1,7 +1,9 @@
-﻿using PerformanceRecorder.Result.Formatter;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Result.Formatter;
 using PerformanceRecorder.Result.Formatter.Impl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PerformanceRecorder.Result.Impl
 {
@@ -9,32 +11,40 @@ namespace PerformanceRecorder.Result.Impl
     {
         private readonly IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
         private readonly IResultFormatter<string> _paddedFormatter = new PaddedStringResultFormatterImpl();
-        private readonly ICollection<IRecordingResult> _rawData;
+        private readonly IRecordingTree _treeData;
 
-        public RecordingSessionResultImpl(ICollection<IRecordingResult> rawData)
+        private ICollection<IRecordingResult> _flatData;
+        private ICollection<IRecordingResult> _FlatData => _flatData ?? (_flatData = _treeData.Flatten().ToList());
+
+        public RecordingSessionResultImpl(IRecordingTree treeData)
         {
-            _rawData = rawData ?? throw new ArgumentNullException(nameof(rawData));
+            _treeData = treeData ?? throw new ArgumentNullException(nameof(treeData));
         }
 
         public bool IncludeNamespaceInString { get; set; } = true;
 
-        public int Count => _rawData.Count;
+        public int Count => _FlatData.Count;
 
-        public ICollection<IRecordingResult> RawData()
+        public ICollection<IRecordingResult> FlatData()
         {
-            return _rawData;
+            return _FlatData;
+        }
+
+        public string ToNestedString()
+        {
+            throw new NotImplementedException();
         }
 
         public string ToPaddedString()
         {
             _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _paddedFormatter.FormatAs(_rawData);
+            return _paddedFormatter.FormatAs(_FlatData);
         }
 
         public string ToRawString()
         {
             _plainFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _plainFormatter.FormatAs(_rawData);
+            return _plainFormatter.FormatAs(_FlatData);
         }
     }
 }

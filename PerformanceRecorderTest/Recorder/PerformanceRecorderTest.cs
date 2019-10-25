@@ -25,7 +25,7 @@ namespace PerformanceRecorderTest.Recorder
                 HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
             }
 
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(1, results.Count, "Only one result was expected");
 
             IRecordingResult firstResult = results.First();
@@ -45,7 +45,7 @@ namespace PerformanceRecorderTest.Recorder
                 HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
             }
 
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(1, results.Count, "Only one result was expected");
 
             IRecordingResult firstResult = results.First();
@@ -65,7 +65,7 @@ namespace PerformanceRecorderTest.Recorder
                 }
             });
 
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(1, results.Count, "Only one result was expected");
 
             IRecordingResult firstResult = results.First();
@@ -79,7 +79,7 @@ namespace PerformanceRecorderTest.Recorder
         {
             double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToRecordTotalTimeOf1Second());
 
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(1, results.Count, "Only one result was expected");
 
             IRecordingResult firstResult = results.First();
@@ -108,7 +108,7 @@ namespace PerformanceRecorderTest.Recorder
         public void TestGivenActiveRecorderWhenCallingNestedFunctionsThenOuterFunctionsAlwaysTakeLongerThanInner()
         {
             double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionNestedA());
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(2, results.Count, "Tow results were expected");
 
             IRecordingResult outerFunctionResult = results.Where(r => r.MethodName.Contains("A")).First();
@@ -129,7 +129,7 @@ namespace PerformanceRecorderTest.Recorder
 
             double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToThrowException(sleepBefore, sleepAfter));
 
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetResults();
+            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(1, results.Count, "One result was expected, even when exception thrown");
 
             IRecordingResult firstResult = results.First();
