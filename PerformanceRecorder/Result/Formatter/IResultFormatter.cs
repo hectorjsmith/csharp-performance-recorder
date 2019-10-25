@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using System.Collections.Generic;
 
 namespace PerformanceRecorder.Result.Formatter
 {
@@ -6,6 +7,6 @@ namespace PerformanceRecorder.Result.Formatter
     {
         bool IncludeNamespaceInString { get; set; }
 
-        TOutputType FormatAs(ICollection<IRecordingResult> results);
+        TOutputType FormatAs(IRecordingTree results);
     }
 }

@@ -38,13 +38,13 @@ namespace PerformanceRecorder.Result.Impl
         public string ToPaddedString()
         {
             _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _paddedFormatter.FormatAs(_FlatData);
+            return _paddedFormatter.FormatAs(_treeData);
         }
 
         public string ToRawString()
         {
             _plainFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _plainFormatter.FormatAs(_FlatData);
+            return _plainFormatter.FormatAs(_treeData);
         }
     }
 }
