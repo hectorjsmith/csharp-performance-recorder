@@ -38,6 +38,11 @@ namespace PerformanceRecorder.Attribute
             [Argument(Source.Instance)] object instance)
         {
             IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
+
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            MethodStack.TryPeek(out RecorderStackItem parent);
+            recorder.RegisterMethd(methodDefinition, parent?.MethodDefinition);
+
             MethodStack.Push(new RecorderStackItem(methodDefinition, GetCurrentTimeInMs()));
         }
 
@@ -46,7 +51,7 @@ namespace PerformanceRecorder.Attribute
         {
             double endTime = GetCurrentTimeInMs();
             RecorderStackItem item = MethodStack.Pop();
-
+            
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             recorder.RecordMethodDuration(item.MethodDefinition, endTime - item.StartTime);
         }

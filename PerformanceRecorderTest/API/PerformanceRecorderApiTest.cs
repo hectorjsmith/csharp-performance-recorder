@@ -96,7 +96,9 @@ namespace PerformanceRecorderTest.API
             int testCount = 10;
             for (int i = 0; i < testCount; i++)
             {
-                recorder.RecordMethodDuration(NewMethodDefinition(i), sleepTime);
+                var method = NewMethodDefinition(i);
+                recorder.RegisterMethd(method);
+                recorder.RecordMethodDuration(method, sleepTime);
             }
 
             Assert.AreEqual(testCount, recorder.GetResults().Count,

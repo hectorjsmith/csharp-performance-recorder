@@ -1,17 +1,30 @@
-﻿using PerformanceRecorder.Result;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
+using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
     internal class ActivePerformanceRecorderImpl : IPerformanceRecorder
     {
-        private readonly IDictionary<string, IRecordingResult> _recordedTimes = new Dictionary<string, IRecordingResult>();
+        private IRecordingTree _resultTree = new RecordingTreeImpl();
 
         public ICollection<IRecordingResult> GetResults()
         {
-            return _recordedTimes.Values;
+            return _resultTree.Flatten().ToList();
+        }
+
+        public void RegisterMethd(IMethodDefinition methodDefinition)
+        {
+            RegisterMethd(methodDefinition, null);
+        }
+
+        public void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent)
+        {
+            AddNewMethodToTree(methodDefinition, parent);
         }
 
         public void RecordMethodDuration(IMethodDefinition methodDefinition, double duration)
@@ -25,20 +38,48 @@ namespace PerformanceRecorder.Recorder.Impl
 
         public void Reset()
         {
-            _recordedTimes.Clear();
+            _resultTree = new RecordingTreeImpl();
+        }
+
+        private void AddNewMethodToTree(IMethodDefinition methodDefinition, IMethodDefinition parent)
+        {
+            IRecordingTree node = _resultTree.Find(n => n.Id == methodDefinition.ToString());
+            if (node == null)
+            {
+                IRecordingResult result = new RecordingResultImpl(methodDefinition);
+                if (parent == null)
+                {
+                    // New top level node
+                    _resultTree.AddChild(result);
+                }
+                else
+                {
+                    // Find parent
+                    IRecordingTree parentNode = _resultTree.Find(n => n.Id == parent.ToString());
+
+                    // New node
+                    parentNode.AddChild(result);
+                }
+            }
         }
 
         private void AddResult(IMethodDefinition methodDefinition, double duration)
         {
-            string methodId = methodDefinition.ToString();
-            if (_recordedTimes.ContainsKey(methodId))
+            if (duration < 0.0)
             {
-                IRecordingResult result = _recordedTimes[methodId];
-                result.AddResult(duration);
+                throw new ArgumentException(string.Format("Cannot add negative method duration. Trying to add result {0} to method '{1}'"
+                    ,duration, methodDefinition.ToString()));
+            }
+
+            IRecordingTree node = _resultTree.Find(n => n.Id == methodDefinition.ToString());
+            if (node != null)
+            {
+                // Update node
+                node.Value.AddResult(duration);
             }
             else
             {
-                _recordedTimes[methodId] = new RecordingResultImpl(methodDefinition, duration);
+                throw new ArgumentException("Unregistered method: " + methodDefinition.ToString());
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using PerformanceRecorder.Result;
-using System;
 using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder.Impl
@@ -11,6 +10,15 @@ namespace PerformanceRecorder.Recorder.Impl
             return new List<IRecordingResult>();
         }
 
+        public void RegisterMethd(IMethodDefinition methodDefinition)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent)
+        {
+        }
+
         public void RecordMethodDuration(IMethodDefinition methodDefinition, double duration)
         {
         }
@@ -18,5 +26,6 @@ namespace PerformanceRecorder.Recorder.Impl
         public void Reset()
         {
         }
+
     }
 }
