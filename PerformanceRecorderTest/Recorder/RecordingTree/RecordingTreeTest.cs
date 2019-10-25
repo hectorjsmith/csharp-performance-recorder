@@ -23,6 +23,25 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         }
 
         [Test]
+        public void TestGivenRecordingTreeWhenChildAddedThenReturnedTreeIsChildOfOriginalTree()
+        {
+            IRecordingTree tree = new RecordingTreeImpl();
+            IRecordingTree subTree = tree.AddChild(HelperMethodToGetStandardRecordingResult());
+
+            Assert.AreSame(tree, subTree.Parent, "Parent of subtree should be the original tree");
+        }
+
+        [Test]
+        public void TestGivenRecordinTreeWhenChildAddedThenCorrectValueSet()
+        {
+            IRecordingTree tree = new RecordingTreeImpl();
+            IRecordingResult recording = HelperMethodToGetStandardRecordingResult();
+
+            IRecordingTree subtree = tree.AddChild(recording);
+            Assert.AreSame(recording, subtree.Value, "Value in returned subtree does not match value added");
+        }
+
+        [Test]
         public void TestGivenRecordingTreeWhenFindingResultsThenCorrectResultFound()
         {
             IRecordingTree tree = new RecordingTreeImpl();
@@ -35,15 +54,6 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
 
             result = tree.Find(recortingToMatch);
             Assert.NotNull(result, "Result should not be null, a result was expected when matching by class");
-        }
-
-        [Test]
-        public void TestGivenRecordingTreeWhenChildAddedThenReturnedTreeIsChildOfOriginalTree()
-        {
-            IRecordingTree tree = new RecordingTreeImpl();
-            IRecordingTree subTree = tree.AddChild(HelperMethodToGetStandardRecordingResult());
-
-            Assert.AreSame(tree, subTree.Parent, "Parent of subtree should be the original tree");
         }
 
         [Test]
