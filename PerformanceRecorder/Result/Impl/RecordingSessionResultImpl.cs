@@ -14,8 +14,8 @@ namespace PerformanceRecorder.Result.Impl
         private readonly IResultFormatter<string> _nestedFormatter = new NestedStringResultFormatterImpl();
         private readonly IRecordingTree _treeData;
 
-        private ICollection<IRecordingResult> _flatData;
-        private ICollection<IRecordingResult> _FlatData => _flatData ?? (_flatData = _treeData.Flatten().ToList());
+        private ICollection<IRecordingResult> _flatResultData;
+        private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.Flatten().ToList());
 
         public RecordingSessionResultImpl(IRecordingTree treeData)
         {
@@ -24,11 +24,11 @@ namespace PerformanceRecorder.Result.Impl
 
         public bool IncludeNamespaceInString { get; set; } = true;
 
-        public int Count => _FlatData.Count;
+        public int Count => FlatResultData.Count;
 
         public ICollection<IRecordingResult> FlatData()
         {
-            return _FlatData;
+            return FlatResultData;
         }
 
         public string ToPaddedString()
