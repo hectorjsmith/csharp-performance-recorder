@@ -35,7 +35,7 @@ namespace PerformanceRecorderTest.Result.Formatter
       +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
          +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
          +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.60  avg:  15.59  max:  15.59  min:  15.59
-";
+".Replace("\r\n", Environment.NewLine);
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
