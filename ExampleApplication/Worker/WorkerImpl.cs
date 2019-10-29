@@ -8,9 +8,29 @@ namespace ExampleApplication.Worker
     {
         public void RunOperationA()
         {
+            RunPrivateOperationA1();
         }
 
         public void RunOperationB()
+        {
+            RunPrivateOperationB1();
+            RunPrivateOperationB2();
+        }
+
+        private void RunPrivateOperationA1()
+        {
+        }
+
+        private void RunPrivateOperationB1()
+        {
+        }
+
+        private void RunPrivateOperationB2()
+        {
+            RunPrivateOperationB21();
+        }
+
+        private void RunPrivateOperationB21()
         {
         }
     }

@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
@@ -12,7 +14,7 @@ namespace PerformanceRecorderTest.Result.Formatter
         [Test]
         public void TestGivenResultCollectionWhenFormattedAsPaddedStringThenOutputMatchesExpected()
         {
-            ICollection<IRecordingResult> results = GenerateMockResults();
+            IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             string output = sessionResult.ToPaddedString();
@@ -28,7 +30,7 @@ namespace PerformanceRecorderTest.Result.Formatter
         [Test]
         public void TestGivenResultCollectionWhenFormattedAsPaddedStringWithoutNamespaceThenOutputMatchesExpected()
         {
-            ICollection<IRecordingResult> results = GenerateMockResults();
+            IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
             sessionResult.IncludeNamespaceInString = false;
 
@@ -45,16 +47,16 @@ namespace PerformanceRecorderTest.Result.Formatter
         [Test]
         public void TestGivenEmptyResultCollectionWhenFormattedAsPaddedStringThenBlankOutputReturned()
         {
-            ICollection<IRecordingResult> results = new List<IRecordingResult>();
+            IRecordingTree results = new RecordingTreeImpl();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             string output = sessionResult.ToPaddedString();
             Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
-        private ICollection<IRecordingResult> GenerateMockResults()
+        private IRecordingTree GenerateMockResults()
         {
-            ICollection<IRecordingResult> results = new List<IRecordingResult>();
+            IRecordingTree results = new RecordingTreeImpl();
             for (int i = 0; i < 3; i++)
             {
                 IRecordingResult result = new RecordingResultImpl(
@@ -68,7 +70,7 @@ namespace PerformanceRecorderTest.Result.Formatter
                         result.AddResult(0.0);
                     }
                 }
-                results.Add(result);
+                results.AddChild(result);
             }
 
             return results;

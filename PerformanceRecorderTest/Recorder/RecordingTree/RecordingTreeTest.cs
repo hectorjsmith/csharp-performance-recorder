@@ -49,11 +49,15 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
             IRecordingResult recortingToMatch = HelperMethodToGetStandardRecordingResult();
             tree.AddChild(recortingToMatch);
 
-            IRecordingTree result = tree.Find(r => r.MethodName == "m");
+            IRecordingTree result = tree.Find(r => r.MethodName == recortingToMatch.MethodName);
             Assert.NotNull(result, "Result should not be null, a result was expected when using a matching function");
+            Assert.AreEqual(recortingToMatch.MethodName, result.Value.MethodName,
+                "Method name in result should match name being searched for");
 
             result = tree.Find(recortingToMatch);
             Assert.NotNull(result, "Result should not be null, a result was expected when matching by class");
+            Assert.AreEqual(recortingToMatch.Id, result.Value.Id,
+                "Result ID should match recording data being searched for");
         }
 
         [Test]
@@ -69,9 +73,13 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
 
             IRecordingTree result = tree.Find(r => r.MethodName == methodNameToSearch);
             Assert.NotNull(result, "Result should not be null, a result was expected when using a matching function");
+            Assert.AreEqual(methodNameToSearch, result.Value.MethodName,
+                "Method name in result should match name being searched for");
 
             result = tree.Find(recordingToSearch);
             Assert.NotNull(result, "Result should not be null, a result was expected when matching by class");
+            Assert.AreEqual(recordingToSearch.Id, result.Value.Id,
+                "Result ID should match recording data being searched for");
         }
 
         [Test]

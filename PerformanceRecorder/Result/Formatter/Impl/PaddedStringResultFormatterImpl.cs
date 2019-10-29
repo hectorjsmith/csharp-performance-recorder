@@ -1,18 +1,18 @@
-﻿using System;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class PaddedStringResultFormatterImpl : IResultFormatter<string>
+    internal class PaddedStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
     {
-        private const string RawFormatString = "{0,_key_len_}  count: {1,_count_len_}  sum: {2,_num_len_:0.00}  avg: {3,_num_len_:0.00}  max: {4,_num_len_:0.00}  min: {5,_num_len_:0.00}";
+        private const string RawFormatString = "{0,_key_len_}  " + PaddedResultFormat;
 
-        public bool IncludeNamespaceInString { get; set; }
-
-        public string FormatAs(ICollection<IRecordingResult> results)
+        public override string FormatAs(IRecordingTree treeResults)
         {
+            ICollection<IRecordingResult> results = treeResults.Flatten().ToList();
             if (results.Count == 0)
             {
                 return "";
@@ -37,33 +37,6 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             return sb.ToString();
         }
 
-        private int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
-        {
-            return results.Select(r => GenerateResultName(r).Length).Max();
-        }
-
-        private int FindLengthOfLongestCount(ICollection<IRecordingResult> results)
-        {
-            double maxSum = results.Select(r => r.Count).Max();
-            return string.Format("{0:0}", maxSum).Length;
-        }
-
-        private int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
-        {
-            double maxSum = results.Select(r => r.Sum).Max();
-            return string.Format("{0:0.00}", maxSum).Length;
-        }
-
-        private string GenerateResultName(IRecordingResult result)
-        {
-            if (IncludeNamespaceInString)
-            {
-                return string.Format("{0}.{1}.{2}", result.Namespace, result.ClassName, result.MethodName);
-            }
-            else
-            {
-                return string.Format("{0}.{1}", result.ClassName, result.MethodName);
-            }
-        }
+        
     }
 }

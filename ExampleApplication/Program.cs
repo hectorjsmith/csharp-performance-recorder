@@ -18,6 +18,7 @@ namespace ExampleApplication
 
             // Run your code (any method decorated with an attribute will be recorded)
             IApplication app = new ApplicationImpl();
+            app.RunPreApplication();
             app.RunApplication();
 
             // Print out the results
@@ -33,7 +34,7 @@ namespace ExampleApplication
             results.IncludeNamespaceInString = false;
 
             // Use the built-in formatter to generate result output
-            Console.Write(results.ToPaddedString());
+            Console.Write(results.ToNestedString());
         }
     }
 }

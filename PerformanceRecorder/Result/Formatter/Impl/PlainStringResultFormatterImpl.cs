@@ -1,16 +1,17 @@
-﻿using System;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class PlainStringResultFormatterImpl : IResultFormatter<string>
+    internal class PlainStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
     {
-        public bool IncludeNamespaceInString { get; set; }
-
-        public string FormatAs(ICollection<IRecordingResult> results)
+        public override string FormatAs(IRecordingTree treeResults)
         {
+            ICollection<IRecordingResult> results = treeResults.Flatten().ToList();
+
             StringBuilder sb = new StringBuilder();
             foreach (IRecordingResult result in results.OrderByDescending(r => r.Sum))
             {
@@ -19,18 +20,6 @@ namespace PerformanceRecorder.Result.Formatter.Impl
                 sb.Append(Environment.NewLine);
             }
             return sb.ToString();
-        }
-
-        private string GenerateResultName(IRecordingResult result)
-        {
-            if (IncludeNamespaceInString)
-            {
-                return string.Format("{0}.{1}.{2}", result.Namespace, result.ClassName, result.MethodName);
-            }
-            else
-            {
-                return string.Format("{0}.{1}", result.ClassName, result.MethodName);
-            }
         }
     }
 }

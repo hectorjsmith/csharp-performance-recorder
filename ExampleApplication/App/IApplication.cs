@@ -2,6 +2,8 @@
 {
     internal interface IApplication
     {
+        void RunPreApplication();
+
         void RunApplication();
     }
 }

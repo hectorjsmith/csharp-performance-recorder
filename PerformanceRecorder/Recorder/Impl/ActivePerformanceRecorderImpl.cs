@@ -12,9 +12,14 @@ namespace PerformanceRecorder.Recorder.Impl
     {
         private IRecordingTree _resultTree = new RecordingTreeImpl();
 
-        public ICollection<IRecordingResult> GetResults()
+        public IRecordingTree GetResults()
         {
-            return _resultTree.Flatten().ToList();
+            return _resultTree;
+        }
+
+        public ICollection<IRecordingResult> GetFlatResults()
+        {
+            return GetResults().Flatten().ToList();
         }
 
         public void RegisterMethd(IMethodDefinition methodDefinition)

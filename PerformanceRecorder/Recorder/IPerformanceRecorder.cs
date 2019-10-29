@@ -1,4 +1,5 @@
-﻿using PerformanceRecorder.Result;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Result;
 using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder
@@ -11,7 +12,9 @@ namespace PerformanceRecorder.Recorder
 
         void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent);
 
-        ICollection<IRecordingResult> GetResults();
+        IRecordingTree GetResults();
+
+        ICollection<IRecordingResult> GetFlatResults();
 
         void Reset();
     }
