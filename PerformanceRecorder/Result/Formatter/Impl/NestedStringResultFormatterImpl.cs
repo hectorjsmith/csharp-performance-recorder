@@ -27,7 +27,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
             int count = tree.ChildCount;
             int index = 0;
-            foreach (IRecordingTree child in tree.Children())
+            foreach (IRecordingTree child in tree.Children().OrderByDescending(c => c.Value?.Sum))
             {
                 bool isLastChild = (index == count - 1);
                 result += PrintTree(child, indent, isLastChild, maxCountLength, maxFieldLength);
