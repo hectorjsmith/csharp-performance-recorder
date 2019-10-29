@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using PerformanceRecorder.Recorder.RecordingTree;
 
@@ -9,23 +10,24 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         public override string FormatAs(IRecordingTree results)
         {
-            if (results.ChildCount == 0)
+            return AlignAndRemoveDolarSigns(PrintTree(results, "", true));
+        }
+
+        // Inspired by: https://stackoverflow.com/a/8567550
+        string PrintTree(IRecordingTree tree, string indent, bool last)
+        {
+            string result = (indent + "+- " + FormatStringForRecording(tree.Value)) + Environment.NewLine;
+            indent += last ? "   " : "|  ";
+
+            int count = tree.ChildCount;
+            int index = 0;
+            foreach (IRecordingTree child in tree.Children())
             {
-                return "";
+                bool isLastChild = (index == count - 1);
+                result += PrintTree(child, indent, isLastChild);
+                index++;
             }
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (IRecordingTree child in results.Children())
-            {
-                sb.Append(" ├── ");
-                sb.Append(FormatStringForRecording(child.Value));
-                sb.Append(Environment.NewLine);
-                sb.Append(" ├── ");
-                sb.Append(FormatAs(child));
-            }
-
-            return sb.ToString();
+            return result;
         }
 
         private string FormatStringForRecording(IRecordingResult result)
@@ -34,7 +36,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             {
                 return "";
             }
-            return string.Format("{0}  count: {1,1}  sum: {2:0.00}  avg: {3:0.00}  max: {4:0.00}  min: {5:0.00}",
+            return string.Format("{0} $ count: {1,1}  sum: {2:0.00}  avg: {3:0.00}  max: {4:0.00}  min: {5:0.00}",
                 GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }
     }

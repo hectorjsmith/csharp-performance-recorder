@@ -8,7 +8,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     abstract class BaseStringResultFormatter : IResultFormatter<string>
     {
-        protected const string PipeCharacter = "|";
+        protected const string DolarSignCharacter = "$";
 
         public bool IncludeNamespaceInString { get; set; }
 
@@ -43,16 +43,16 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             }
         }
 
-        protected string AlignAndRemovePipes(string input)
+        protected string AlignAndRemoveDolarSigns(string input)
         {
             string[] lines = input.Split(Environment.NewLine);
-            int targetIndex = lines.Select(l => l.IndexOf(PipeCharacter)).Max();
+            int targetIndex = lines.Select(l => l.IndexOf(DolarSignCharacter)).Max();
 
             for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
             {
                 string line = lines[lineIndex];
-                int indexOfPipe = line.IndexOf(PipeCharacter);
-                line = line.Replace(PipeCharacter, RepeatString(" ", targetIndex - indexOfPipe));
+                int indexOfMarker = line.IndexOf(DolarSignCharacter);
+                line = line.Replace(DolarSignCharacter, RepeatString(" ", targetIndex - indexOfMarker));
                 lines[lineIndex] = line;
             }
             return string.Join(Environment.NewLine, lines);
