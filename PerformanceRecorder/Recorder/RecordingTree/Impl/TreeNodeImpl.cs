@@ -48,7 +48,7 @@ namespace PerformanceRecorder.Recorder.RecordingTree
                 TRec result = child.Find(matcher);
                 if (result != null)
                 {
-                    return child;
+                    return result;
                 }
             }
             return GetDefault();
