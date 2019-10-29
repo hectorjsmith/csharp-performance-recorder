@@ -21,20 +21,20 @@ namespace PerformanceRecorderTest.Result.Formatter
             Console.WriteLine(output);
             string expectedOutput =
                 @"+- 
-   +- ni0.ci0.mi0                    count: 5  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00
-   |  +- ni0j0.ci0j0.mi0j0           count: 5  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00
-   |  |  +- ni0j0k0.ci0j0k0.mi0j0k0  count: 5  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00
-   |  |  +- ni0j0k1.ci0j0k1.mi0j0k1  count: 15  sum: 15.00  avg: 1.00  max: 1.00  min: 1.00
-   |  +- ni0j1.ci0j1.mi0j1           count: 15  sum: 15.00  avg: 1.00  max: 1.00  min: 1.00
-   |     +- ni0j1k0.ci0j1k0.mi0j1k0  count: 15  sum: 15.00  avg: 1.00  max: 1.00  min: 1.00
-   |     +- ni0j1k1.ci0j1k1.mi0j1k1  count: 25  sum: 141.42  avg: 5.66  max: 5.66  min: 5.66
-   +- ni1.ci1.mi1                    count: 15  sum: 15.00  avg: 1.00  max: 1.00  min: 1.00
-      +- ni1j0.ci1j0.mi1j0           count: 15  sum: 15.00  avg: 1.00  max: 1.00  min: 1.00
-      |  +- ni1j0k0.ci1j0k0.mi1j0k0  count: 15  sum: 15.00  avg: 1.00  max: 1.00  min: 1.00
-      |  +- ni1j0k1.ci1j0k1.mi1j0k1  count: 25  sum: 141.42  avg: 5.66  max: 5.66  min: 5.66
-      +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.42  avg: 5.66  max: 5.66  min: 5.66
-         +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.42  avg: 5.66  max: 5.66  min: 5.66
-         +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.60  avg: 15.59  max: 15.59  min: 15.59
+   +- ni0.ci0.mi0                    count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+   |  +- ni0j0.ci0j0.mi0j0           count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+   |  |  +- ni0j0k0.ci0j0k0.mi0j0k0  count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+   |  |  +- ni0j0k1.ci0j0k1.mi0j0k1  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+   |  +- ni0j1.ci0j1.mi0j1           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+   |     +- ni0j1k0.ci0j1k0.mi0j1k0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+   |     +- ni0j1k1.ci0j1k1.mi0j1k1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
+   +- ni1.ci1.mi1                    count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+      +- ni1j0.ci1j0.mi1j0           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+      |  +- ni1j0k0.ci1j0k0.mi1j0k0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+      |  +- ni1j0k1.ci1j0k1.mi1j0k1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
+      +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
+         +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
+         +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.60  avg:  15.59  max:  15.59  min:  15.59
 ";
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
