@@ -18,6 +18,7 @@ namespace ExampleApplication
 
             // Run your code (any method decorated with an attribute will be recorded)
             IApplication app = new ApplicationImpl();
+            app.RunPreApplication();
             app.RunApplication();
 
             // Print out the results
