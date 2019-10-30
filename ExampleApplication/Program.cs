@@ -35,6 +35,8 @@ namespace ExampleApplication
 
             // Use the built-in formatter to generate result output
             Console.Write(results.ToNestedString());
+            Console.WriteLine();
+            Console.Write(results.ToPaddedString());
         }
     }
 }

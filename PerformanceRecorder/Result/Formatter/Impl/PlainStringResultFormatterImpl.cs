@@ -10,7 +10,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         public override string FormatAs(IRecordingTree treeResults)
         {
-            ICollection<IRecordingResult> results = treeResults.Flatten().ToList();
+            ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
 
             StringBuilder sb = new StringBuilder();
             foreach (IRecordingResult result in results.OrderByDescending(r => r.Sum))

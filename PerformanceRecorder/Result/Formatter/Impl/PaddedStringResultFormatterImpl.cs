@@ -12,7 +12,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         public override string FormatAs(IRecordingTree treeResults)
         {
-            ICollection<IRecordingResult> results = treeResults.Flatten().ToList();
+            ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
             if (results.Count == 0)
             {
                 return "";
