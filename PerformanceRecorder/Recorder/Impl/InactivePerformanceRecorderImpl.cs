@@ -34,6 +34,5 @@ namespace PerformanceRecorder.Recorder.Impl
         public void Reset()
         {
         }
-
     }
 }

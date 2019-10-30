@@ -1,12 +1,12 @@
-﻿using System;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PerformanceRecorder.Recorder.RecordingTree;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    abstract class BaseStringResultFormatter : IResultFormatter<string>
+    internal abstract class BaseStringResultFormatter : IResultFormatter<string>
     {
         protected const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0.00}  avg: {3,_num_len_:0.00}  max: {4,_num_len_:0.00}  min: {5,_num_len_:0.00}";
 

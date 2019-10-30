@@ -1,12 +1,11 @@
-﻿using System;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PerformanceRecorder.Recorder.RecordingTree;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    class NestedStringResultFormatterImpl : BaseStringResultFormatter
+    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter
     {
         private string RawFormatString = "{0} $ " + PaddedResultFormat;
 
@@ -20,7 +19,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         }
 
         // Inspired by: https://stackoverflow.com/a/8567550
-        string PrintTree(IRecordingTree tree, string indent, bool last, int maxCountLength, int maxFieldLength)
+        private string PrintTree(IRecordingTree tree, string indent, bool last, int maxCountLength, int maxFieldLength)
         {
             string result = (indent + "+- " + FormatStringForRecording(tree.Value, maxCountLength, maxFieldLength)) + Environment.NewLine;
             indent += last ? "   " : "|  ";

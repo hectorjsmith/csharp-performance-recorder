@@ -15,7 +15,6 @@ namespace PerformanceRecorder.Result.Impl
         private readonly IRecordingTree _treeData;
 
         private ICollection<IRecordingResult> _flatResultData;
-        private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.Flatten().ToList());
 
         public RecordingSessionResultImpl(IRecordingTree treeData)
         {
@@ -25,6 +24,8 @@ namespace PerformanceRecorder.Result.Impl
         public bool IncludeNamespaceInString { get; set; } = true;
 
         public int Count => FlatResultData.Count;
+
+        private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.Flatten().ToList());
 
         public ICollection<IRecordingResult> FlatData()
         {
@@ -48,6 +49,5 @@ namespace PerformanceRecorder.Result.Impl
             _nestedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
             return _nestedFormatter.FormatAs(_treeData);
         }
-
     }
 }

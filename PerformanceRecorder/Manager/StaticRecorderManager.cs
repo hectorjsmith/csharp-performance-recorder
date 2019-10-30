@@ -1,8 +1,6 @@
 ﻿using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
-using PerformanceRecorder.Result;
-using System.Collections.Generic;
 
 namespace PerformanceRecorder.Manager
 {
