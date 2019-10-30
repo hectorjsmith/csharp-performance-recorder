@@ -134,21 +134,75 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
                 "Total number of entries in flat list should match expected");
         }
 
-        private void AssertNoDuplicatesInFlatList(IEnumerable<IRecordingResult> flatList)
+        [Test]
+        public void TestGivenRecordingTreeWithTheSameMethodInMultiplePlacesWhenFlattenedThenDuplicatesFound()
+        {
+            IRecordingTree tree = HelperMethodToBuildMockTreeWithDuplicates();
+
+            IEnumerable<IRecordingResult> flatRecordings = tree.Flatten();
+            AssertDuplicatesInFlatList(flatRecordings);
+        }
+
+        [Test]
+        public void TestGivenRecordingTreeWithTheSameMethodInMultiplePlacesWhenFlattenedAndCombinedThenNoDuplicatesFound()
+        {
+            IRecordingTree tree = HelperMethodToBuildMockTreeWithDuplicates();
+
+            IEnumerable<IRecordingResult> flatRecordings = tree.FlattenAndCombine();
+            AssertNoDuplicatesInFlatList(flatRecordings);
+        }
+
+        private IRecordingTree HelperMethodToBuildMockTreeWithDuplicates()
+        {
+            // MethodB is added twice, once under methodA and once under another method
+
+            var methodA = HelperMethodToGetRecordingResult("n", "C", "A");
+            var methodB = HelperMethodToGetRecordingResult("n", "C", "B");
+            IRecordingTree tree = new RecordingTreeImpl();
+
+            IRecordingTree subTree;
+            IRecordingTree subSubTree;
+
+            subTree = tree.AddChild(HelperMethodToGetRecordingResult("n", "c", "01"));
+            subSubTree = subTree.AddChild(methodA);
+            subSubTree.AddChild(methodB);
+            subTree = tree.AddChild(HelperMethodToGetRecordingResult("n", "c", "02"));
+            subTree.AddChild(methodB);
+
+            return tree;
+        }
+
+        private void AssertNoDuplicatesInFlatList(IEnumerable<IRecordingResult> recordings)
+        {
+            var duplicates = HelperMethodToFindDuplicateIds(recordings);
+            Assert.AreEqual(0, duplicates.Count, 
+                "Duplicates found in recordings: " + string.Join(", ", duplicates));
+        }
+
+        private void AssertDuplicatesInFlatList(IEnumerable<IRecordingResult> recordings)
+        {
+            var duplicates = HelperMethodToFindDuplicateIds(recordings);
+            Assert.AreNotEqual(0, duplicates.Count,
+                "Expected duplicates in recordings but none found");
+        }
+
+        private ISet<string> HelperMethodToFindDuplicateIds(IEnumerable<IRecordingResult> recordings)
         {
             ISet<string> foundMatches = new HashSet<string>();
-            foreach (IRecordingResult result in flatList)
+            ISet<string> foundDuplicates = new HashSet<string>();
+            foreach (IRecordingResult result in recordings)
             {
                 string id = result.Id;
                 if (foundMatches.Contains(id))
                 {
-                    Assert.Fail("Match already found: " + id + ". Duplicates in flat list");
+                    foundDuplicates.Add(id);
                 }
                 else
                 {
                     foundMatches.Add(id);
                 }
             }
+            return foundDuplicates;
         }
 
         private IRecordingResult HelperMethodToGetStandardRecordingResult()
