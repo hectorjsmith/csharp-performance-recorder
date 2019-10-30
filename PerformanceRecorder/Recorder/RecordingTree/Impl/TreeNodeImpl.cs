@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace PerformanceRecorder.Recorder.RecordingTree
@@ -8,8 +7,6 @@ namespace PerformanceRecorder.Recorder.RecordingTree
     internal abstract class TreeNodeImpl<TValue, TRec> : ITreeNode<TValue, TRec> where TRec : ITreeNode<TValue, TRec>
     {
         private readonly List<TRec> _children = new List<TRec>();
-
-        public int ChildCount => _children.Count;
 
         public TreeNodeImpl(TValue value)
         {
@@ -19,6 +16,8 @@ namespace PerformanceRecorder.Recorder.RecordingTree
         public TreeNodeImpl()
         {
         }
+
+        public int ChildCount => _children.Count;
 
         public TRec Parent { get; protected set; }
 

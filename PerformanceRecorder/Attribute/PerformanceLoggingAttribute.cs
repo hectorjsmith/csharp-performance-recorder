@@ -6,8 +6,6 @@ using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
-using System.Runtime.Serialization;
 
 namespace PerformanceRecorder.Attribute
 {
@@ -42,7 +40,7 @@ namespace PerformanceRecorder.Attribute
 
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             MethodStack.TryPeek(out RecorderStackItem parent);
-            
+
             IRecordingTree methodNode = recorder.RegisterMethd(methodDefinition, parent?.Node);
 
             MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
@@ -53,7 +51,7 @@ namespace PerformanceRecorder.Attribute
         {
             double endTime = GetCurrentTimeInMs();
             RecorderStackItem item = MethodStack.Pop();
-            
+
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             recorder.RecordMethodDuration(item.Node, endTime - item.StartTime);
         }

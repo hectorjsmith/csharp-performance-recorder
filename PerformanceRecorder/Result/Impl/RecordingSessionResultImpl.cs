@@ -49,6 +49,5 @@ namespace PerformanceRecorder.Result.Impl
             _nestedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
             return _nestedFormatter.FormatAs(_treeData);
         }
-
     }
 }

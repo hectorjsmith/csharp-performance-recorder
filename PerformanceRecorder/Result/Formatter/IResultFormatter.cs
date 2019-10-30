@@ -1,5 +1,4 @@
 ﻿using PerformanceRecorder.Recorder.RecordingTree;
-using System.Collections.Generic;
 
 namespace PerformanceRecorder.Result.Formatter
 {

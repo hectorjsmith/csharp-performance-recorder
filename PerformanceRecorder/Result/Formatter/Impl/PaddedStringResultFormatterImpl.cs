@@ -36,7 +36,5 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             }
             return sb.ToString();
         }
-
-        
     }
 }
