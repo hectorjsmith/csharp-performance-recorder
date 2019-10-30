@@ -3,6 +3,7 @@ using PerformanceRecorder.Attribute;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
@@ -93,14 +94,14 @@ namespace PerformanceRecorderTest.Recorder
         {
             IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
             IMethodDefinition method = new MethodDefinitionImpl("n", "c", "m");
-            recorder.RegisterMethd(method);
+            IRecordingTree node = recorder.RegisterMethd(method);
 
             Assert.DoesNotThrow(
-                () => recorder.RecordMethodDuration(method, 0.0),
+                () => recorder.RecordMethodDuration(node, 0.0),
                 "No exception should be thrown when adding zero duration");
 
             Assert.Throws<ArgumentException>(
-                () => recorder.RecordMethodDuration(method, -1.0),
+                () => recorder.RecordMethodDuration(node, -1.0),
                 "Exception should be thrown when attempting to add negative duration");
         }
 

@@ -54,13 +54,31 @@ namespace PerformanceRecorder.Recorder.RecordingTree
             return GetDefault();
         }
 
+        public TRec Find(Func<TRec, bool> matcher)
+        {
+            if (matcher(GetMe()))
+            {
+                return GetMe();
+            }
+
+            foreach (TRec child in _children)
+            {
+                TRec result = child.Find(matcher);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+            return GetDefault();
+        }
+
         public TRec Find(TValue value)
         {
             if (value == null)
             {
                 return GetDefault();
             }
-            return Find(v => v?.Equals(value) == true);
+            return Find((TRec node) => node.Value?.Equals(value) == true);
         }
 
         public IEnumerable<TValue> Flatten()

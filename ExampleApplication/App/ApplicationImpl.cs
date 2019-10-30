@@ -13,6 +13,7 @@ namespace ExampleApplication.App
         [PerformanceLogging]
         public void RunPreApplication()
         {
+            Worker.RunOperationA();
         }
 
         [PerformanceLogging]

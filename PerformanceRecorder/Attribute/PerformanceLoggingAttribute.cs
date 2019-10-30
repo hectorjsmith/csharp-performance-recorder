@@ -1,6 +1,7 @@
 ﻿using AspectInjector.Broker;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
+using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
@@ -41,9 +42,10 @@ namespace PerformanceRecorder.Attribute
 
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             MethodStack.TryPeek(out RecorderStackItem parent);
-            recorder.RegisterMethd(methodDefinition, parent?.MethodDefinition);
+            
+            IRecordingTree methodNode = recorder.RegisterMethd(methodDefinition, parent?.Node);
 
-            MethodStack.Push(new RecorderStackItem(methodDefinition, GetCurrentTimeInMs()));
+            MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
         }
 
         [Advice(Kind.After)]
@@ -53,7 +55,7 @@ namespace PerformanceRecorder.Attribute
             RecorderStackItem item = MethodStack.Pop();
             
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
-            recorder.RecordMethodDuration(item.MethodDefinition, endTime - item.StartTime);
+            recorder.RecordMethodDuration(item.Node, endTime - item.StartTime);
         }
 
         private double GetCurrentTimeInMs()
@@ -72,13 +74,13 @@ namespace PerformanceRecorder.Attribute
 
     internal class RecorderStackItem
     {
-        public RecorderStackItem(IMethodDefinition methodDefinition, double startTime)
+        public RecorderStackItem(IRecordingTree node, double startTime)
         {
-            MethodDefinition = methodDefinition ?? throw new ArgumentNullException(nameof(methodDefinition));
+            Node = node ?? throw new ArgumentNullException(nameof(node));
             StartTime = startTime;
         }
 
-        public IMethodDefinition MethodDefinition { get; }
+        public IRecordingTree Node { get; }
 
         public double StartTime { get; }
     }
