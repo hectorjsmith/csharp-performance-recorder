@@ -25,7 +25,7 @@ namespace PerformanceRecorder.Result.Impl
 
         public int Count => FlatResultData.Count;
 
-        private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.Flatten().ToList());
+        private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.FlattenAndCombine().ToList());
 
         public ICollection<IRecordingResult> FlatData()
         {

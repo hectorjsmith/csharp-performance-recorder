@@ -57,6 +57,47 @@ namespace PerformanceRecorderTest.Result
             HelperFunctionForRecordingResultTesting(values, avg, r => r.Avg);
         }
 
+        [Test]
+        public void TestGivenResultListWhenNewResultCreatedFromListThenMethodIsSetCorrectly()
+        {
+            MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
+            IEnumerable<IRecordingResult> recordingResults = HelperMethodToGenerateDuplicateRecordingList(method);
+
+            RecordingResultImpl combinedRecording = new RecordingResultImpl(recordingResults);
+
+            Assert.AreEqual(method.ToString(), combinedRecording.Id, 
+                "Combined recording ID should match the method data");
+        }
+
+        [Test]
+        public void TestGivenResultListWhenNewResultCreatedFromListThenDataIsMergedCorrectly()
+        {
+            MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
+            IEnumerable<IRecordingResult> recordingResults = HelperMethodToGenerateDuplicateRecordingList(method);
+
+            RecordingResultImpl combinedRecording = new RecordingResultImpl(recordingResults);
+
+            Assert.AreEqual(50.0, combinedRecording.Max, "Max value on combined result is not correct");
+            Assert.AreEqual(5.0, combinedRecording.Min, "Min value on combined result is not correct");
+            Assert.AreEqual(4, combinedRecording.Count, "Count value on combined result is not correct");
+            Assert.AreEqual(21.25, combinedRecording.Avg, "Avg value on combined result is not correct");
+            Assert.AreEqual(85.0, combinedRecording.Sum, "Sum value on combined result is not correct");
+        }
+
+        private IEnumerable<IRecordingResult> HelperMethodToGenerateDuplicateRecordingList(IMethodDefinition method)
+        {
+            RecordingResultImpl result1 = new RecordingResultImpl(method);
+            RecordingResultImpl result2 = new RecordingResultImpl(method);
+
+            result1.AddResult(10.0);
+            result1.AddResult(5.0);
+            result1.AddResult(20.0);
+
+            result2.AddResult(50.0);
+
+            return new List<IRecordingResult> { result1, result2 };
+        }
+
         private static IEnumerable<int[]> NumberProviderForResultObjectTesting()
         {
             return new List<int[]>()
