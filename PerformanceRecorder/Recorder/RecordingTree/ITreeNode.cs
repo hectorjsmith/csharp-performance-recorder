@@ -17,8 +17,6 @@ namespace PerformanceRecorder.Recorder.RecordingTree
 
         TRec Find(Func<TValue, bool> matcher);
 
-        TRec Find(Func<TRec, bool> matcher);
-
         TRec Find(TValue value);
 
         IEnumerable<TValue> Flatten();
