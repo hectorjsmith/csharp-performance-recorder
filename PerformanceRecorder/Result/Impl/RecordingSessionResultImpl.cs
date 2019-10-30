@@ -15,7 +15,6 @@ namespace PerformanceRecorder.Result.Impl
         private readonly IRecordingTree _treeData;
 
         private ICollection<IRecordingResult> _flatResultData;
-        private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.Flatten().ToList());
 
         public RecordingSessionResultImpl(IRecordingTree treeData)
         {
