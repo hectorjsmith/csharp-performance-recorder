@@ -4,6 +4,7 @@ using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 
@@ -57,7 +58,7 @@ namespace PerformanceRecorderTest.API
 
             RecordDummyData(recorder);
 
-            int recorderCount = recorder.GetResults().Count;
+            int recorderCount = recorder.GetFlatResults().Count;
             Assert.AreEqual(recorderCount, api.GetResults().Count,
                 "Expecing correct number of results reported by the API");
 
@@ -79,14 +80,14 @@ namespace PerformanceRecorderTest.API
             RecordDummyData(recorder);
 
             api.ResetRecorder();
-            Assert.AreEqual(0, recorder.GetResults().Count,
+            Assert.AreEqual(0, recorder.GetFlatResults().Count,
                 "All results should be cleared from the recorder");
 
             RecordDummyData(recorder);
             api.DisablePerformanceRecording();
 
             api.ResetRecorder();
-            Assert.AreEqual(0, recorder.GetResults().Count,
+            Assert.AreEqual(0, recorder.GetFlatResults().Count,
                 "All results should be cleared from the recorder, even when recording disabled");
         }
 
@@ -96,10 +97,12 @@ namespace PerformanceRecorderTest.API
             int testCount = 10;
             for (int i = 0; i < testCount; i++)
             {
-                recorder.RecordExecutionTime(NewMethodDefinition(i), () => System.Threading.Thread.Sleep(sleepTime));
+                var method = NewMethodDefinition(i);
+                IRecordingTree node = recorder.RegisterMethd(method);
+                recorder.RecordMethodDuration(node, sleepTime);
             }
 
-            Assert.AreEqual(testCount, recorder.GetResults().Count,
+            Assert.AreEqual(testCount, recorder.GetFlatResults().Count,
                 "GIVEN: Expecing correct number of results added to recorder");
         }
 

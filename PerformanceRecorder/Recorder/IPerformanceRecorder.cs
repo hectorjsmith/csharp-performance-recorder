@@ -1,14 +1,20 @@
-﻿using PerformanceRecorder.Result;
-using System;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Result;
 using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder
 {
     internal interface IPerformanceRecorder
     {
-        void RecordExecutionTime(IMethodDefinition methodDefinition, Action action);
+        void RecordMethodDuration(IRecordingTree methodNode, double duration);
 
-        ICollection<IRecordingResult> GetResults();
+        IRecordingTree RegisterMethd(IMethodDefinition methodDefinition);
+
+        IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent);
+
+        IRecordingTree GetResults();
+
+        ICollection<IRecordingResult> GetFlatResults();
 
         void Reset();
     }

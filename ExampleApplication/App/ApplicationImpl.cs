@@ -11,6 +11,12 @@ namespace ExampleApplication.App
 
         // You can add the attribute to methods
         [PerformanceLogging]
+        public void RunPreApplication()
+        {
+            Worker.RunOperationA();
+        }
+
+        [PerformanceLogging]
         public void RunApplication()
         {
             for (int i = 0; i < 10; i++)

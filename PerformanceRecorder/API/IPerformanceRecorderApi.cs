@@ -1,5 +1,4 @@
 ﻿using PerformanceRecorder.Result;
-using System.Collections.Generic;
 
 namespace PerformanceRecorder.API
 {
@@ -13,6 +12,6 @@ namespace PerformanceRecorder.API
 
         void ResetRecorder();
 
-        ICollection<IRecordingResult> GetResults();
+        IRecordingSessionResult GetResults();
     }
 }

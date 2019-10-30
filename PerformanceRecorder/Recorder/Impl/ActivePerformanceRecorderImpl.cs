@@ -1,47 +1,93 @@
-﻿using PerformanceRecorder.Result;
+﻿using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
+using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 
 namespace PerformanceRecorder.Recorder.Impl
 {
     internal class ActivePerformanceRecorderImpl : IPerformanceRecorder
     {
-        private readonly IDictionary<string, IRecordingResult> _recordedTimes = new Dictionary<string, IRecordingResult>();
+        private IRecordingTree _resultTree = new RecordingTreeImpl();
 
-        public ICollection<IRecordingResult> GetResults()
+        public IRecordingTree GetResults()
         {
-            return _recordedTimes.Values;
+            return _resultTree;
         }
 
-        public void RecordExecutionTime(IMethodDefinition methodDefinition, Action action)
+        public ICollection<IRecordingResult> GetFlatResults()
         {
-            Stopwatch sw = Stopwatch.StartNew();
+            return GetResults().FlattenAndCombine().ToList();
+        }
 
-            action.Invoke();
+        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition)
+        {
+            return RegisterMethd(methodDefinition, null);
+        }
 
-            sw.Stop();
+        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent)
+        {
+            return AddNewMethodToTree(methodDefinition, parent);
+        }
 
-            AddResult(methodDefinition, sw.ElapsedMilliseconds);
+        public void RecordMethodDuration(IRecordingTree methodNode, double duration)
+        {
+            if (duration < 0.0)
+            {
+                throw new ArgumentException(string.Format("Duration cannot be negative. Trying to add {0} duration", duration));
+            }
+            AddResult(methodNode, duration);
         }
 
         public void Reset()
         {
-            _recordedTimes.Clear();
+            _resultTree = new RecordingTreeImpl();
         }
 
-        private void AddResult(IMethodDefinition methodDefinition, long duration)
+        private IRecordingTree AddNewMethodToTree(IMethodDefinition methodDefinition, IRecordingTree parentNode)
         {
-            string methodId = methodDefinition.ToString();
-            if (_recordedTimes.ContainsKey(methodId))
+            IRecordingTree node = FindNode(methodDefinition, parentNode);
+            if (node == null)
             {
-                IRecordingResult result = _recordedTimes[methodId];
-                result.AddResult(duration);
+                IRecordingResult result = new RecordingResultImpl(methodDefinition);
+                if (parentNode == null)
+                {
+                    // New top level node
+                    return _resultTree.AddChild(result);
+                }
+                else
+                {
+                    // New node
+                    return parentNode.AddChild(result);
+                }
+            }
+            return node;
+        }
+
+        private void AddResult(IRecordingTree methodNode, double duration)
+        {
+            if (methodNode != null)
+            {
+                // Update node
+                methodNode.Value.AddResult(duration);
             }
             else
             {
-                _recordedTimes[methodId] = new RecordingResultImpl(methodDefinition, duration);
+                throw new ArgumentException("Method node is null");
+            }
+        }
+
+        private IRecordingTree FindNode(IMethodDefinition methodDefinition, IRecordingTree parent)
+        {
+            if (parent == null)
+            {
+                return _resultTree.Children().Where(node => node.Value?.Id == methodDefinition.ToString()).FirstOrDefault();
+            }
+            else
+            {
+                return parent.Children().Where(node => node.Value?.Id == methodDefinition.ToString()).FirstOrDefault();
             }
         }
     }
