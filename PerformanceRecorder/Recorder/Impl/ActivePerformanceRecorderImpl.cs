@@ -19,7 +19,7 @@ namespace PerformanceRecorder.Recorder.Impl
 
         public ICollection<IRecordingResult> GetFlatResults()
         {
-            return GetResults().Flatten().ToList();
+            return GetResults().FlattenAndCombine().ToList();
         }
 
         public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition)

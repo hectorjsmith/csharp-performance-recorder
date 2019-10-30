@@ -1,4 +1,7 @@
-﻿using PerformanceRecorder.Result;
+﻿using System.Collections.Generic;
+using System.Linq;
+using PerformanceRecorder.Result;
+using PerformanceRecorder.Result.Impl;
 
 namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 {
@@ -10,6 +13,11 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 
         public RecordingTreeImpl() : base()
         {
+        }
+
+        public IEnumerable<IRecordingResult> FlattenAndCombine()
+        {
+            return Flatten().GroupBy(r => r.Id).Select(group => new RecordingResultImpl(group));
         }
 
         protected override IRecordingTree GetDefault()
