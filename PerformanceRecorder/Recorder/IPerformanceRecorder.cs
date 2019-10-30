@@ -6,11 +6,11 @@ namespace PerformanceRecorder.Recorder
 {
     internal interface IPerformanceRecorder
     {
-        void RecordMethodDuration(IMethodDefinition methodDefinition, double duration);
+        void RecordMethodDuration(IRecordingTree methodNode, double duration);
+        
+        IRecordingTree RegisterMethd(IMethodDefinition methodDefinition);
 
-        void RegisterMethd(IMethodDefinition methodDefinition);
-
-        void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent);
+        IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent);
 
         IRecordingTree GetResults();
 

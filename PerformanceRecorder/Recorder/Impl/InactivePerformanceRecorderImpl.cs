@@ -17,16 +17,18 @@ namespace PerformanceRecorder.Recorder.Impl
             return new List<IRecordingResult>();
         }
 
-        public void RegisterMethd(IMethodDefinition methodDefinition)
+        public void RecordMethodDuration(IRecordingTree methodNode, double duration)
         {
         }
 
-        public void RegisterMethd(IMethodDefinition methodDefinition, IMethodDefinition parent)
+        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition)
         {
+            return new RecordingTreeImpl();
         }
 
-        public void RecordMethodDuration(IMethodDefinition methodDefinition, double duration)
+        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent)
         {
+            return new RecordingTreeImpl();
         }
 
         public void Reset()

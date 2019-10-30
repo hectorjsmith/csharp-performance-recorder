@@ -4,6 +4,7 @@ using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
+using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 
@@ -97,8 +98,8 @@ namespace PerformanceRecorderTest.API
             for (int i = 0; i < testCount; i++)
             {
                 var method = NewMethodDefinition(i);
-                recorder.RegisterMethd(method);
-                recorder.RecordMethodDuration(method, sleepTime);
+                IRecordingTree node = recorder.RegisterMethd(method);
+                recorder.RecordMethodDuration(node, sleepTime);
             }
 
             Assert.AreEqual(testCount, recorder.GetFlatResults().Count,
