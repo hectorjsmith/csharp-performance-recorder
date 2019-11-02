@@ -39,10 +39,13 @@ namespace PerformanceRecorder.Attribute
             IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
 
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
-            MethodStack.TryPeek(out RecorderStackItem parent);
+            RecorderStackItem parent = null;
+            if (MethodStack.Count > 0)
+            {
+                parent = MethodStack.Peek();
+            }
 
             IRecordingTree methodNode = recorder.RegisterMethd(methodDefinition, parent?.Node);
-
             MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
         }
 

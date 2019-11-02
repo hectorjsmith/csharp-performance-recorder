@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
@@ -47,7 +48,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         protected string AlignAndRemoveDolarSigns(string input)
         {
-            string[] lines = input.Split(Environment.NewLine);
+            string[] lines = Regex.Split(input, Environment.NewLine);
             int targetIndex = lines.Select(l => l.IndexOf(DolarSignCharacter)).Max();
 
             for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
