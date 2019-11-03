@@ -28,4 +28,5 @@ example:
 publish:
     stage: publish
     script:
+    - dotnet build
     - dotnet pack ./PerformanceRecorder/PerformanceRecorder.csproj --configuration Release
