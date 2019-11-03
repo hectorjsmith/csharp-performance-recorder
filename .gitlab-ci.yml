@@ -3,6 +3,7 @@ image: microsoft/dotnet:latest
 stages:
     - build
     - test
+    - publish
 
 before_script:
     - apt-get update
@@ -23,3 +24,8 @@ example:
     stage: test
     script:
     - dotnet run --project ExampleApplication/ExampleApplication.csproj
+
+publish:
+    stage: publish
+    script:
+    - dotnet publish --project PerformanceRecorder/PerformanceRecorder --configuration Release
