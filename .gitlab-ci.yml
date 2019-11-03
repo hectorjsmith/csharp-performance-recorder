@@ -27,6 +27,10 @@ example:
 
 publish:
     stage: publish
+    only:
+    - master
+    - develop
+    - /^v.+$/
     script:
     - dotnet build --configuration Release
     - dotnet pack PerformanceRecorder/PerformanceRecorder.csproj --configuration Release
