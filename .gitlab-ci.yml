@@ -29,4 +29,8 @@ publish:
     stage: publish
     script:
     - dotnet build --configuration Release
-    - dotnet pack ./PerformanceRecorder/PerformanceRecorder.csproj --configuration Release
+    - dotnet pack PerformanceRecorder/PerformanceRecorder.csproj --configuration Release
+    artifacts:
+      paths:
+      - PerformanceRecorder/bin/Release/netstandard2.0/publish
+      expire_in: 1 day
