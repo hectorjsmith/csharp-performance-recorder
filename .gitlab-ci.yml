@@ -28,4 +28,4 @@ example:
 publish:
     stage: publish
     script:
-    - dotnet publish --project PerformanceRecorder/PerformanceRecorder --configuration Release
+    - dotnet publish ./PerformanceRecorder/PerformanceRecorder.csproj --configuration Release
