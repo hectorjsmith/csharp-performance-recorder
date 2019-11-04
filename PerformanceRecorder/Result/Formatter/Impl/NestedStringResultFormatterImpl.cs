@@ -9,7 +9,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         private string RawFormatString = "{0} $ " + PaddedResultFormat;
 
-        public override string FormatAs(IRecordingTree results)
+        public override string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction)
         {
             List<IRecordingResult> flatResults = results.Flatten().ToList();
             int countLenght = FindLengthOfLongestCount(flatResults);
