@@ -28,7 +28,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
                 .Replace("_num_len_", "" + numLength);
 
             StringBuilder sb = new StringBuilder();
-            foreach (IRecordingResult result in results.OrderByDescending(r => r.Sum))
+            foreach (IRecordingResult result in results.Where(filterFunction).OrderByDescending(r => r.Sum))
             {
                 sb.Append(string.Format(formatString,
                     GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min));
