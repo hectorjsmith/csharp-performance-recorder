@@ -7,11 +7,13 @@ namespace PerformanceRecorder.Recorder.RecordingTree
     {
         int ChildCount { get; }
 
-        TRec Parent { get; }
+        TRec Parent { get; set; }
 
         TValue Value { get; }
 
         TRec AddChild(TValue value);
+
+        TRec AddChild(TRec tree);
 
         IReadOnlyCollection<TRec> Children();
 

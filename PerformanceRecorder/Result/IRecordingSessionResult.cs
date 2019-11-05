@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PerformanceRecorder.Result
 {
@@ -12,8 +13,14 @@ namespace PerformanceRecorder.Result
 
         string ToRawString();
 
+        string ToRawString(Func<IRecordingResult, bool> filterFunction);
+
         string ToPaddedString();
 
+        string ToPaddedString(Func<IRecordingResult, bool> filterFunction);
+
         string ToNestedString();
+        
+        string ToNestedString(Func<IRecordingResult, bool> filterFunction);
     }
 }

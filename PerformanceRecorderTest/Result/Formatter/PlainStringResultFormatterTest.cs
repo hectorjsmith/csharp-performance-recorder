@@ -51,6 +51,21 @@ namespace PerformanceRecorderTest.Result.Formatter
             Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
+        [Test]
+        public void TestGivenResultCollectionWhenFormattedAsPlainStringWithFilterThenFilterIsRespected()
+        {
+            IRecordingTree results = GenerateMockResults();
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            string rawOutput = sessionResult.ToRawString();
+            string filteredOutput = sessionResult.ToRawString(r => r.Sum > 0);
+            string expectedOutput
+                = "n.c.m1  count: 2  sum: 110.00  avg: 55.00  max: 100.00  min: 10.00" + Environment.NewLine;
+
+            Assert.AreEqual(expectedOutput, filteredOutput, "Formatted output did not match expected format");
+            Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
+        }
+
         private IRecordingTree GenerateMockResults()
         {
             IRecordingTree results = new RecordingTreeImpl();

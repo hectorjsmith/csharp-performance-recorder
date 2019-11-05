@@ -15,7 +15,12 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         public bool IncludeNamespaceInString { get; set; }
 
-        public abstract string FormatAs(IRecordingTree results);
+        public abstract string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
+
+        public string FormatAs(IRecordingTree results)
+        {
+            return FormatAs(results, r => true);
+        }
 
         protected int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
         {
@@ -70,5 +75,6 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             }
             return sb.ToString();
         }
+
     }
 }

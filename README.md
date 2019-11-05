@@ -82,6 +82,11 @@ And the runtime of the parent method will include the runtime of each child, any
 When getting the results data as a string, the `IncludeNamespaceInString` property will control whether the full namespace is included in the output.
 If set to true, the method name will include the namespace, class name, and method name. Otherwise it will only include class name and method name.
 
+**Filtering**
+
+It is possible to filter the ouput of the string formatters by passing in a filter function in the form of: `Func<IRecordingResult, bool> filterFunction`.
+This will ignore any recording results that return false when passed into the provided function. When a filter function is not provided all results are included.
+
 **Raw Results**
 
 It is also possible to get the raw results using the `.RawData()` method.
