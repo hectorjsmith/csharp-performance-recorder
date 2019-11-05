@@ -15,7 +15,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             int countLenght = FindLengthOfLongestCount(flatResults);
             int fieldLength = FindLengthOfLongestValue(flatResults);
 
-            return AlignAndRemoveDolarSigns(PrintTree(results, "", true, countLenght, fieldLength));
+            IRecordingTree filteredTree = results.Filter(filterFunction);
+            return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLenght, fieldLength));
         }
 
         // Inspired by: https://stackoverflow.com/a/8567550
