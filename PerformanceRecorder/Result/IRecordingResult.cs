@@ -2,6 +2,8 @@
 {
     public interface IRecordingResult
     {
+        int Depth { get; }
+
         string Id { get; }
 
         string Namespace { get; }
