@@ -12,6 +12,8 @@ namespace PerformanceRecorder.Log
 
         void Warn(string message);
 
+        void Error(string message);
+
         void Error(string message, Exception ex);
     }
 }
