@@ -111,6 +111,8 @@ From these objects you can retrieve information about the method that was instru
 ```csharp
 public interface IRecordingResult
 {
+    int Depth { get; }
+
     string Namespace { get; }
 
     string ClassName { get; }
