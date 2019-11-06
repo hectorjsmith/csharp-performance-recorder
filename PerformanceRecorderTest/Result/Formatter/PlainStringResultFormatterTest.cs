@@ -71,8 +71,9 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = new RecordingTreeImpl();
             for (int i = 0; i < 2; i++)
             {
-                IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("n", "c", "m" + i), i * 100);
+                IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("n", "c", "m" + i));
                 result.AddResult(i * 10);
+                result.AddResult(i * 100);
                 results.AddChild(result);
             }
 

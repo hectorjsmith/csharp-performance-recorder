@@ -76,8 +76,9 @@ namespace PerformanceRecorderTest.Result.Formatter
             for (int i = 0; i < 3; i++)
             {
                 IRecordingResult result = new RecordingResultImpl(
-                    new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i), i * 100);
+                    new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i));
                 result.AddResult(i * 10);
+                result.AddResult(i * 100);
                 result.AddResult(i * 510);
                 if (i == 0)
                 {

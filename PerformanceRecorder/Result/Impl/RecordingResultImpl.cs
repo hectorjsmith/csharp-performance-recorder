@@ -31,15 +31,12 @@ namespace PerformanceRecorder.Result.Impl
             }
         }
 
-        public RecordingResultImpl(IMethodDefinition method, double result) : this(method)
-        {
-            AddResult(result);
-        }
-
         public RecordingResultImpl(IMethodDefinition method)
         {
             _method = method ?? throw new ArgumentNullException(nameof(method));
         }
+
+        public int Depth { get; }
 
         public string Id => _id ?? (_id = _method.ToString());
 
