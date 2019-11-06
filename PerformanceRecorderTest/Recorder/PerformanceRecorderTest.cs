@@ -144,7 +144,6 @@ namespace PerformanceRecorderTest.Recorder
         public void TestGivenActiveRecorderWithLoggerWhenRecordingNegativeDurationThenLogMessageRecorded()
         {
             MockLoggerCountsErrors logger = new MockLoggerCountsErrors();
-
             StaticRecorderManager.Logger = logger;
 
             ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
@@ -153,6 +152,17 @@ namespace PerformanceRecorderTest.Recorder
             Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1));
 
             Assert.AreEqual(1, logger.ErrorCount, "One error message should be recorded when adding a negative duration");
+        }
+
+        [Test]
+        public void TestGivenActiveRecorderWhenLoggerIsNullThenNoNullPointerThrown()
+        {
+            StaticRecorderManager.Logger = null;
+
+            ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
+            MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
+            RecordingTreeImpl methodNode = new RecordingTreeImpl();
+            Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1));
         }
 
         private double HelperFunctionToRunTimedTest(Action actionToRun)
