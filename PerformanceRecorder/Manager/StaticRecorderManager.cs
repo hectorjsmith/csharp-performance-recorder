@@ -1,4 +1,5 @@
-﻿using PerformanceRecorder.Recorder;
+﻿using PerformanceRecorder.Log;
+using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 
@@ -11,6 +12,8 @@ namespace PerformanceRecorder.Manager
         private static IPerformanceRecorder _activeRecorder = new ActivePerformanceRecorderImpl();
 
         public static bool IsRecordingEnabled { get; set; }
+
+        public static ILogger Logger { get; set; }
 
         public static IRecordingTree GetResults()
         {
