@@ -56,7 +56,8 @@ namespace PerformanceRecorder.Recorder.Impl
             IRecordingTree node = FindNode(methodDefinition, parentNode);
             if (node == null)
             {
-                IRecordingResult result = new RecordingResultImpl(methodDefinition);
+                int depth = CalculateDepth(parentNode);
+                IRecordingResult result = new RecordingResultImpl(methodDefinition, depth);
                 if (parentNode == null)
                 {
                     // New top level node
@@ -96,6 +97,15 @@ namespace PerformanceRecorder.Recorder.Impl
             {
                 return parent.Children().Where(node => node.Value?.Id == methodDefinition.ToString()).FirstOrDefault();
             }
+        }
+
+        private int CalculateDepth(IRecordingTree parentNode)
+        {
+            if (parentNode == null || parentNode.Value == null)
+            {
+                return 0;
+            }
+            return parentNode.Value.Depth + 1;
         }
     }
 }

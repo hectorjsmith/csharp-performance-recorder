@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
@@ -148,6 +149,43 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
 
             IEnumerable<IRecordingResult> flatRecordings = tree.FlattenAndCombine();
             AssertNoDuplicatesInFlatList(flatRecordings);
+        }
+
+        [Test]
+        public void TestGivenRecordingTreeWithDataWhenResultDepthCheckedThenDepthInRecordingMatchesActual()
+        {
+            IRecordingTree tree = HelperMethodToGetCorrectlyBuiltMockTree();
+
+            foreach (IRecordingTree child in tree.Children())
+            {
+                Assert.NotNull(child.Value, "Value should not be null in child nodes");
+                Assert.AreEqual(0, child.Value.Depth, "Childen of the root node should be at depth 0");
+                foreach (IRecordingTree subChild in child.Children())
+                {
+                    Assert.NotNull(child.Value, "Value should not be null in sub-child nodes");
+                    Assert.AreEqual(1, subChild.Value.Depth, "Childen of the child node should be at depth 1");
+                }
+            }
+        }
+
+        private IRecordingTree HelperMethodToGetCorrectlyBuiltMockTree()
+        {
+            var recorder = new ActivePerformanceRecorderImpl();
+            
+            for (int i = 0; i < 1; i++)
+            {
+                var method = new MethodDefinitionImpl("n" + i, "c" + i, "m" + i);
+                var tree = recorder.RegisterMethd(method);
+                recorder.RecordMethodDuration(tree, 10);
+                for (int j = 0; j < 1; j++)
+                {
+                    var subMethod = new MethodDefinitionImpl("nn" + j, "cc" + j, "mm" + j);
+                    var subTree = recorder.RegisterMethd(subMethod, tree);
+                    recorder.RecordMethodDuration(subTree, 10);
+                }
+            }
+
+            return recorder.GetResults();
         }
 
         private IRecordingTree HelperMethodToBuildMockTreeWithDuplicates()
