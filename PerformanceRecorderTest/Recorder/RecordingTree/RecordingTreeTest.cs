@@ -170,17 +170,17 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
 
         private IRecordingTree HelperMethodToGetCorrectlyBuiltMockTree()
         {
-            var recorder = new ActivePerformanceRecorderImpl();
+            ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
             
             for (int i = 0; i < 1; i++)
             {
-                var method = new MethodDefinitionImpl("n" + i, "c" + i, "m" + i);
-                var tree = recorder.RegisterMethd(method);
+                MethodDefinitionImpl method = new MethodDefinitionImpl("n" + i, "c" + i, "m" + i);
+                IRecordingTree tree = recorder.RegisterMethd(method);
                 recorder.RecordMethodDuration(tree, 10);
                 for (int j = 0; j < 1; j++)
                 {
-                    var subMethod = new MethodDefinitionImpl("nn" + j, "cc" + j, "mm" + j);
-                    var subTree = recorder.RegisterMethd(subMethod, tree);
+                    MethodDefinitionImpl subMethod = new MethodDefinitionImpl("nn" + j, "cc" + j, "mm" + j);
+                    IRecordingTree subTree = recorder.RegisterMethd(subMethod, tree);
                     recorder.RecordMethodDuration(subTree, 10);
                 }
             }

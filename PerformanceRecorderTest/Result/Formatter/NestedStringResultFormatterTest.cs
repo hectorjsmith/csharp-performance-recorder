@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
@@ -46,7 +47,7 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             string rawOutput = sessionResult.ToNestedString();
-            string filteredOutput = sessionResult.ToNestedString(r => r?.Sum > 10);
+            string filteredOutput = sessionResult.ToNestedString(r => r.Sum > 10);
             string expectedOutput =
                 @"+- 
    +- ni1.ci1.mi1                    count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
@@ -64,38 +65,61 @@ namespace PerformanceRecorderTest.Result.Formatter
             Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
         }
 
+        [Test]
+        public void TestGivenResultCollectionWhenFormattedAsNestedtringWithDepthFilterThenFilterIsRespected()
+        {
+            IRecordingTree results = GenerateMockResults(2, 2, 2);
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            string rawOutput = sessionResult.ToNestedString();
+            string filteredOutput = sessionResult.ToNestedString(r => r.Depth < 2);
+            string expectedOutput =
+                @"+- 
+   +- ni1.ci1.mi1           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+   |  +- ni1j1.ci1j1.mi1j1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
+   |  +- ni1j0.ci1j0.mi1j0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+   +- ni0.ci0.mi0           count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+      +- ni0j1.ci0j1.mi0j1  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+      +- ni0j0.ci0j0.mi0j0  count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+".Replace("\r\n", Environment.NewLine);
+
+            Console.WriteLine(filteredOutput);
+
+            Assert.AreEqual(expectedOutput, filteredOutput, "Formatted output did not match expected format");
+            Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
+        }
+
         private IRecordingTree GenerateMockResults(int topLevelCount, int midLevelCount, int bottomLevelCount)
         {
-            IRecordingTree tree = new RecordingTreeImpl();
+            var recorder = new ActivePerformanceRecorderImpl();
             for (int i = 0; i < topLevelCount; i++)
             {
                 string iId = "i" + i;
-                IRecordingTree subTree = HelperMethodToGetRecordingResult("n" + iId, "c" + iId, "m" + iId, i, tree);
+                IRecordingTree subTree = recorder.RegisterMethd(new MethodDefinitionImpl("n" + iId, "c" + iId, "m" + iId));
+                HelperMethodToGetRecordingResult(recorder, i, subTree);
                 for (int j = 0; j < midLevelCount; j++)
                 {
                     string jId = iId + "j" + j;
-                    IRecordingTree subSubTree = HelperMethodToGetRecordingResult("n" + jId, "c" + jId, "m" + jId, i + j, subTree);
+                    IRecordingTree subSubTree = recorder.RegisterMethd(new MethodDefinitionImpl("n" + jId, "c" + jId, "m" + jId), subTree);
+                    HelperMethodToGetRecordingResult(recorder, j + i, subSubTree);
                     for (int k = 0; k < bottomLevelCount; k++)
                     {
                         string kId = jId + "k" + k;
-                        HelperMethodToGetRecordingResult("n" + kId, "c" + kId, "m" + kId, i + j + k, subSubTree);
+                        IRecordingTree subSubSubTree = recorder.RegisterMethd(new MethodDefinitionImpl("n" + kId, "c" + kId, "m" + kId), subSubTree);
+                        HelperMethodToGetRecordingResult(recorder, k + i + j, subSubSubTree);
                     }
                 }
             }
 
-            return tree;
+            return recorder.GetResults();
         }
 
-        private IRecordingTree HelperMethodToGetRecordingResult(string namespaceName, string className, string method, int value, IRecordingTree tree)
+        private void HelperMethodToGetRecordingResult(ActivePerformanceRecorderImpl recorder, int value, IRecordingTree node)
         {
-            MethodDefinitionImpl methodDef = new MethodDefinitionImpl(namespaceName, className, method);
-            RecordingResultImpl recording = new RecordingResultImpl(methodDef);
             for (int i = 0; i < 10 * (value + 0.5); i++)
             {
-                recording.AddResult(Math.Pow(value, 2.5));
+                recorder.RecordMethodDuration(node, Math.Pow(value, 2.5));
             }
-
-            return tree.AddChild(recording);
         }
     }
 }
