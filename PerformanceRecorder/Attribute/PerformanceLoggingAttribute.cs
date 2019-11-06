@@ -31,7 +31,7 @@ namespace PerformanceRecorder.Attribute
             catch (Exception ex)
             {
                 Logger.Error("Exception in method: " + methodName, ex);
-                HandleAfter();
+                HandleAfter(methodName);
                 throw;
             }
         }
@@ -40,6 +40,32 @@ namespace PerformanceRecorder.Attribute
         public void HandleBefore(
             [Argument(Source.Name)] string methodName,
             [Argument(Source.Instance)] object instance)
+        {
+            try
+            {
+                RegisterMethodBeforeItRuns(methodName, instance);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Exception in HandleBefore code for method: " + methodName, ex);
+            }
+        }
+
+        [Advice(Kind.After)]
+        public void HandleAfter(
+            [Argument(Source.Name)] string methodName)
+        {
+            try
+            {
+                RecordMethodDurationAfterItRuns();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Exception in HandleAfter code for method: " + methodName, ex);
+            }
+        }
+
+        private void RegisterMethodBeforeItRuns(string methodName, object instance)
         {
             IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
 
@@ -54,8 +80,7 @@ namespace PerformanceRecorder.Attribute
             MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
         }
 
-        [Advice(Kind.After)]
-        public void HandleAfter()
+        private void RecordMethodDurationAfterItRuns()
         {
             double endTime = GetCurrentTimeInMs();
             RecorderStackItem item = MethodStack.Pop();
