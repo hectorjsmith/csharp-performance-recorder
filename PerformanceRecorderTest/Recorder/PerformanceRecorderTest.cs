@@ -1,9 +1,11 @@
 ﻿using NUnit.Framework;
 using PerformanceRecorder.Attribute;
+using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
+using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
@@ -138,6 +140,21 @@ namespace PerformanceRecorderTest.Recorder
                 "Recorded execution time should include the execution time before the exception was thrown");
         }
 
+        [Test]
+        public void TestGivenActiveRecorderWithLoggerWhenRecordingNegativeDurationThenLogMessageRecorded()
+        {
+            MockLoggerCountsErrors logger = new MockLoggerCountsErrors();
+
+            StaticRecorderManager.Logger = logger;
+
+            ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
+            MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
+            RecordingTreeImpl methodNode = new RecordingTreeImpl();
+            Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1));
+
+            Assert.AreEqual(1, logger.ErrorCount, "One error message should be recorded when adding a negative duration");
+        }
+
         private double HelperFunctionToRunTimedTest(Action actionToRun)
         {
             StaticRecorderManager.IsRecordingEnabled = true;
@@ -196,6 +213,36 @@ namespace PerformanceRecorderTest.Recorder
             System.Threading.Thread.Sleep(sleepBefore);
             throw new ArgumentException("Planned exception during helper function");
             System.Threading.Thread.Sleep(sleepAfter);
+        }
+    }
+
+    class MockLoggerCountsErrors : ILogger
+    {
+        public int ErrorCount { get; private set; }
+
+        public void Debug(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Error(string message)
+        {
+            ErrorCount++;
+        }
+
+        public void Error(string message, Exception ex)
+        {
+            ErrorCount++;
+        }
+
+        public void Info(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Warn(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }
