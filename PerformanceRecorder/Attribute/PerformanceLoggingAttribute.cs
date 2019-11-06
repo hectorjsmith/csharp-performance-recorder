@@ -1,4 +1,5 @@
 ﻿using AspectInjector.Broker;
+using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.RecordingTree;
@@ -15,8 +16,11 @@ namespace PerformanceRecorder.Attribute
     {
         private static readonly Stack<RecorderStackItem> MethodStack = new Stack<RecorderStackItem>();
 
+        private static ILogger Logger => StaticRecorderManager.Logger;
+
         [Advice(Kind.Around)]
         public object HandleAround(
+            [Argument(Source.Name)] string methodName,
             [Argument(Source.Arguments)] object[] arguments,
             [Argument(Source.Target)] Func<object[], object> method)
         {
@@ -24,8 +28,9 @@ namespace PerformanceRecorder.Attribute
             {
                 return method(arguments);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("Exception in method: " + methodName, ex);
                 HandleAfter();
                 throw;
             }

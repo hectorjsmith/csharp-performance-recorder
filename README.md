@@ -36,6 +36,21 @@ api.EnablePerformanceRecording();
 api.DisablePerformanceRecording();
 ```
 
+### Logging
+
+The library supports injecting a logger object to be used to log issues using the API.
+To avoid dependencies on any particular logging library, the logger instance used should implement the `PerformanceRecorder.Log.ILogger` interface.
+
+To inject a logger:
+
+```csharp
+IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+ILogger logger = // ...
+api.SetLogger(logger);
+```
+
+The logger can be set to `null` to disable logging.
+
 ### Results
 
 You can retrieve the results of a performance recording session using the API
