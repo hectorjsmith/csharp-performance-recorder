@@ -66,7 +66,7 @@ namespace PerformanceRecorderTest.Result
 
             RecordingResultImpl combinedRecording = new RecordingResultImpl(recordingResults);
 
-            Assert.AreEqual(method.ToString(), combinedRecording.Id, 
+            Assert.AreEqual(method.ToString(), combinedRecording.Id,
                 "Combined recording ID should match the method data");
         }
 
@@ -85,20 +85,6 @@ namespace PerformanceRecorderTest.Result
             Assert.AreEqual(85.0, combinedRecording.Sum, "Sum value on combined result is not correct");
         }
 
-        private IEnumerable<IRecordingResult> HelperMethodToGenerateDuplicateRecordingList(IMethodDefinition method)
-        {
-            RecordingResultImpl result1 = new RecordingResultImpl(method);
-            RecordingResultImpl result2 = new RecordingResultImpl(method);
-
-            result1.AddResult(10.0);
-            result1.AddResult(5.0);
-            result1.AddResult(20.0);
-
-            result2.AddResult(50.0);
-
-            return new List<IRecordingResult> { result1, result2 };
-        }
-
         private static IEnumerable<int[]> NumberProviderForResultObjectTesting()
         {
             return new List<int[]>()
@@ -111,6 +97,20 @@ namespace PerformanceRecorderTest.Result
                 new int[] { 10, 20 },
                 new int[] { 20, 10},
             };
+        }
+
+        private IEnumerable<IRecordingResult> HelperMethodToGenerateDuplicateRecordingList(IMethodDefinition method)
+        {
+            RecordingResultImpl result1 = new RecordingResultImpl(method);
+            RecordingResultImpl result2 = new RecordingResultImpl(method);
+
+            result1.AddResult(10.0);
+            result1.AddResult(5.0);
+            result1.AddResult(20.0);
+
+            result2.AddResult(50.0);
+
+            return new List<IRecordingResult> { result1, result2 };
         }
 
         private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IRecordingResult, double> resultProvider)

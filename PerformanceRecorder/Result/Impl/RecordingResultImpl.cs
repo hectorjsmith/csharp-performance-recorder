@@ -81,6 +81,5 @@ namespace PerformanceRecorder.Result.Impl
                 Min = result;
             }
         }
-
-        }
     }
+}

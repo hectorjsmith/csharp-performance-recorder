@@ -12,10 +12,11 @@ namespace PerformanceRecorder.Manager
 
         private static readonly IPerformanceRecorder _activeRecorder = new ActivePerformanceRecorderImpl();
 
-        public static bool IsRecordingEnabled { get; set; }
-
         private static readonly ILogger _inactiveLogger = new InactiveLoggerImpl();
         private static ILogger _injectedLogger;
+
+        public static bool IsRecordingEnabled { get; set; }
+
         public static ILogger Logger
         {
             get { return _injectedLogger ?? _inactiveLogger; }

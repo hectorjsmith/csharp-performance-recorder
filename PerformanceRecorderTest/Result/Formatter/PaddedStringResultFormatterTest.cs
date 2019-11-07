@@ -69,7 +69,6 @@ namespace PerformanceRecorderTest.Result.Formatter
             Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
         }
 
-
         private IRecordingTree GenerateMockResults()
         {
             IRecordingTree results = new RecordingTreeImpl();

@@ -86,6 +86,5 @@ namespace PerformanceRecorder.Recorder.RecordingTree
         protected abstract TRec GetMe();
 
         protected abstract TRec GetDefault();
-
     }
 }

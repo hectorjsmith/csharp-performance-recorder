@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PerformanceRecorder.Result;
+using PerformanceRecorder.Result.Impl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using PerformanceRecorder.Result;
-using PerformanceRecorder.Result.Impl;
 
 namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 {
@@ -21,6 +21,11 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
             return Flatten().GroupBy(r => r.Id).Select(group => new RecordingResultImpl(group));
         }
 
+        public IRecordingTree Filter(Func<IRecordingResult, bool> filterFunction)
+        {
+            return FilterTree(this, filterFunction);
+        }
+
         protected override IRecordingTree GetDefault()
         {
             return null;
@@ -34,11 +39,6 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
         protected override IRecordingTree GetNew(IRecordingResult value, IRecordingTree parent)
         {
             return new RecordingTreeImpl(value) { Parent = parent };
-        }
-
-        public IRecordingTree Filter(Func<IRecordingResult, bool> filterFunction)
-        {
-            return FilterTree(this, filterFunction);
         }
 
         private IRecordingTree FilterTree(IRecordingTree node, Func<IRecordingResult, bool> filterFunction)

@@ -7,15 +7,15 @@ namespace PerformanceRecorder.API.Impl
 {
     public class PerformanceRecorderApiImpl : IPerformanceRecorderApi
     {
-        public void SetLogger(ILogger logger)
-        {
-            StaticRecorderManager.Logger = logger;
-        }
-
         public bool IsRecordingEnabled
         {
             get => StaticRecorderManager.IsRecordingEnabled;
             set => StaticRecorderManager.IsRecordingEnabled = value;
+        }
+
+        public void SetLogger(ILogger logger)
+        {
+            StaticRecorderManager.Logger = logger;
         }
 
         public void DisablePerformanceRecording()
