@@ -31,7 +31,7 @@ namespace PerformanceRecorder.Attribute
             catch (Exception ex)
             {
                 Logger.Error("Exception in method: " + methodName, ex);
-                HandleAfter();
+                HandleAfter(methodName);
                 throw;
             }
         }
@@ -41,25 +41,53 @@ namespace PerformanceRecorder.Attribute
             [Argument(Source.Name)] string methodName,
             [Argument(Source.Instance)] object instance)
         {
-            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
+            try
+            {
+                RegisterMethodBeforeItRuns(methodName, instance);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Exception in HandleBefore code for method: " + methodName, ex);
+            }
+        }
 
-            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+        [Advice(Kind.After)]
+        public void HandleAfter(
+            [Argument(Source.Name)] string methodName)
+        {
+            try
+            {
+                RecordMethodDurationAfterItRuns();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Exception in HandleAfter code for method: " + methodName, ex);
+            }
+        }
+
+        private void RegisterMethodBeforeItRuns(string methodName, object instance)
+        {
             RecorderStackItem parent = null;
             if (MethodStack.Count > 0)
             {
                 parent = MethodStack.Peek();
             }
 
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
             IRecordingTree methodNode = recorder.RegisterMethd(methodDefinition, parent?.Node);
             MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
         }
 
-        [Advice(Kind.After)]
-        public void HandleAfter()
+        private void RecordMethodDurationAfterItRuns()
         {
             double endTime = GetCurrentTimeInMs();
-            RecorderStackItem item = MethodStack.Pop();
+            if (MethodStack.Count == 0)
+            {
+                throw new InvalidOperationException("Method not found on stack when trying to record duration");
+            }
 
+            RecorderStackItem item = MethodStack.Pop();
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             recorder.RecordMethodDuration(item.Node, endTime - item.StartTime);
         }
