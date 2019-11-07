@@ -1,4 +1,6 @@
-﻿using PerformanceRecorder.Recorder.RecordingTree;
+﻿using PerformanceRecorder.Log;
+using PerformanceRecorder.Manager;
+using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
@@ -11,6 +13,7 @@ namespace PerformanceRecorder.Recorder.Impl
     internal class ActivePerformanceRecorderImpl : IPerformanceRecorder
     {
         private IRecordingTree _resultTree = new RecordingTreeImpl();
+        private ILogger Logger => StaticRecorderManager.Logger;
 
         public IRecordingTree GetResults()
         {
@@ -36,7 +39,9 @@ namespace PerformanceRecorder.Recorder.Impl
         {
             if (duration < 0.0)
             {
-                throw new ArgumentException(string.Format("Duration cannot be negative. Trying to add {0} duration", duration));
+                string message = string.Format("Duration cannot be negative. Trying to add {0} duration", duration);
+                Logger.Error(message);
+                throw new ArgumentException(message);
             }
             AddResult(methodNode, duration);
         }
@@ -51,7 +56,8 @@ namespace PerformanceRecorder.Recorder.Impl
             IRecordingTree node = FindNode(methodDefinition, parentNode);
             if (node == null)
             {
-                IRecordingResult result = new RecordingResultImpl(methodDefinition);
+                int depth = CalculateDepth(parentNode);
+                IRecordingResult result = new RecordingResultImpl(methodDefinition, depth);
                 if (parentNode == null)
                 {
                     // New top level node
@@ -75,7 +81,9 @@ namespace PerformanceRecorder.Recorder.Impl
             }
             else
             {
-                throw new ArgumentException("Method node is null");
+                string message = "Method node is null";
+                Logger.Error(message);
+                throw new ArgumentException(message);
             }
         }
 
@@ -89,6 +97,15 @@ namespace PerformanceRecorder.Recorder.Impl
             {
                 return parent.Children().Where(node => node.Value?.Id == methodDefinition.ToString()).FirstOrDefault();
             }
+        }
+
+        private int CalculateDepth(IRecordingTree parentNode)
+        {
+            if (parentNode == null || parentNode.Value == null)
+            {
+                return 0;
+            }
+            return parentNode.Value.Depth + 1;
         }
     }
 }

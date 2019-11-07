@@ -36,6 +36,21 @@ api.EnablePerformanceRecording();
 api.DisablePerformanceRecording();
 ```
 
+### Logging
+
+The library supports injecting a logger object to be used to log issues using the API.
+To avoid dependencies on any particular logging library, the logger instance used should implement the `PerformanceRecorder.Log.ILogger` interface.
+
+To inject a logger:
+
+```csharp
+IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+ILogger logger = // ...
+api.SetLogger(logger);
+```
+
+The logger can be set to `null` to disable logging.
+
 ### Results
 
 You can retrieve the results of a performance recording session using the API
@@ -82,6 +97,11 @@ And the runtime of the parent method will include the runtime of each child, any
 When getting the results data as a string, the `IncludeNamespaceInString` property will control whether the full namespace is included in the output.
 If set to true, the method name will include the namespace, class name, and method name. Otherwise it will only include class name and method name.
 
+**Filtering**
+
+It is possible to filter the ouput of the string formatters by passing in a filter function in the form of: `Func<IRecordingResult, bool> filterFunction`.
+This will ignore any recording results that return false when passed into the provided function. When a filter function is not provided all results are included.
+
 **Raw Results**
 
 It is also possible to get the raw results using the `.RawData()` method.
@@ -91,6 +111,8 @@ From these objects you can retrieve information about the method that was instru
 ```csharp
 public interface IRecordingResult
 {
+    int Depth { get; }
+
     string Namespace { get; }
 
     string ClassName { get; }

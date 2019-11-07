@@ -1,4 +1,6 @@
-﻿using PerformanceRecorder.Recorder;
+﻿using PerformanceRecorder.Log;
+using PerformanceRecorder.Log.Impl;
+using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 
@@ -8,9 +10,18 @@ namespace PerformanceRecorder.Manager
     {
         private static readonly IPerformanceRecorder _inactiveRecorder = new InactivePerformanceRecorderImpl();
 
-        private static IPerformanceRecorder _activeRecorder = new ActivePerformanceRecorderImpl();
+        private static readonly IPerformanceRecorder _activeRecorder = new ActivePerformanceRecorderImpl();
+
+        private static readonly ILogger _inactiveLogger = new InactiveLoggerImpl();
+        private static ILogger _injectedLogger;
 
         public static bool IsRecordingEnabled { get; set; }
+
+        public static ILogger Logger
+        {
+            get { return _injectedLogger ?? _inactiveLogger; }
+            set { _injectedLogger = value; }
+        }
 
         public static IRecordingTree GetResults()
         {

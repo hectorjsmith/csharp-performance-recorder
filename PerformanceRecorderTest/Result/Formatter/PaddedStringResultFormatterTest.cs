@@ -53,14 +53,31 @@ namespace PerformanceRecorderTest.Result.Formatter
             Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
+        [Test]
+        public void TestGivenResultCollectionWhenFormattedAsPaddedStringWithFilterThenFilterIsRespected()
+        {
+            IRecordingTree results = GenerateMockResults();
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            string rawOutput = sessionResult.ToPaddedString();
+            string filteredOutput = sessionResult.ToPaddedString(r => r.Sum > 0);
+            string expectedOutput
+                = "nnnn.cccc.mmmm2  count:  3  sum: 1240.00  avg:  413.33  max: 1020.00  min:   20.00" + Environment.NewLine
+                + "   nnn.ccc.mmm1  count:  3  sum:  620.00  avg:  206.67  max:  510.00  min:   10.00" + Environment.NewLine;
+
+            Assert.AreEqual(expectedOutput, filteredOutput, "Formatted output did not match expected format");
+            Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
+        }
+
         private IRecordingTree GenerateMockResults()
         {
             IRecordingTree results = new RecordingTreeImpl();
             for (int i = 0; i < 3; i++)
             {
                 IRecordingResult result = new RecordingResultImpl(
-                    new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i), i * 100);
+                    new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i));
                 result.AddResult(i * 10);
+                result.AddResult(i * 100);
                 result.AddResult(i * 510);
                 if (i == 0)
                 {

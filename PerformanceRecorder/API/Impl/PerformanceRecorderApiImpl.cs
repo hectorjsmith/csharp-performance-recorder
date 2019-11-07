@@ -1,4 +1,5 @@
-﻿using PerformanceRecorder.Manager;
+﻿using PerformanceRecorder.Log;
+using PerformanceRecorder.Manager;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 
@@ -10,6 +11,11 @@ namespace PerformanceRecorder.API.Impl
         {
             get => StaticRecorderManager.IsRecordingEnabled;
             set => StaticRecorderManager.IsRecordingEnabled = value;
+        }
+
+        public void SetLogger(ILogger logger)
+        {
+            StaticRecorderManager.Logger = logger;
         }
 
         public void DisablePerformanceRecording()

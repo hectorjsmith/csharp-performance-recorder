@@ -32,22 +32,37 @@ namespace PerformanceRecorder.Result.Impl
             return FlatResultData;
         }
 
-        public string ToPaddedString()
-        {
-            _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _paddedFormatter.FormatAs(_treeData);
-        }
-
         public string ToRawString()
         {
+            return ToRawString(r => true);
+        }
+
+        public string ToRawString(Func<IRecordingResult, bool> filterFunction)
+        {
             _plainFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _plainFormatter.FormatAs(_treeData);
+            return _plainFormatter.FormatAs(_treeData, filterFunction);
+        }
+
+        public string ToPaddedString()
+        {
+            return ToPaddedString(r => true);
+        }
+
+        public string ToPaddedString(Func<IRecordingResult, bool> filterFunction)
+        {
+            _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
+            return _paddedFormatter.FormatAs(_treeData, filterFunction);
         }
 
         public string ToNestedString()
         {
+            return ToNestedString(r => true);
+        }
+
+        public string ToNestedString(Func<IRecordingResult, bool> filterFunction)
+        {
             _nestedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _nestedFormatter.FormatAs(_treeData);
+            return _nestedFormatter.FormatAs(_treeData, filterFunction);
         }
     }
 }

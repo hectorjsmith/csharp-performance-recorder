@@ -19,7 +19,7 @@ namespace PerformanceRecorder.Recorder.RecordingTree
 
         public int ChildCount => _children.Count;
 
-        public TRec Parent { get; protected set; }
+        public TRec Parent { get; set; }
 
         public TValue Value { get; }
 
@@ -28,6 +28,13 @@ namespace PerformanceRecorder.Recorder.RecordingTree
             TRec node = GetNew(value, GetMe());
             _children.Add(node);
             return node;
+        }
+
+        public TRec AddChild(TRec tree)
+        {
+            tree.Parent = GetMe();
+            _children.Add(tree);
+            return tree;
         }
 
         public IReadOnlyCollection<TRec> Children()

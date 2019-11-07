@@ -1,4 +1,5 @@
 ﻿using PerformanceRecorder.Recorder.RecordingTree;
+using System;
 
 namespace PerformanceRecorder.Result.Formatter
 {
@@ -7,5 +8,7 @@ namespace PerformanceRecorder.Result.Formatter
         bool IncludeNamespaceInString { get; set; }
 
         TOutputType FormatAs(IRecordingTree results);
+
+        TOutputType FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
     }
 }

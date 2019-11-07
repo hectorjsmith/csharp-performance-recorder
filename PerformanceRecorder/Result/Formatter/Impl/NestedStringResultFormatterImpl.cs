@@ -9,13 +9,14 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         private string RawFormatString = "{0} $ " + PaddedResultFormat;
 
-        public override string FormatAs(IRecordingTree results)
+        public override string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction)
         {
             List<IRecordingResult> flatResults = results.Flatten().ToList();
             int countLenght = FindLengthOfLongestCount(flatResults);
             int fieldLength = FindLengthOfLongestValue(flatResults);
 
-            return AlignAndRemoveDolarSigns(PrintTree(results, "", true, countLenght, fieldLength));
+            IRecordingTree filteredTree = results.Filter(filterFunction);
+            return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLenght, fieldLength));
         }
 
         // Inspired by: https://stackoverflow.com/a/8567550
