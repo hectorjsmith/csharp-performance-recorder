@@ -67,15 +67,14 @@ namespace PerformanceRecorder.Attribute
 
         private void RegisterMethodBeforeItRuns(string methodName, object instance)
         {
-            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
-
-            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             RecorderStackItem parent = null;
             if (MethodStack.Count > 0)
             {
                 parent = MethodStack.Peek();
             }
 
+            IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
+            IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
             IRecordingTree methodNode = recorder.RegisterMethd(methodDefinition, parent?.Node);
             MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
         }
@@ -83,8 +82,12 @@ namespace PerformanceRecorder.Attribute
         private void RecordMethodDurationAfterItRuns()
         {
             double endTime = GetCurrentTimeInMs();
-            RecorderStackItem item = MethodStack.Pop();
+            if (MethodStack.Count == 0)
+            {
+                throw new InvalidOperationException("Method not found on stack when trying to record duration");
+            }
 
+            RecorderStackItem item = MethodStack.Pop();
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             recorder.RecordMethodDuration(item.Node, endTime - item.StartTime);
         }
