@@ -171,7 +171,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         private IRecordingTree HelperMethodToGetCorrectlyBuiltMockTree()
         {
             ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
-            
+
             for (int i = 0; i < 1; i++)
             {
                 MethodDefinitionImpl method = new MethodDefinitionImpl("n" + i, "c" + i, "m" + i);
@@ -211,7 +211,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         private void AssertNoDuplicatesInFlatList(IEnumerable<IRecordingResult> recordings)
         {
             var duplicates = HelperMethodToFindDuplicateIds(recordings);
-            Assert.AreEqual(0, duplicates.Count, 
+            Assert.AreEqual(0, duplicates.Count,
                 "Duplicates found in recordings: " + string.Join(", ", duplicates));
         }
 

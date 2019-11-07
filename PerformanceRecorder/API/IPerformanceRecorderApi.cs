@@ -5,9 +5,9 @@ namespace PerformanceRecorder.API
 {
     public interface IPerformanceRecorderApi
     {
-        void SetLogger(ILogger logger);
-
         bool IsRecordingEnabled { get; set; }
+
+        void SetLogger(ILogger logger);
 
         void EnablePerformanceRecording();
 

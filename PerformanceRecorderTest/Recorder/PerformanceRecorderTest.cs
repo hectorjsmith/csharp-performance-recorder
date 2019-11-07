@@ -162,7 +162,7 @@ namespace PerformanceRecorderTest.Recorder
             ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
             MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
             RecordingTreeImpl methodNode = new RecordingTreeImpl();
-            Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1), 
+            Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1),
                 "Adding a negative value should trigger an ArgumentException and log the error."
                 + " When the logger is null, this should not trigger a NullReferenceException");
         }
@@ -228,7 +228,7 @@ namespace PerformanceRecorderTest.Recorder
         }
     }
 
-    class MockLoggerCountsErrors : ILogger
+    internal class MockLoggerCountsErrors : ILogger
     {
         public int ErrorCount { get; private set; }
 

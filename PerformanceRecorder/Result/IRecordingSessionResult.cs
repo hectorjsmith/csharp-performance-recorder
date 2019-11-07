@@ -20,7 +20,7 @@ namespace PerformanceRecorder.Result
         string ToPaddedString(Func<IRecordingResult, bool> filterFunction);
 
         string ToNestedString();
-        
+
         string ToNestedString(Func<IRecordingResult, bool> filterFunction);
     }
 }

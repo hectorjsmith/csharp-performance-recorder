@@ -54,7 +54,6 @@ namespace PerformanceRecorder.Result.Impl
             return _paddedFormatter.FormatAs(_treeData, filterFunction);
         }
 
-
         public string ToNestedString()
         {
             return ToNestedString(r => true);
@@ -65,6 +64,5 @@ namespace PerformanceRecorder.Result.Impl
             _nestedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
             return _nestedFormatter.FormatAs(_treeData, filterFunction);
         }
-
     }
 }
