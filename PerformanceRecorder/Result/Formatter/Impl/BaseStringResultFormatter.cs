@@ -1,4 +1,5 @@
-﻿using PerformanceRecorder.Recorder.RecordingTree;
+﻿using PerformanceRecorder.Manager;
+using PerformanceRecorder.Recorder.RecordingTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,22 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         protected BaseStringResultFormatter(bool includeNamespaceInString, int decimalPlacesInResult)
         {
             IncludeNamespaceInString = includeNamespaceInString;
-            DecimalPlacesInResult = decimalPlacesInResult;
+            if (decimalPlacesInResult < 0)
+            {
+                StaticRecorderManager.Logger.Error(
+                    string.Format("Provided number of decimal places ({0}) must be greater than 0, defaulting to 0", decimalPlacesInResult));
+                DecimalPlacesInResult = 0;
+            }
+            else if (decimalPlacesInResult > 3)
+            {
+                StaticRecorderManager.Logger.Error(
+                    string.Format("Provided number of decimal places ({0}) must not be greater than 3, defaulting to 3", decimalPlacesInResult));
+                DecimalPlacesInResult = 3;
+            }
+            else
+            {
+                DecimalPlacesInResult = decimalPlacesInResult;
+            }
         }
 
         public abstract string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
