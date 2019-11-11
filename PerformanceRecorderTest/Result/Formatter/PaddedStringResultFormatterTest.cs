@@ -69,6 +69,23 @@ namespace PerformanceRecorderTest.Result.Formatter
             Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
         }
 
+        [Test]
+        public void TestGivenResultCollectionWhenFormattedAsPaddedStringWithZeroDecimalPlacesThenResultFormattedCorrectly()
+        {
+            IRecordingTree results = GenerateMockResults();
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            sessionResult.DecimalPlacesInResults = 0;
+            string output = sessionResult.ToPaddedString();
+
+            string expectedOutput
+                = "nnnn.cccc.mmmm2  count:  3  sum: 1240  avg:  413  max: 1020  min:   20" + Environment.NewLine
+                + "   nnn.ccc.mmm1  count:  3  sum:  620  avg:  207  max:  510  min:   10" + Environment.NewLine
+                + "      nn.cc.mm0  count: 13  sum:    0  avg:    0  max:    0  min:    0" + Environment.NewLine;
+
+            Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
+        }
+
         private IRecordingTree GenerateMockResults()
         {
             IRecordingTree results = new RecordingTreeImpl();
