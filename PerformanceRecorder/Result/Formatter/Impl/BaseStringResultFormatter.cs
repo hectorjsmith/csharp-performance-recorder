@@ -9,6 +9,12 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal abstract class BaseStringResultFormatter : IResultFormatter<string>
     {
+        private const string DecimalPointPlaceholder = "_dec_len_";
+        
+        protected const string NumberLengthPlaceholder = "_num_len_";
+
+        protected const string CountLengthPlaceholder = "_count_len_";
+
         private const string PlainResultFormat = " count: {1}  sum: {2:0._dec_len_}  avg: {3:0._dec_len_}  max: {4:0._dec_len_}  min: {5:0._dec_len_}";
 
         private const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0._dec_len_}  avg: {3,_num_len_:0._dec_len_}  max: {4,_num_len_:0._dec_len_}  min: {5,_num_len_:0._dec_len_}";
@@ -34,12 +40,24 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         protected string GetPlainResultFormat()
         {
-            return PlainResultFormat.Replace("_dec_len_", RepeatString("0", DecimalPlacesInResult));
+            return ReplaceDecimalPlacePaddingInString(PlainResultFormat);
         }
 
         protected string GetPaddedResultFormat()
         {
-            return PaddedResultFormat.Replace("_dec_len_", RepeatString("0", DecimalPlacesInResult));
+            return ReplaceDecimalPlacePaddingInString(PaddedResultFormat);
+        }
+
+        private string ReplaceDecimalPlacePaddingInString(string formatString)
+        {
+            if (DecimalPlacesInResult > 0)
+            {
+                return formatString.Replace(DecimalPointPlaceholder, "." + RepeatString("0", DecimalPlacesInResult));
+            }
+            else
+            {
+                return formatString.Replace(DecimalPointPlaceholder, "");
+            }
         }
 
         protected int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
@@ -56,8 +74,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         protected int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
         {
             double maxSum = results.Select(r => r.Sum).Max();
-            string sumFormat = "{0:0._dec_len_}"
-                .Replace("_dec_len_", RepeatString("0", DecimalPlacesInResult));
+            string sumFormat = ReplaceDecimalPlacePaddingInString("{0:0" + DecimalPointPlaceholder + "}");
 
             return string.Format(sumFormat, maxSum).Length;
         }

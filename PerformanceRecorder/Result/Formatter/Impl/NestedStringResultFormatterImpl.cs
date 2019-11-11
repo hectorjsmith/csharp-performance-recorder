@@ -48,8 +48,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
             string rawString = "{0} $ " + GetPaddedResultFormat();
             string formatString = rawString
-                .Replace("_count_len_", "" + maxCountLength)
-                .Replace("_num_len_", "" + maxFieldLength);
+                .Replace(CountLengthPlaceholder, "" + maxCountLength)
+                .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
             return string.Format(formatString,
                 GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }
