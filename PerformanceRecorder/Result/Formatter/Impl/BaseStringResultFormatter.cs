@@ -1,4 +1,5 @@
-﻿using PerformanceRecorder.Recorder.RecordingTree;
+﻿using PerformanceRecorder.Manager;
+using PerformanceRecorder.Recorder.RecordingTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,70 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal abstract class BaseStringResultFormatter : IResultFormatter<string>
     {
-        protected const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0.00}  avg: {3,_num_len_:0.00}  max: {4,_num_len_:0.00}  min: {5,_num_len_:0.00}";
+        private const string DecimalPointPlaceholder = "_dec_len_";
+        
+        protected const string NumberLengthPlaceholder = "_num_len_";
+
+        protected const string CountLengthPlaceholder = "_count_len_";
+
+        private const string PlainResultFormat = " count: {1}  sum: {2:0._dec_len_}  avg: {3:0._dec_len_}  max: {4:0._dec_len_}  min: {5:0._dec_len_}";
+
+        private const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0._dec_len_}  avg: {3,_num_len_:0._dec_len_}  max: {4,_num_len_:0._dec_len_}  min: {5,_num_len_:0._dec_len_}";
 
         protected const string DolarSignCharacter = "$";
 
-        public bool IncludeNamespaceInString { get; set; }
+        protected bool IncludeNamespaceInString { get;  }
+
+        protected int DecimalPlacesInResult { get; }
+
+        protected BaseStringResultFormatter(bool includeNamespaceInString, int decimalPlacesInResult)
+        {
+            IncludeNamespaceInString = includeNamespaceInString;
+            if (decimalPlacesInResult < 0)
+            {
+                StaticRecorderManager.Logger.Error(
+                    string.Format("Provided number of decimal places ({0}) must be greater than 0, defaulting to 0", decimalPlacesInResult));
+                DecimalPlacesInResult = 0;
+            }
+            else if (decimalPlacesInResult > 3)
+            {
+                StaticRecorderManager.Logger.Error(
+                    string.Format("Provided number of decimal places ({0}) must not be greater than 3, defaulting to 3", decimalPlacesInResult));
+                DecimalPlacesInResult = 3;
+            }
+            else
+            {
+                DecimalPlacesInResult = decimalPlacesInResult;
+            }
+        }
 
         public abstract string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
 
         public string FormatAs(IRecordingTree results)
         {
             return FormatAs(results, r => true);
+        }
+
+        protected string GetPlainResultFormat()
+        {
+            return ReplaceDecimalPlacePaddingInString(PlainResultFormat);
+        }
+
+        protected string GetPaddedResultFormat()
+        {
+            return ReplaceDecimalPlacePaddingInString(PaddedResultFormat);
+        }
+
+        private string ReplaceDecimalPlacePaddingInString(string formatString)
+        {
+            if (DecimalPlacesInResult > 0)
+            {
+                return formatString.Replace(DecimalPointPlaceholder, "." + RepeatString("0", DecimalPlacesInResult));
+            }
+            else
+            {
+                return formatString.Replace(DecimalPointPlaceholder, "");
+            }
         }
 
         protected int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
@@ -36,7 +90,9 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         protected int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
         {
             double maxSum = results.Select(r => r.Sum).Max();
-            return string.Format("{0:0.00}", maxSum).Length;
+            string sumFormat = ReplaceDecimalPlacePaddingInString("{0:0" + DecimalPointPlaceholder + "}");
+
+            return string.Format(sumFormat, maxSum).Length;
         }
 
         protected string GenerateResultName(IRecordingResult result)

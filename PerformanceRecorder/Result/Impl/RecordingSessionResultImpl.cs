@@ -9,9 +9,6 @@ namespace PerformanceRecorder.Result.Impl
 {
     internal class RecordingSessionResultImpl : IRecordingSessionResult
     {
-        private readonly IResultFormatter<string> _plainFormatter = new PlainStringResultFormatterImpl();
-        private readonly IResultFormatter<string> _paddedFormatter = new PaddedStringResultFormatterImpl();
-        private readonly IResultFormatter<string> _nestedFormatter = new NestedStringResultFormatterImpl();
         private readonly IRecordingTree _treeData;
 
         private ICollection<IRecordingResult> _flatResultData;
@@ -22,6 +19,8 @@ namespace PerformanceRecorder.Result.Impl
         }
 
         public bool IncludeNamespaceInString { get; set; } = true;
+
+        public int DecimalPlacesInResults { get; set; } = 3;
 
         public int Count => FlatResultData.Count;
 
@@ -39,8 +38,8 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToRawString(Func<IRecordingResult, bool> filterFunction)
         {
-            _plainFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _plainFormatter.FormatAs(_treeData, filterFunction);
+            IResultFormatter<string> formatter = new PlainStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
+            return formatter.FormatAs(_treeData, filterFunction);
         }
 
         public string ToPaddedString()
@@ -50,8 +49,8 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToPaddedString(Func<IRecordingResult, bool> filterFunction)
         {
-            _paddedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _paddedFormatter.FormatAs(_treeData, filterFunction);
+            IResultFormatter<string> formatter = new PaddedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
+            return formatter.FormatAs(_treeData, filterFunction);
         }
 
         public string ToNestedString()
@@ -61,8 +60,8 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToNestedString(Func<IRecordingResult, bool> filterFunction)
         {
-            _nestedFormatter.IncludeNamespaceInString = IncludeNamespaceInString;
-            return _nestedFormatter.FormatAs(_treeData, filterFunction);
+            IResultFormatter<string> formatter = new NestedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
+            return formatter.FormatAs(_treeData, filterFunction);
         }
     }
 }

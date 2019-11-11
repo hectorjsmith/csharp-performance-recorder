@@ -7,7 +7,10 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal class NestedStringResultFormatterImpl : BaseStringResultFormatter
     {
-        private string RawFormatString = "{0} $ " + PaddedResultFormat;
+        public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
+            : base(includeNamespaceInString, decimalPlacesInResult)
+        {
+        }
 
         public override string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction)
         {
@@ -42,9 +45,11 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             {
                 return "";
             }
-            string formatString = RawFormatString
-                .Replace("_count_len_", "" + maxCountLength)
-                .Replace("_num_len_", "" + maxFieldLength);
+
+            string rawString = "{0} $ " + GetPaddedResultFormat();
+            string formatString = rawString
+                .Replace(CountLengthPlaceholder, "" + maxCountLength)
+                .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
             return string.Format(formatString,
                 GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }
