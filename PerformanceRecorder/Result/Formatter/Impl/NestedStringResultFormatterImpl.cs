@@ -9,6 +9,11 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         private string RawFormatString = "{0} $ " + PaddedResultFormat;
 
+        public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
+            : base(includeNamespaceInString, decimalPlacesInResult)
+        {
+        }
+
         public override string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction)
         {
             List<IRecordingResult> flatResults = results.Flatten().ToList();

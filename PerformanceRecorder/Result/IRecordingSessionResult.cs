@@ -7,6 +7,8 @@ namespace PerformanceRecorder.Result
     {
         bool IncludeNamespaceInString { get; set; }
 
+        int DecimalPlacesInResults { get; set; }
+
         int Count { get; }
 
         ICollection<IRecordingResult> FlatData();

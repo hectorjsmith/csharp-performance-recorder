@@ -8,6 +8,11 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal class PlainStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
     {
+        public PlainStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
+            : base(includeNamespaceInString, decimalPlacesInResult)
+        {
+        }
+
         public override string FormatAs(IRecordingTree treeResults, Func<IRecordingResult, bool> filterFunction)
         {
             ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();

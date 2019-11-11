@@ -13,7 +13,15 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         protected const string DolarSignCharacter = "$";
 
-        public bool IncludeNamespaceInString { get; set; }
+        protected bool IncludeNamespaceInString { get;  }
+
+        protected int DecimalPlacesInResult { get; }
+
+        protected BaseStringResultFormatter(bool includeNamespaceInString, int decimalPlacesInResult)
+        {
+            IncludeNamespaceInString = includeNamespaceInString;
+            DecimalPlacesInResult = decimalPlacesInResult;
+        }
 
         public abstract string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
 

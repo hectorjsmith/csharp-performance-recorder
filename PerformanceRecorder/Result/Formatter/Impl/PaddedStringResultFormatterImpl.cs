@@ -10,6 +10,11 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     {
         private const string RawFormatString = "{0,_key_len_}  " + PaddedResultFormat;
 
+        public PaddedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
+            : base(includeNamespaceInString, decimalPlacesInResult)
+        {
+        }
+
         public override string FormatAs(IRecordingTree treeResults, Func<IRecordingResult, bool> filterFunction)
         {
             ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
