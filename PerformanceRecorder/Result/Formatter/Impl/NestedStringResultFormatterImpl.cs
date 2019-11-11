@@ -7,8 +7,6 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal class NestedStringResultFormatterImpl : BaseStringResultFormatter
     {
-        private string RawFormatString = "{0} $ " + PaddedResultFormat;
-
         public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)
         {
@@ -47,7 +45,9 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             {
                 return "";
             }
-            string formatString = RawFormatString
+
+            string rawString = "{0} $ " + GetPaddedResultFormat();
+            string formatString = rawString
                 .Replace("_count_len_", "" + maxCountLength)
                 .Replace("_num_len_", "" + maxFieldLength);
             return string.Format(formatString,

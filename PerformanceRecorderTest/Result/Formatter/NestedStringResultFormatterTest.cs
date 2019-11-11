@@ -19,20 +19,20 @@ namespace PerformanceRecorderTest.Result.Formatter
             Console.WriteLine(output);
             string expectedOutput =
                 @"+- 
-   +- ni1.ci1.mi1                    count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-   |  +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-   |  |  +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.60  avg:  15.59  max:  15.59  min:  15.59
-   |  |  +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-   |  +- ni1j0.ci1j0.mi1j0           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-   |     +- ni1j0k1.ci1j0k1.mi1j0k1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-   |     +- ni1j0k0.ci1j0k0.mi1j0k0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-   +- ni0.ci0.mi0                    count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
-      +- ni0j1.ci0j1.mi0j1           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-      |  +- ni0j1k1.ci0j1k1.mi0j1k1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-      |  +- ni0j1k0.ci0j1k0.mi0j1k0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-      +- ni0j0.ci0j0.mi0j0           count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
-         +- ni0j0k1.ci0j0k1.mi0j0k1  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-         +- ni0j0k0.ci0j0k0.mi0j0k0  count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+   +- ni1.ci1.mi1                    count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+   |  +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+   |  |  +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.596  avg:  15.588  max:  15.588  min:  15.588
+   |  |  +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+   |  +- ni1j0.ci1j0.mi1j0           count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+   |     +- ni1j0k1.ci1j0k1.mi1j0k1  count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+   |     +- ni1j0k0.ci1j0k0.mi1j0k0  count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+   +- ni0.ci0.mi0                    count:  5  sum:   0.000  avg:   0.000  max:   0.000  min:   0.000
+      +- ni0j1.ci0j1.mi0j1           count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+      |  +- ni0j1k1.ci0j1k1.mi0j1k1  count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+      |  +- ni0j1k0.ci0j1k0.mi0j1k0  count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+      +- ni0j0.ci0j0.mi0j0           count:  5  sum:   0.000  avg:   0.000  max:   0.000  min:   0.000
+         +- ni0j0k1.ci0j0k1.mi0j0k1  count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+         +- ni0j0k0.ci0j0k0.mi0j0k0  count:  5  sum:   0.000  avg:   0.000  max:   0.000  min:   0.000
 ".Replace("\r\n", Environment.NewLine);
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
@@ -49,13 +49,13 @@ namespace PerformanceRecorderTest.Result.Formatter
             string filteredOutput = sessionResult.ToNestedString(r => r.Sum > 10);
             string expectedOutput =
                 @"+- 
-   +- ni1.ci1.mi1                    count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-      +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-      |  +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.60  avg:  15.59  max:  15.59  min:  15.59
-      |  +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-      +- ni1j0.ci1j0.mi1j0           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-         +- ni1j0k1.ci1j0k1.mi1j0k1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-         +- ni1j0k0.ci1j0k0.mi1j0k0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
+   +- ni1.ci1.mi1                    count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+      +- ni1j1.ci1j1.mi1j1           count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+      |  +- ni1j1k1.ci1j1k1.mi1j1k1  count: 35  sum: 545.596  avg:  15.588  max:  15.588  min:  15.588
+      |  +- ni1j1k0.ci1j1k0.mi1j1k0  count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+      +- ni1j0.ci1j0.mi1j0           count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+         +- ni1j0k1.ci1j0k1.mi1j0k1  count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+         +- ni1j0k0.ci1j0k0.mi1j0k0  count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
 ".Replace("\r\n", Environment.NewLine);
 
             Console.WriteLine(filteredOutput);
@@ -74,12 +74,12 @@ namespace PerformanceRecorderTest.Result.Formatter
             string filteredOutput = sessionResult.ToNestedString(r => r.Depth < 2);
             string expectedOutput =
                 @"+- 
-   +- ni1.ci1.mi1           count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-   |  +- ni1j1.ci1j1.mi1j1  count: 25  sum: 141.42  avg:   5.66  max:   5.66  min:   5.66
-   |  +- ni1j0.ci1j0.mi1j0  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-   +- ni0.ci0.mi0           count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
-      +- ni0j1.ci0j1.mi0j1  count: 15  sum:  15.00  avg:   1.00  max:   1.00  min:   1.00
-      +- ni0j0.ci0j0.mi0j0  count:  5  sum:   0.00  avg:   0.00  max:   0.00  min:   0.00
+   +- ni1.ci1.mi1           count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+   |  +- ni1j1.ci1j1.mi1j1  count: 25  sum: 141.421  avg:   5.657  max:   5.657  min:   5.657
+   |  +- ni1j0.ci1j0.mi1j0  count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+   +- ni0.ci0.mi0           count:  5  sum:   0.000  avg:   0.000  max:   0.000  min:   0.000
+      +- ni0j1.ci0j1.mi0j1  count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
+      +- ni0j0.ci0j0.mi0j0  count:  5  sum:   0.000  avg:   0.000  max:   0.000  min:   0.000
 ".Replace("\r\n", Environment.NewLine);
 
             Console.WriteLine(filteredOutput);

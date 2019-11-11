@@ -9,7 +9,9 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal abstract class BaseStringResultFormatter : IResultFormatter<string>
     {
-        protected const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0.00}  avg: {3,_num_len_:0.00}  max: {4,_num_len_:0.00}  min: {5,_num_len_:0.00}";
+        private const string PlainResultFormat = " count: {1}  sum: {2:0._dec_len_}  avg: {3:0._dec_len_}  max: {4:0._dec_len_}  min: {5:0._dec_len_}";
+
+        private const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0._dec_len_}  avg: {3,_num_len_:0._dec_len_}  max: {4,_num_len_:0._dec_len_}  min: {5,_num_len_:0._dec_len_}";
 
         protected const string DolarSignCharacter = "$";
 
@@ -30,6 +32,16 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             return FormatAs(results, r => true);
         }
 
+        protected string GetPlainResultFormat()
+        {
+            return PlainResultFormat.Replace("_dec_len_", RepeatString("0", DecimalPlacesInResult));
+        }
+
+        protected string GetPaddedResultFormat()
+        {
+            return PaddedResultFormat.Replace("_dec_len_", RepeatString("0", DecimalPlacesInResult));
+        }
+
         protected int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
         {
             return results.Select(r => GenerateResultName(r).Length).Max();
@@ -44,7 +56,10 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         protected int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
         {
             double maxSum = results.Select(r => r.Sum).Max();
-            return string.Format("{0:0.00}", maxSum).Length;
+            string sumFormat = "{0:0._dec_len_}"
+                .Replace("_dec_len_", RepeatString("0", DecimalPlacesInResult));
+
+            return string.Format(sumFormat, maxSum).Length;
         }
 
         protected string GenerateResultName(IRecordingResult result)

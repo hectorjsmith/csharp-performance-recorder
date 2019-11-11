@@ -8,8 +8,6 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 {
     internal class PaddedStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
     {
-        private const string RawFormatString = "{0,_key_len_}  " + PaddedResultFormat;
-
         public PaddedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)
         {
@@ -27,7 +25,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             int countLength = FindLengthOfLongestCount(results);
             int numLength = FindLengthOfLongestValue(results);
 
-            string formatString = RawFormatString
+            string rawString = "{0,_key_len_}  " + GetPaddedResultFormat();
+            string formatString = rawString
                 .Replace("_key_len_", "" + keyLength)
                 .Replace("_count_len_", "" + countLength)
                 .Replace("_num_len_", "" + numLength);
