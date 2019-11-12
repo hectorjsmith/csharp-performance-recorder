@@ -1,5 +1,7 @@
-﻿using PerformanceRecorder.Log;
+﻿using System;
+using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
+using PerformanceRecorder.Recorder.Worker;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 
@@ -36,6 +38,19 @@ namespace PerformanceRecorder.API.Impl
         public void ResetRecorder()
         {
             StaticRecorderManager.ResetRecorder();
+        }
+
+        public void RecordAction(string actionName, Action actionToRecord)
+        {
+            StaticRecordingWorker.RegisterMethodBeforeItRuns(actionName, actionToRecord);
+            try
+            {
+                actionToRecord();
+            }
+            finally
+            {
+                StaticRecordingWorker.RecordMethodDurationAfterItRuns();
+            }
         }
     }
 }

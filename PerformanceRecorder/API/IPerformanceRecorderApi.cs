@@ -1,5 +1,6 @@
 ﻿using PerformanceRecorder.Log;
 using PerformanceRecorder.Result;
+using System;
 
 namespace PerformanceRecorder.API
 {
@@ -16,5 +17,7 @@ namespace PerformanceRecorder.API
         void ResetRecorder();
 
         IRecordingSessionResult GetResults();
+
+        void RecordAction(string actionName, Action actionToRecord);
     }
 }
