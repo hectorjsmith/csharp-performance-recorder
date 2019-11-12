@@ -42,6 +42,15 @@ namespace PerformanceRecorder.API.Impl
 
         public void RecordAction(string actionName, Action actionToRecord)
         {
+            if (string.IsNullOrWhiteSpace(actionName))
+            {
+                throw new ArgumentException("Action name must not be blank");
+            }
+            if (actionToRecord == null)
+            {
+                throw new ArgumentNullException("Action to run must not be null");
+            }
+
             StaticRecordingWorker.RegisterMethodBeforeItRuns(actionName, actionToRecord);
             try
             {
