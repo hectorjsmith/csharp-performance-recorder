@@ -44,7 +44,7 @@ namespace PerformanceRecorder.API.Impl
         {
             if (string.IsNullOrWhiteSpace(actionName))
             {
-                throw new ArgumentException("Action name must not be blank");
+                throw new ArgumentNullException("Action name must not be blank");
             }
             if (actionToRecord == null)
             {
