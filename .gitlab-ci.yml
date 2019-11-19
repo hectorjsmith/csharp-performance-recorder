@@ -27,6 +27,10 @@ example:
 
 publish:
     stage: publish
+    only:
+    - master
+    - develop
+    - /^v.+$/
     script:
     - chmod +x BuildTools/*.sh
     - ./BuildTools/Build.sh
