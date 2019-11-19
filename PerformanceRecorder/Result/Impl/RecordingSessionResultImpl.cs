@@ -38,8 +38,7 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToRawString(Func<IRecordingResult, bool> filterFunction)
         {
-            IResultFormatter<string, IRecordingResult> formatter
-                = new PlainStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
+            IStringResultFormatter formatter = new PlainStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
             return formatter.FormatAs(_treeData, filterFunction);
         }
 
@@ -50,8 +49,7 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToPaddedString(Func<IRecordingResult, bool> filterFunction)
         {
-            IResultFormatter<string, IRecordingResult> formatter
-                = new PaddedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
+            IStringResultFormatter formatter = new PaddedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
             return formatter.FormatAs(_treeData, filterFunction);
         }
 
@@ -62,7 +60,7 @@ namespace PerformanceRecorder.Result.Impl
 
         public string ToNestedString(Func<IRecordingResultWithDepth, bool> filterFunction)
         {
-            IResultFormatter<string, IRecordingResultWithDepth> formatter
+            IStringResultWithDepthFormatter formatter
                 = new NestedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
             return formatter.FormatAs(_treeData, filterFunction);
         }

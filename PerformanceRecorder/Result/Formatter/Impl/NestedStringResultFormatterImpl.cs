@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>
+    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>, IStringResultWithDepthFormatter
     {
         public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)

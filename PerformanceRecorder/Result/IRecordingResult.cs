@@ -22,9 +22,4 @@
 
         void AddResult(double result);
     }
-
-    public interface IRecordingResultWithDepth : IRecordingResult
-    {
-        int Depth { get; }
-    }
 }
