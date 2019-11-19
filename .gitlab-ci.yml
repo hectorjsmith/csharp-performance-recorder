@@ -27,10 +27,6 @@ example:
 
 publish:
     stage: publish
-    only:
-    - master
-    - develop
-    - /^v.+$/
     script:
     - ./BuildTools/Build.sh
     artifacts:
