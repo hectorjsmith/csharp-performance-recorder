@@ -1,8 +1,13 @@
 #!/bin/bash
 
 csprojPath=PerformanceRecorder/PerformanceRecorder.csproj
-version=`git describe --tags`
+gitDescribe=`git describe --tags`
+versionTag=`git describe --tags --abbrev=0`
+cleanVersion=`echo ${versionTag} | sed -e "s;v;;g"`
+revList=`git rev-list ${versionTag}..HEAD --count`
 
-echo "Updating version to: ${version}"
+finalVersion=${cleanVersion}.${revList}
 
-sed -e "s;<Version>.*</Version>;<Version>${version}</Version>;g" -i ${csprojPath} -b
+echo "Updating version to: ${finalVersion}"
+
+sed -e "s;<Version>.*</Version>;<Version>${finalVersion}</Version>;g" -e "s;<PackageReleaseNotes>.*</PackageReleaseNotes>;<PackageReleaseNotes>${gitDescribe}</PackageReleaseNotes>;g" -i ${csprojPath} -b
