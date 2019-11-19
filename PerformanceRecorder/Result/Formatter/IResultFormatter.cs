@@ -3,10 +3,10 @@ using System;
 
 namespace PerformanceRecorder.Result.Formatter
 {
-    internal interface IResultFormatter<TOutputType>
+    internal interface IResultFormatter<TOutputType, TRecordingType> where TRecordingType : IRecordingResult
     {
         TOutputType FormatAs(IRecordingTree results);
 
-        TOutputType FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
+        TOutputType FormatAs(IRecordingTree results, Func<TRecordingType, bool> filterFunction);
     }
 }

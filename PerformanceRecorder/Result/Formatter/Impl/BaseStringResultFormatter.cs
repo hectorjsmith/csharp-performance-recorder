@@ -8,7 +8,8 @@ using System.Text.RegularExpressions;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal abstract class BaseStringResultFormatter : IResultFormatter<string>
+    internal abstract class BaseStringResultFormatter<TRecordingType> : IResultFormatter<string, TRecordingType>
+        where TRecordingType : IRecordingResult
     {
         private const string DecimalPointPlaceholder = "_dec_len_";
         
@@ -47,7 +48,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             }
         }
 
-        public abstract string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction);
+        public abstract string FormatAs(IRecordingTree results, Func<TRecordingType, bool> filterFunction);
 
         public string FormatAs(IRecordingTree results)
         {

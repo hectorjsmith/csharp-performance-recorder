@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class PlainStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
+    internal class PlainStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResult>, IStringResultFormatter
     {
         public PlainStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)
