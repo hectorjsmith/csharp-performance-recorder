@@ -28,6 +28,7 @@ example:
 publish:
     stage: publish
     script:
+    - chmod +x BuildTools/*.sh
     - ./BuildTools/Build.sh
     artifacts:
       paths:
