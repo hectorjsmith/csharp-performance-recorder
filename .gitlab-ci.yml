@@ -32,8 +32,7 @@ publish:
     - develop
     - /^v.+$/
     script:
-    - dotnet build --configuration Release
-    - dotnet pack PerformanceRecorder/PerformanceRecorder.csproj --configuration Release
+    - ./BuildTools/Build.sh
     artifacts:
       paths:
       - PerformanceRecorder/bin/Release/*.nupkg
