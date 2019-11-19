@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter
+    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>
     {
         public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)
         {
         }
 
-        public override string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction)
+        public override string FormatAs(IRecordingTree results, Func<IRecordingResultWithDepth, bool> filterFunction)
         {
-            List<IRecordingResult> flatResults = results.Flatten().ToList();
+            List<IRecordingResult> flatResults = results.FlattenAndCombine().ToList();
             int countLenght = FindLengthOfLongestCount(flatResults);
             int fieldLength = FindLengthOfLongestValue(flatResults);
 

@@ -2,8 +2,6 @@
 {
     public interface IRecordingResult
     {
-        int Depth { get; }
-
         string Id { get; }
 
         string Namespace { get; }
@@ -23,5 +21,10 @@
         double Avg { get; }
 
         void AddResult(double result);
+    }
+
+    public interface IRecordingResultWithDepth : IRecordingResult
+    {
+        int Depth { get; }
     }
 }

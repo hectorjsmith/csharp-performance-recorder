@@ -57,7 +57,7 @@ namespace PerformanceRecorder.Recorder.Impl
             if (node == null)
             {
                 int depth = CalculateDepth(parentNode);
-                IRecordingResult result = new RecordingResultImpl(methodDefinition, depth);
+                IRecordingResultWithDepth result = new RecordingResultWithDepthImpl(methodDefinition, depth);
                 if (parentNode == null)
                 {
                     // New top level node

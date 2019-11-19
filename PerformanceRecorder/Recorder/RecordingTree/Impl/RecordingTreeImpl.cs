@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 {
-    internal class RecordingTreeImpl : TreeNodeImpl<IRecordingResult, IRecordingTree>, IRecordingTree
+    internal class RecordingTreeImpl : TreeNodeImpl<IRecordingResultWithDepth, IRecordingTree>, IRecordingTree
     {
-        public RecordingTreeImpl(IRecordingResult value) : base(value)
+        public RecordingTreeImpl(IRecordingResultWithDepth value) : base(value)
         {
         }
 
@@ -21,7 +21,7 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
             return Flatten().GroupBy(r => r.Id).Select(group => new RecordingResultImpl(group));
         }
 
-        public IRecordingTree Filter(Func<IRecordingResult, bool> filterFunction)
+        public IRecordingTree Filter(Func<IRecordingResultWithDepth, bool> filterFunction)
         {
             return FilterTree(this, filterFunction);
         }
@@ -36,12 +36,12 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
             return this;
         }
 
-        protected override IRecordingTree GetNew(IRecordingResult value, IRecordingTree parent)
+        protected override IRecordingTree GetNew(IRecordingResultWithDepth value, IRecordingTree parent)
         {
             return new RecordingTreeImpl(value) { Parent = parent };
         }
 
-        private IRecordingTree FilterTree(IRecordingTree node, Func<IRecordingResult, bool> filterFunction)
+        private IRecordingTree FilterTree(IRecordingTree node, Func<IRecordingResultWithDepth, bool> filterFunction)
         {
             IRecordingTree newTree = new RecordingTreeImpl(node.Value);
             if (node.Value != null && !filterFunction(node.Value))

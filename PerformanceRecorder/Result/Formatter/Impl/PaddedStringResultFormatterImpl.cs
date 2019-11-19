@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class PaddedStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
+    internal class PaddedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResult>
     {
         private const string KeyLengthPlaceholder = "_key_len_";
 

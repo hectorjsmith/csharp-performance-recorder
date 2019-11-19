@@ -23,6 +23,6 @@ namespace PerformanceRecorder.Result
 
         string ToNestedString();
 
-        string ToNestedString(Func<IRecordingResult, bool> filterFunction);
+        string ToNestedString(Func<IRecordingResultWithDepth, bool> filterFunction);
     }
 }
