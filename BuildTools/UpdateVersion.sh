@@ -7,6 +7,9 @@ cleanVersion=`echo ${versionTag} | sed -e "s;v;;g"`
 revList=`git rev-list ${versionTag}..HEAD --count`
 
 finalVersion=${cleanVersion}.${revList}
+if [[ ${revList} == 0 ]]; then
+    finalVersion=${cleanVersion}
+fi
 
 echo "Updating version to: ${finalVersion}"
 
