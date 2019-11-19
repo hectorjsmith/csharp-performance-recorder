@@ -34,7 +34,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         public void TestGivenRecordinTreeWhenChildAddedThenCorrectValueSet()
         {
             IRecordingTree tree = new RecordingTreeImpl();
-            IRecordingResult recording = HelperMethodToGetStandardRecordingResult();
+            IRecordingResultWithDepth recording = HelperMethodToGetStandardRecordingResult();
 
             IRecordingTree subtree = tree.AddChild(recording);
             Assert.AreSame(recording, subtree.Value, "Value in returned subtree does not match value added");
@@ -45,7 +45,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         {
             IRecordingTree tree = new RecordingTreeImpl();
 
-            IRecordingResult recortingToMatch = HelperMethodToGetStandardRecordingResult();
+            IRecordingResultWithDepth recortingToMatch = HelperMethodToGetStandardRecordingResult();
             tree.AddChild(recortingToMatch);
 
             IRecordingTree result = tree.Find(r => r.MethodName == recortingToMatch.MethodName);
@@ -66,7 +66,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
             IRecordingTree subtree = tree.AddChild(HelperMethodToGetStandardRecordingResult());
 
             string methodNameToSearch = "aaa";
-            IRecordingResult recordingToSearch = HelperMethodToGetRecordingResult("n1", "c1", methodNameToSearch);
+            IRecordingResultWithDepth recordingToSearch = HelperMethodToGetRecordingResult("n1", "c1", methodNameToSearch);
             subtree.AddChild(HelperMethodToGetRecordingResult("n1", "c1", "m1"));
             subtree.AddChild(recordingToSearch);
 
@@ -241,14 +241,14 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
             return foundDuplicates;
         }
 
-        private IRecordingResult HelperMethodToGetStandardRecordingResult()
+        private IRecordingResultWithDepth HelperMethodToGetStandardRecordingResult()
         {
-            return new RecordingResultImpl(new MethodDefinitionImpl("n", "c", "m"));
+            return new RecordingResultWithDepthImpl(new MethodDefinitionImpl("n", "c", "m"), 0);
         }
 
-        private IRecordingResult HelperMethodToGetRecordingResult(string namespaceName, string className, string method)
+        private IRecordingResultWithDepth HelperMethodToGetRecordingResult(string namespaceName, string className, string method)
         {
-            return new RecordingResultImpl(new MethodDefinitionImpl(namespaceName, className, method));
+            return new RecordingResultWithDepthImpl(new MethodDefinitionImpl(namespaceName, className, method), 0);
         }
     }
 }

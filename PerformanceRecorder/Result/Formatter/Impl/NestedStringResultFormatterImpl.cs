@@ -5,13 +5,16 @@ using System.Linq;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter
+    internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>, IStringResultWithDepthFormatter
     {
-        private string RawFormatString = "{0} $ " + PaddedResultFormat;
-
-        public override string FormatAs(IRecordingTree results, Func<IRecordingResult, bool> filterFunction)
+        public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
+            : base(includeNamespaceInString, decimalPlacesInResult)
         {
-            List<IRecordingResult> flatResults = results.Flatten().ToList();
+        }
+
+        public override string FormatAs(IRecordingTree results, Func<IRecordingResultWithDepth, bool> filterFunction)
+        {
+            List<IRecordingResult> flatResults = results.FlattenAndCombine().ToList();
             int countLenght = FindLengthOfLongestCount(flatResults);
             int fieldLength = FindLengthOfLongestValue(flatResults);
 
@@ -42,9 +45,11 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             {
                 return "";
             }
-            string formatString = RawFormatString
-                .Replace("_count_len_", "" + maxCountLength)
-                .Replace("_num_len_", "" + maxFieldLength);
+
+            string rawString = "{0} $ " + GetPaddedResultFormat();
+            string formatString = rawString
+                .Replace(CountLengthPlaceholder, "" + maxCountLength)
+                .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
             return string.Format(formatString,
                 GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }

@@ -18,9 +18,9 @@ namespace PerformanceRecorderTest.Result.Formatter
 
             string output = sessionResult.ToPaddedString();
             string expectedOutput
-                = "nnnn.cccc.mmmm2  count:  3  sum: 1240.00  avg:  413.33  max: 1020.00  min:   20.00" + Environment.NewLine
-                + "   nnn.ccc.mmm1  count:  3  sum:  620.00  avg:  206.67  max:  510.00  min:   10.00" + Environment.NewLine
-                + "      nn.cc.mm0  count: 13  sum:    0.00  avg:    0.00  max:    0.00  min:    0.00" + Environment.NewLine;
+                = "nnnn.cccc.mmmm2  count:  3  sum: 1240.000  avg:  413.333  max: 1020.000  min:   20.000" + Environment.NewLine
+                + "   nnn.ccc.mmm1  count:  3  sum:  620.000  avg:  206.667  max:  510.000  min:   10.000" + Environment.NewLine
+                + "      nn.cc.mm0  count: 13  sum:    0.000  avg:    0.000  max:    0.000  min:    0.000" + Environment.NewLine;
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
@@ -35,9 +35,9 @@ namespace PerformanceRecorderTest.Result.Formatter
 
             string output = sessionResult.ToPaddedString();
             string expectedOutput
-                = "cccc.mmmm2  count:  3  sum: 1240.00  avg:  413.33  max: 1020.00  min:   20.00" + Environment.NewLine
-                + "  ccc.mmm1  count:  3  sum:  620.00  avg:  206.67  max:  510.00  min:   10.00" + Environment.NewLine
-                + "    cc.mm0  count: 13  sum:    0.00  avg:    0.00  max:    0.00  min:    0.00" + Environment.NewLine;
+                = "cccc.mmmm2  count:  3  sum: 1240.000  avg:  413.333  max: 1020.000  min:   20.000" + Environment.NewLine
+                + "  ccc.mmm1  count:  3  sum:  620.000  avg:  206.667  max:  510.000  min:   10.000" + Environment.NewLine
+                + "    cc.mm0  count: 13  sum:    0.000  avg:    0.000  max:    0.000  min:    0.000" + Environment.NewLine;
 
             Assert.Greater(output.Length, 0, "Output string length should be greater than 0");
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
@@ -62,11 +62,28 @@ namespace PerformanceRecorderTest.Result.Formatter
             string rawOutput = sessionResult.ToPaddedString();
             string filteredOutput = sessionResult.ToPaddedString(r => r.Sum > 0);
             string expectedOutput
-                = "nnnn.cccc.mmmm2  count:  3  sum: 1240.00  avg:  413.33  max: 1020.00  min:   20.00" + Environment.NewLine
-                + "   nnn.ccc.mmm1  count:  3  sum:  620.00  avg:  206.67  max:  510.00  min:   10.00" + Environment.NewLine;
+                = "nnnn.cccc.mmmm2  count:  3  sum: 1240.000  avg:  413.333  max: 1020.000  min:   20.000" + Environment.NewLine
+                + "   nnn.ccc.mmm1  count:  3  sum:  620.000  avg:  206.667  max:  510.000  min:   10.000" + Environment.NewLine;
 
             Assert.AreEqual(expectedOutput, filteredOutput, "Formatted output did not match expected format");
             Assert.AreNotEqual(rawOutput, filteredOutput, "Filtered output should not match raw output");
+        }
+
+        [Test]
+        public void TestGivenResultCollectionWhenFormattedAsPaddedStringWithZeroDecimalPlacesThenResultFormattedCorrectly()
+        {
+            IRecordingTree results = GenerateMockResults();
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            sessionResult.DecimalPlacesInResults = 0;
+            string output = sessionResult.ToPaddedString();
+
+            string expectedOutput
+                = "nnnn.cccc.mmmm2  count:  3  sum: 1240  avg:  413  max: 1020  min:   20" + Environment.NewLine
+                + "   nnn.ccc.mmm1  count:  3  sum:  620  avg:  207  max:  510  min:   10" + Environment.NewLine
+                + "      nn.cc.mm0  count: 13  sum:    0  avg:    0  max:    0  min:    0" + Environment.NewLine;
+
+            Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
         }
 
         private IRecordingTree GenerateMockResults()
@@ -74,8 +91,8 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = new RecordingTreeImpl();
             for (int i = 0; i < 3; i++)
             {
-                IRecordingResult result = new RecordingResultImpl(
-                    new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i));
+                IRecordingResultWithDepth result = new RecordingResultWithDepthImpl(
+                    new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i), 0);
                 result.AddResult(i * 10);
                 result.AddResult(i * 100);
                 result.AddResult(i * 510);

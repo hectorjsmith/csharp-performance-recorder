@@ -1,17 +1,27 @@
 ﻿using NUnit.Framework;
 using PerformanceRecorder.API;
 using PerformanceRecorder.API.Impl;
+using PerformanceRecorder.Attribute;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
+using System;
+using System.Linq;
 
 namespace PerformanceRecorderTest.API
 {
     internal class PerformanceRecorderApiTest
     {
+        [TearDown]
+        public void TearDown()
+        {
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.ResetRecorder();
+        }
+
         [Test]
         public void TestGivenApiObjectWhenRecordingEnabledThenCorrectRecorderTypeUsed()
         {
@@ -89,6 +99,52 @@ namespace PerformanceRecorderTest.API
             api.ResetRecorder();
             Assert.AreEqual(0, recorder.GetFlatResults().Count,
                 "All results should be cleared from the recorder, even when recording disabled");
+        }
+
+        [Test]
+        public void TestGivenApiInstanceWhenRecordingActionWithNullArgumentsThenExceptionThrown()
+        {
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.EnablePerformanceRecording();
+            Assert.Throws<ArgumentNullException>(() => api.RecordAction(null, () => { }),
+                "Recording an action with null name should throw exception");
+            Assert.Throws<ArgumentNullException>(() => api.RecordAction("", () => { }),
+                "Recording an action with empty name should throw exception");
+            Assert.Throws<ArgumentNullException>(() => api.RecordAction("test", null),
+                "Recording an action with null action should throw exception");
+        }
+
+        [Test]
+        public void TestGivenApiInstanceWhenRecordingActionThenActionAppearsInResults()
+        {
+            string testMethodName = "testMethod";
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.EnablePerformanceRecording();
+            api.RecordAction(testMethodName, () => { });
+
+            bool resultFound = api.GetResults().FlatData().Any(r => r.MethodName == testMethodName);
+            Assert.True(resultFound, "Recorded action should appear in result data");
+        }
+
+        [Test]
+        public void TestGivenApiInstanceWhenRecordingActionThenActionAppearsInResultsUnderCallingMethod()
+        {
+            string testMethodName = "testMethod";
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.EnablePerformanceRecording();
+            HelperMethodToWrapRecordAction(api, testMethodName);
+
+            // TODO: Need a better way to test this, this is messy. Might need to expose the actual result tree.
+            string rawResult = api.GetResults().ToNestedString(r => r.Depth == 0);
+            bool methodFoundInResult = rawResult.Contains(testMethodName);
+            Assert.False(methodFoundInResult,
+                "Recorded action should not have depth 0, it should be nested under another method");
+        }
+
+        [PerformanceLogging]
+        private void HelperMethodToWrapRecordAction(IPerformanceRecorderApi api, string testMethodName)
+        {
+            api.RecordAction(testMethodName, () => { });
         }
 
         private void RecordDummyData(IPerformanceRecorder recorder)

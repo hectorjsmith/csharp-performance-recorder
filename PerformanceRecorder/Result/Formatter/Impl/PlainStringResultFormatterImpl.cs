@@ -6,16 +6,22 @@ using System.Text;
 
 namespace PerformanceRecorder.Result.Formatter.Impl
 {
-    internal class PlainStringResultFormatterImpl : BaseStringResultFormatter, IResultFormatter<string>
+    internal class PlainStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResult>, IStringResultFormatter
     {
+        public PlainStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
+            : base(includeNamespaceInString, decimalPlacesInResult)
+        {
+        }
+
         public override string FormatAs(IRecordingTree treeResults, Func<IRecordingResult, bool> filterFunction)
         {
-            ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
-
+            string formatString = "{0} " + GetPlainResultFormat();
             StringBuilder sb = new StringBuilder();
+
+            ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
             foreach (IRecordingResult result in results.Where(filterFunction).OrderByDescending(r => r.Sum))
             {
-                sb.Append(string.Format("{0}  count: {1}  sum: {2:0.00}  avg: {3:0.00}  max: {4:0.00}  min: {5:0.00}",
+                sb.Append(string.Format(formatString,
                     GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min));
                 sb.Append(Environment.NewLine);
             }

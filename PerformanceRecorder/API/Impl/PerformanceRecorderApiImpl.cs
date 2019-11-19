@@ -1,7 +1,9 @@
 ﻿using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
+using PerformanceRecorder.Recorder.Worker;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
+using System;
 
 namespace PerformanceRecorder.API.Impl
 {
@@ -36,6 +38,28 @@ namespace PerformanceRecorder.API.Impl
         public void ResetRecorder()
         {
             StaticRecorderManager.ResetRecorder();
+        }
+
+        public void RecordAction(string actionName, Action actionToRecord)
+        {
+            if (string.IsNullOrWhiteSpace(actionName))
+            {
+                throw new ArgumentNullException("Action name must not be blank");
+            }
+            if (actionToRecord == null)
+            {
+                throw new ArgumentNullException("Action to run must not be null");
+            }
+
+            StaticRecordingWorker.RegisterMethodBeforeItRuns(actionName, actionToRecord);
+            try
+            {
+                actionToRecord();
+            }
+            finally
+            {
+                StaticRecordingWorker.RecordMethodDurationAfterItRuns();
+            }
         }
     }
 }

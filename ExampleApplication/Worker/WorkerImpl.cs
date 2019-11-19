@@ -1,4 +1,6 @@
-﻿using PerformanceRecorder.Attribute;
+﻿using PerformanceRecorder.API;
+using PerformanceRecorder.API.Impl;
+using PerformanceRecorder.Attribute;
 
 namespace ExampleApplication.Worker
 {
@@ -32,6 +34,11 @@ namespace ExampleApplication.Worker
 
         private void RunPrivateOperationB21()
         {
+            IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.RecordAction("customLowerLevelAction", () =>
+            {
+                // ...
+            });
         }
     }
 }

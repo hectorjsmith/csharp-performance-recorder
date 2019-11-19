@@ -7,6 +7,8 @@ namespace PerformanceRecorder.Result
     {
         bool IncludeNamespaceInString { get; set; }
 
+        int DecimalPlacesInResults { get; set; }
+
         int Count { get; }
 
         ICollection<IRecordingResult> FlatData();
@@ -21,6 +23,6 @@ namespace PerformanceRecorder.Result
 
         string ToNestedString();
 
-        string ToNestedString(Func<IRecordingResult, bool> filterFunction);
+        string ToNestedString(Func<IRecordingResultWithDepth, bool> filterFunction);
     }
 }

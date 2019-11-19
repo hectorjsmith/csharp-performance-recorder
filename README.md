@@ -36,6 +36,20 @@ api.EnablePerformanceRecording();
 api.DisablePerformanceRecording();
 ```
 
+### Record Actions
+
+It is also possible to record any function or operation by using the `RecordAction` method on the API.
+
+For example:
+
+```csharp
+api.RecordAction("myAction", () => {
+    // ...
+});
+```
+
+The provided name is used as the method name in the result data.
+
 ### Logging
 
 The library supports injecting a logger object to be used to log issues using the API.
