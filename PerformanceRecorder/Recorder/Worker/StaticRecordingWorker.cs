@@ -4,7 +4,6 @@ using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PerformanceRecorder.Recorder.Worker
 {

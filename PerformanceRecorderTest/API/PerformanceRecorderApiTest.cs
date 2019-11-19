@@ -137,7 +137,7 @@ namespace PerformanceRecorderTest.API
             // TODO: Need a better way to test this, this is messy. Might need to expose the actual result tree.
             string rawResult = api.GetResults().ToNestedString(r => r.Depth == 0);
             bool methodFoundInResult = rawResult.Contains(testMethodName);
-            Assert.False(methodFoundInResult, 
+            Assert.False(methodFoundInResult,
                 "Recorded action should not have depth 0, it should be nested under another method");
         }
 
