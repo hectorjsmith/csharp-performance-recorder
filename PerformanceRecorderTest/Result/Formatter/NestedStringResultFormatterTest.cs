@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
@@ -104,6 +104,21 @@ namespace PerformanceRecorderTest.Result.Formatter
 ".Replace("\r\n", Environment.NewLine);
 
             Console.WriteLine(output);
+            Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
+        }
+
+        [Test]
+        public void TestGivenBlankResultCollectionWhenFormattedAsNestedStringThenEmptyStringReturned()
+        {
+            // Assemble
+            string expectedOutput = "";
+            IRecordingTree results = GenerateMockResults(0, 0, 0);
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            // Act
+            string output = sessionResult.ToNestedString();
+
+            // Assert
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
         }
 
