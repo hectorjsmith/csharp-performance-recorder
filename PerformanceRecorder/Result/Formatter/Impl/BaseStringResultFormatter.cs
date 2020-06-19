@@ -1,4 +1,4 @@
-﻿using PerformanceRecorder.Manager;
+using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder.RecordingTree;
 using System;
 using System.Collections.Generic;
