@@ -17,8 +17,8 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         public override string FormatAs(IRecordingTree treeResults, Func<IRecordingResult, bool> filterFunction)
         {
-            ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
-            if (results.Count == 0)
+            IList<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
+            if (!results.Any())
             {
                 return "";
             }

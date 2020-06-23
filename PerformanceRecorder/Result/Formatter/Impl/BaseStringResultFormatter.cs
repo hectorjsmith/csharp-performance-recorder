@@ -1,4 +1,4 @@
-﻿using PerformanceRecorder.Manager;
+using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder.RecordingTree;
 using System;
 using System.Collections.Generic;
@@ -67,13 +67,13 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         protected int FindLengthOfLongestCount(ICollection<IRecordingResult> results)
         {
-            double maxSum = results.Select(r => r.Count).Max();
+            double maxSum = results.Select(r => r.Count).DefaultIfEmpty(0).Max();
             return string.Format("{0:0}", maxSum).Length;
         }
 
         protected int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
         {
-            double maxSum = results.Select(r => r.Sum).Max();
+            double maxSum = results.Select(r => r.Sum).DefaultIfEmpty(0).Max();
             string sumFormat = ReplaceDecimalPlacePaddingInString("{0:0" + DecimalPointPlaceholder + "}");
 
             return string.Format(sumFormat, maxSum).Length;
