@@ -1,13 +1,8 @@
 ﻿using AspectInjector.Broker;
 using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
-using PerformanceRecorder.Recorder;
-using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Recorder.Worker;
-using PerformanceRecorder.Result;
-using PerformanceRecorder.Result.Impl;
 using System;
-using System.Collections.Generic;
 
 namespace PerformanceRecorder.Attribute
 {
@@ -64,5 +59,4 @@ namespace PerformanceRecorder.Attribute
             }
         }
     }
-
 }

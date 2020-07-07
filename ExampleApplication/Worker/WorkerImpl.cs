@@ -35,7 +35,8 @@ namespace ExampleApplication.Worker
         private void RunPrivateOperationB21()
         {
             IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
-            api.RecordAction("customLowerLevelAction", () => {
+            api.RecordAction("customLowerLevelAction", () =>
+            {
                 // ...
             });
         }

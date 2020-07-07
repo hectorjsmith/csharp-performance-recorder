@@ -1,9 +1,9 @@
-﻿using System;
-using PerformanceRecorder.Log;
+﻿using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder.Worker;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
+using System;
 
 namespace PerformanceRecorder.API.Impl
 {

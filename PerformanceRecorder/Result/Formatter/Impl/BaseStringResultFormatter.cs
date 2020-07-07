@@ -1,4 +1,4 @@
-﻿using PerformanceRecorder.Manager;
+using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder.RecordingTree;
 using System;
 using System.Collections.Generic;
@@ -11,21 +11,12 @@ namespace PerformanceRecorder.Result.Formatter.Impl
     internal abstract class BaseStringResultFormatter<TRecordingType> : IResultFormatter<string, TRecordingType>
         where TRecordingType : IRecordingResult
     {
-        private const string DecimalPointPlaceholder = "_dec_len_";
-        
         protected const string NumberLengthPlaceholder = "_num_len_";
-
         protected const string CountLengthPlaceholder = "_count_len_";
-
-        private const string PlainResultFormat = " count: {1}  sum: {2:0._dec_len_}  avg: {3:0._dec_len_}  max: {4:0._dec_len_}  min: {5:0._dec_len_}";
-
-        private const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0._dec_len_}  avg: {3,_num_len_:0._dec_len_}  max: {4,_num_len_:0._dec_len_}  min: {5,_num_len_:0._dec_len_}";
-
+        protected const string DecimalPointPlaceholder = "_dec_len_";
         protected const string DolarSignCharacter = "$";
-
-        protected bool IncludeNamespaceInString { get;  }
-
-        protected int DecimalPlacesInResult { get; }
+        private const string PlainResultFormat = " count: {1}  sum: {2:0._dec_len_}  avg: {3:0._dec_len_}  max: {4:0._dec_len_}  min: {5:0._dec_len_}";
+        private const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0._dec_len_}  avg: {3,_num_len_:0._dec_len_}  max: {4,_num_len_:0._dec_len_}  min: {5,_num_len_:0._dec_len_}";
 
         protected BaseStringResultFormatter(bool includeNamespaceInString, int decimalPlacesInResult)
         {
@@ -48,6 +39,10 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             }
         }
 
+        protected bool IncludeNamespaceInString { get; }
+
+        protected int DecimalPlacesInResult { get; }
+
         public abstract string FormatAs(IRecordingTree results, Func<TRecordingType, bool> filterFunction);
 
         public string FormatAs(IRecordingTree results)
@@ -65,18 +60,6 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             return ReplaceDecimalPlacePaddingInString(PaddedResultFormat);
         }
 
-        private string ReplaceDecimalPlacePaddingInString(string formatString)
-        {
-            if (DecimalPlacesInResult > 0)
-            {
-                return formatString.Replace(DecimalPointPlaceholder, "." + RepeatString("0", DecimalPlacesInResult));
-            }
-            else
-            {
-                return formatString.Replace(DecimalPointPlaceholder, "");
-            }
-        }
-
         protected int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
         {
             return results.Select(r => GenerateResultName(r).Length).Max();
@@ -84,13 +67,13 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         protected int FindLengthOfLongestCount(ICollection<IRecordingResult> results)
         {
-            double maxSum = results.Select(r => r.Count).Max();
+            double maxSum = results.Select(r => r.Count).DefaultIfEmpty(0).Max();
             return string.Format("{0:0}", maxSum).Length;
         }
 
         protected int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
         {
-            double maxSum = results.Select(r => r.Sum).Max();
+            double maxSum = results.Select(r => r.Sum).DefaultIfEmpty(0).Max();
             string sumFormat = ReplaceDecimalPlacePaddingInString("{0:0" + DecimalPointPlaceholder + "}");
 
             return string.Format(sumFormat, maxSum).Length;
@@ -131,6 +114,18 @@ namespace PerformanceRecorder.Result.Formatter.Impl
                 sb.Append(input);
             }
             return sb.ToString();
+        }
+
+        private string ReplaceDecimalPlacePaddingInString(string formatString)
+        {
+            if (DecimalPlacesInResult > 0)
+            {
+                return formatString.Replace(DecimalPointPlaceholder, "." + RepeatString("0", DecimalPlacesInResult));
+            }
+            else
+            {
+                return formatString.Replace(DecimalPointPlaceholder, "");
+            }
         }
     }
 }

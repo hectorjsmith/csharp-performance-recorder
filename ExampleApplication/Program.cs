@@ -21,7 +21,8 @@ namespace ExampleApplication
             app.RunPreApplication();
             app.RunApplication();
 
-            api.RecordAction("customTopLevelAction", () => {
+            api.RecordAction("customTopLevelAction", () =>
+            {
                 // ...
             });
 
