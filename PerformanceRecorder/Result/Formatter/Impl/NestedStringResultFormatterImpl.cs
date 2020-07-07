@@ -14,7 +14,12 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         public override string FormatAs(IRecordingTree results, Func<IRecordingResultWithDepth, bool> filterFunction)
         {
-            List<IRecordingResult> flatResults = results.FlattenAndCombine().ToList();
+            IList<IRecordingResult> flatResults = results.FlattenAndCombine().ToList();
+            if (!flatResults.Any())
+            {
+                return "";
+            }
+
             int countLenght = FindLengthOfLongestCount(flatResults);
             int fieldLength = FindLengthOfLongestValue(flatResults);
 

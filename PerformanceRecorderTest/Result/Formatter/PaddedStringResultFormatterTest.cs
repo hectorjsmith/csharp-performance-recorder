@@ -86,6 +86,21 @@ namespace PerformanceRecorderTest.Result.Formatter
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
         }
 
+        [Test]
+        public void TestGivenBlankResultCollectionWhenFormattedAsPaddedStringThenEmptyStringReturned()
+        {
+            // Assemble
+            string expectedOutput = "";
+            IRecordingTree results = new RecordingTreeImpl();
+            IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+
+            // Act
+            string output = sessionResult.ToPaddedString();
+
+            // Assert
+            Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");
+        }
+
         private IRecordingTree GenerateMockResults()
         {
             IRecordingTree results = new RecordingTreeImpl();
