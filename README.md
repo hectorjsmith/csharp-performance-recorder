@@ -1,6 +1,6 @@
 # C# Performance Recorder
 
-[![pipeline status](https://gitlab.com/hectorjsmith/csharp-performance-recorder/badges/master/pipeline.svg)](https://gitlab.com/hectorjsmith/csharp-performance-recorder/commits/master)
+[![pipeline status](https://gitlab.com/hectorjsmith/csharp-performance-recorder/badges/develop/pipeline.svg)](https://gitlab.com/hectorjsmith/csharp-performance-recorder/commits/develop)
 
 C# performance recorder library using aspect oriented programming.
 
