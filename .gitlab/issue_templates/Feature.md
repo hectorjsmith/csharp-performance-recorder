@@ -1,13 +1,13 @@
 **Requirement**
 
-(Exact description of desired functionality)
+(Exact description of the desired functionality)
 
-**Value Proposition**
+**Value proposition**
 
 (Description of what value arises from implementing this solution e.g. what problem does it solve)
 
-**Design Ideas**
+**Design ideas**
 
-(If you have any idea about how this would be implemented/designed jot it down here. Doesn't have to be complete.)
+(Add any thoughts or ideas on how to implement this functionality)
 
 /label ~"type::feature" 
