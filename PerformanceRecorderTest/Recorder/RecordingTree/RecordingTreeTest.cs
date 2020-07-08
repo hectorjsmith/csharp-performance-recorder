@@ -15,7 +15,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         public void TestGivenRecordingTreeWhenChildAddedThenChildCountIncreases()
         {
             IRecordingTree tree = new RecordingTreeImpl();
-            Assert.AreEqual(0, tree.ChildCount, "GIVEN: Child cound should be null on new tree");
+            Assert.AreEqual(0, tree.ChildCount, "GIVEN: Child count should be null on new tree");
 
             tree.AddChild(HelperMethodToGetStandardRecordingResult());
             Assert.AreEqual(1, tree.ChildCount, "Child count should be 1 after adding a child");
@@ -31,7 +31,7 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         }
 
         [Test]
-        public void TestGivenRecordinTreeWhenChildAddedThenCorrectValueSet()
+        public void TestGivenRecordingTreeWhenChildAddedThenCorrectValueSet()
         {
             IRecordingTree tree = new RecordingTreeImpl();
             IRecordingResultWithDepth recording = HelperMethodToGetStandardRecordingResult();
@@ -45,17 +45,17 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
         {
             IRecordingTree tree = new RecordingTreeImpl();
 
-            IRecordingResultWithDepth recortingToMatch = HelperMethodToGetStandardRecordingResult();
-            tree.AddChild(recortingToMatch);
+            IRecordingResultWithDepth recordingToMatch = HelperMethodToGetStandardRecordingResult();
+            tree.AddChild(recordingToMatch);
 
-            IRecordingTree result = tree.Find(r => r.MethodName == recortingToMatch.MethodName);
+            IRecordingTree result = tree.Find(r => r.MethodName == recordingToMatch.MethodName);
             Assert.NotNull(result, "Result should not be null, a result was expected when using a matching function");
-            Assert.AreEqual(recortingToMatch.MethodName, result.Value.MethodName,
+            Assert.AreEqual(recordingToMatch.MethodName, result.Value.MethodName,
                 "Method name in result should match name being searched for");
 
-            result = tree.Find(recortingToMatch);
+            result = tree.Find(recordingToMatch);
             Assert.NotNull(result, "Result should not be null, a result was expected when matching by class");
-            Assert.AreEqual(recortingToMatch.Id, result.Value.Id,
+            Assert.AreEqual(recordingToMatch.Id, result.Value.Id,
                 "Result ID should match recording data being searched for");
         }
 
@@ -123,13 +123,14 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
 
             Assert.AreEqual(topLevelCount, tree.ChildCount, "GIVEN: Child count of top tree should match expected");
 
-            IEnumerable<IRecordingResult> flatList = tree.Flatten();
-            Assert.NotNull(flatList, "Flat list should not be null");
+            IEnumerable<IRecordingResult> flatResults = tree.Flatten();
+            Assert.NotNull(flatResults, "Flat list should not be null");
 
-            AssertNoDuplicatesInFlatList(flatList);
+            IList<IRecordingResult> flatResultList = flatResults.ToList();
+            AssertNoDuplicatesInFlatList(flatResultList);
 
             int expectedNumber = topLevelCount + topLevelCount * midLevelCount + topLevelCount * midLevelCount * bottomLevelCount;
-            Assert.AreEqual(expectedNumber, flatList.Count(),
+            Assert.AreEqual(expectedNumber, flatResultList.Count(),
                 "Total number of entries in flat list should match expected");
         }
 
@@ -159,11 +160,11 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
             foreach (IRecordingTree child in tree.Children())
             {
                 Assert.NotNull(child.Value, "Value should not be null in child nodes");
-                Assert.AreEqual(0, child.Value.Depth, "Childen of the root node should be at depth 0");
+                Assert.AreEqual(0, child.Value.Depth, "Children of the root node should be at depth 0");
                 foreach (IRecordingTree subChild in child.Children())
                 {
                     Assert.NotNull(child.Value, "Value should not be null in sub-child nodes");
-                    Assert.AreEqual(1, subChild.Value.Depth, "Childen of the child node should be at depth 1");
+                    Assert.AreEqual(1, subChild.Value.Depth, "Children of the child node should be at depth 1");
                 }
             }
         }
@@ -196,11 +197,8 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
             var methodB = HelperMethodToGetRecordingResult("n", "C", "B");
             IRecordingTree tree = new RecordingTreeImpl();
 
-            IRecordingTree subTree;
-            IRecordingTree subSubTree;
-
-            subTree = tree.AddChild(HelperMethodToGetRecordingResult("n", "c", "01"));
-            subSubTree = subTree.AddChild(methodA);
+            IRecordingTree subTree = tree.AddChild(HelperMethodToGetRecordingResult("n", "c", "01"));
+            IRecordingTree subSubTree = subTree.AddChild(methodA);
             subSubTree.AddChild(methodB);
             subTree = tree.AddChild(HelperMethodToGetRecordingResult("n", "c", "02"));
             subTree.AddChild(methodB);
