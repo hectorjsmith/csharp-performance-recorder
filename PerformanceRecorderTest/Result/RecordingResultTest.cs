@@ -89,13 +89,13 @@ namespace PerformanceRecorderTest.Result
         {
             return new List<int[]>()
             {
-                new int[] { 1, 1 },
-                new int[] { 1, 1, 1 },
-                new int[] { 1 },
-                new int[] { 0 },
+                new [] { 1, 1 },
+                new [] { 1, 1, 1 },
+                new [] { 1 },
+                new [] { 0 },
                 new int[] { },
-                new int[] { 10, 20 },
-                new int[] { 20, 10},
+                new [] { 10, 20 },
+                new [] { 20, 10},
             };
         }
 

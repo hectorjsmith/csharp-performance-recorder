@@ -123,13 +123,14 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
 
             Assert.AreEqual(topLevelCount, tree.ChildCount, "GIVEN: Child count of top tree should match expected");
 
-            IEnumerable<IRecordingResult> flatList = tree.Flatten();
-            Assert.NotNull(flatList, "Flat list should not be null");
+            IEnumerable<IRecordingResult> flatResults = tree.Flatten();
+            Assert.NotNull(flatResults, "Flat list should not be null");
 
-            AssertNoDuplicatesInFlatList(flatList);
+            IList<IRecordingResult> flatResultList = flatResults.ToList();
+            AssertNoDuplicatesInFlatList(flatResultList);
 
             int expectedNumber = topLevelCount + topLevelCount * midLevelCount + topLevelCount * midLevelCount * bottomLevelCount;
-            Assert.AreEqual(expectedNumber, flatList.Count(),
+            Assert.AreEqual(expectedNumber, flatResultList.Count(),
                 "Total number of entries in flat list should match expected");
         }
 

@@ -17,6 +17,12 @@ namespace PerformanceRecorderTest.Recorder
 {
     internal class PerformanceRecorderTest
     {
+        [TearDown]
+        public void TearDown()
+        {
+            StaticRecorderManager.ResetRecorder();
+        }
+
         [Test]
         public void TestGivenActiveRecorderWhenShortMethodRecordedThenNoPrecisionLost()
         {
@@ -90,12 +96,9 @@ namespace PerformanceRecorderTest.Recorder
         public void TestGivenActiveRecorderWhenInstrumentedMethodThrowsExceptionThenMethodTimeStillRecorded()
         {
             int sleepBefore = 10;
-            int sleepAfter = 10;
 
-            Assert.Throws<ArgumentException>(() => HelperFunctionToThrowException(1, 1),
+            Assert.Throws<ArgumentException>(() => HelperFunctionToThrowException(sleepBefore),
                 "GIVEN: Helper method does not throw an exception");
-
-            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToThrowException(sleepBefore, sleepAfter));
 
             ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(1, results.Count, "One result was expected, even when exception thrown");
@@ -112,7 +115,6 @@ namespace PerformanceRecorderTest.Recorder
             StaticRecorderManager.Logger = logger;
 
             ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
-            MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
             RecordingTreeImpl methodNode = new RecordingTreeImpl();
             Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1));
 
@@ -125,7 +127,6 @@ namespace PerformanceRecorderTest.Recorder
             StaticRecorderManager.Logger = null;
 
             ActivePerformanceRecorderImpl recorder = new ActivePerformanceRecorderImpl();
-            MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
             RecordingTreeImpl methodNode = new RecordingTreeImpl();
             Assert.Throws<ArgumentException>(() => recorder.RecordMethodDuration(methodNode, -1),
                 "Adding a negative value should trigger an ArgumentException and log the error."
@@ -164,12 +165,6 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [PerformanceLogging]
-        private void HelperFunctionToRecordTotalTimeOf1Second()
-        {
-            System.Threading.Thread.Sleep(1000);
-        }
-
-        [PerformanceLogging]
         private void HelperFunctionNestedA()
         {
             for (int i = 1; i < 10; i++)
@@ -185,11 +180,10 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [PerformanceLogging]
-        private void HelperFunctionToThrowException(int sleepBefore, int sleepAfter)
+        private void HelperFunctionToThrowException(int sleepBefore)
         {
             System.Threading.Thread.Sleep(sleepBefore);
             throw new ArgumentException("Planned exception during helper function");
-            System.Threading.Thread.Sleep(sleepAfter);
         }
     }
 
