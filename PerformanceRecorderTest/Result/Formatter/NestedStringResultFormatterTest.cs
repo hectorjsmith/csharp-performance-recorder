@@ -40,7 +40,7 @@ namespace PerformanceRecorderTest.Result.Formatter
         }
 
         [Test]
-        public void TestGivenResultCollectionWhenFormattedAsNestedtringWithFilterThenFilterIsRespected()
+        public void TestGivenResultCollectionWhenFormattedAsNestedStringWithFilterThenFilterIsRespected()
         {
             IRecordingTree results = GenerateMockResults(2, 2, 2);
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
@@ -65,7 +65,7 @@ namespace PerformanceRecorderTest.Result.Formatter
         }
 
         [Test]
-        public void TestGivenResultCollectionWhenFormattedAsNestedtringWithDepthFilterThenFilterIsRespected()
+        public void TestGivenResultCollectionWhenFormattedAsNestedStringWithDepthFilterThenFilterIsRespected()
         {
             IRecordingTree results = GenerateMockResults(2, 2, 2);
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
