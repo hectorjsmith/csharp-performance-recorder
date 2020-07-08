@@ -57,41 +57,6 @@ namespace PerformanceRecorderTest.Recorder
         }
 
         [Test]
-        public void TestGivenActiveRecorderWhenManyShortMethodsRecordedThenTotalActualTimeAndTotalRecordedTimeWithin5PercentDelta()
-        {
-            int runCount = 5_000;
-            double actualExecutionTime = HelperFunctionToRunTimedTest(() =>
-            {
-                for (int i = 0; i < runCount; i++)
-                {
-                    HelperFunctionToRecordAverageTimeBetween0And1Ms(i);
-                }
-            });
-
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
-            Assert.AreEqual(1, results.Count, "Only one result was expected");
-
-            IRecordingResult firstResult = results.First();
-            double percentOfActual = actualExecutionTime * 0.05;
-            Assert.AreEqual(actualExecutionTime, firstResult.Sum, percentOfActual,
-                "Recorded execution time should be within 5% of actual execution time");
-        }
-
-        [Test]
-        public void TestGivenActiveRecorderWhenSingleLongMethodRecordedThenTotalActualTimeAndTotalRecordedTimeWithin1PercentDelta()
-        {
-            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionToRecordTotalTimeOf1Second());
-
-            ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
-            Assert.AreEqual(1, results.Count, "Only one result was expected");
-
-            IRecordingResult firstResult = results.First();
-            double tenPercentOfActual = actualExecutionTime * 0.01;
-            Assert.AreEqual(actualExecutionTime, firstResult.Sum, tenPercentOfActual,
-                "Recorded execution time should be within 1% of actual execution time");
-        }
-
-        [Test]
         public void TestGivenActiveRecorderWhenAddingNegativeDurationThenExceptionThrown()
         {
             IPerformanceRecorder recorder = new ActivePerformanceRecorderImpl();
@@ -110,7 +75,7 @@ namespace PerformanceRecorderTest.Recorder
         [Test]
         public void TestGivenActiveRecorderWhenCallingNestedFunctionsThenOuterFunctionsAlwaysTakeLongerThanInner()
         {
-            double actualExecutionTime = HelperFunctionToRunTimedTest(() => HelperFunctionNestedA());
+            HelperFunctionToRunTimedTest(() => HelperFunctionNestedA());
             ICollection<IRecordingResult> results = StaticRecorderManager.GetRecorder().GetFlatResults();
             Assert.AreEqual(2, results.Count, "Tow results were expected");
 
