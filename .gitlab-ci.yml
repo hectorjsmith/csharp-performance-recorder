@@ -22,7 +22,11 @@ package:
 test:
     stage: test
     script:
-    - dotnet test PerformanceRecorderTest/PerformanceRecorderTest.csproj
+    - 'dotnet test PerformanceRecorderTest/PerformanceRecorderTest.csproj --test-adapter-path:. --logger:"junit;LogFilePath=..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"'
+    artifacts:
+      reports:
+        junit:
+        - ./**/*test-result.xml
 
 example:
     stage: test
