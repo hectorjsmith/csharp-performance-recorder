@@ -3,6 +3,7 @@ using PerformanceRecorder.Log;
 using PerformanceRecorder.Manager;
 using PerformanceRecorder.Recorder.Worker;
 using System;
+using System.Reflection;
 
 namespace PerformanceRecorder.Attribute
 {
@@ -14,10 +15,11 @@ namespace PerformanceRecorder.Attribute
 
         [Advice(Kind.Around)]
         public object HandleAround(
-            [Argument(Source.Name)] string methodName,
+            [Argument(Source.Metadata)] MethodBase metadata,
             [Argument(Source.Arguments)] object[] arguments,
             [Argument(Source.Target)] Func<object[], object> method)
         {
+            string methodName = GetMethodName(metadata);
             try
             {
                 return method(arguments);
@@ -25,16 +27,17 @@ namespace PerformanceRecorder.Attribute
             catch (Exception ex)
             {
                 Logger.Error("Exception in method: " + methodName, ex);
-                HandleAfter(methodName);
+                HandleAfter(metadata);
                 throw;
             }
         }
 
         [Advice(Kind.Before)]
         public void HandleBefore(
-            [Argument(Source.Name)] string methodName,
+            [Argument(Source.Metadata)] MethodBase metadata,
             [Argument(Source.Instance)] object instance)
         {
+            string methodName = GetMethodName(metadata);
             try
             {
                 StaticRecordingWorker.RegisterMethodBeforeItRuns(methodName, instance);
@@ -47,8 +50,9 @@ namespace PerformanceRecorder.Attribute
 
         [Advice(Kind.After)]
         public void HandleAfter(
-            [Argument(Source.Name)] string methodName)
+            [Argument(Source.Metadata)] MethodBase metadata)
         {
+            string methodName = GetMethodName(metadata);
             try
             {
                 StaticRecordingWorker.RecordMethodDurationAfterItRuns();
@@ -57,6 +61,11 @@ namespace PerformanceRecorder.Attribute
             {
                 Logger.Error("Exception in HandleAfter code for method: " + methodName, ex);
             }
+        }
+
+        private string GetMethodName(MethodBase methodBase)
+        {
+            return methodBase.Name;
         }
     }
 }

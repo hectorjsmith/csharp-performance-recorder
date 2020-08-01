@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Generating a nested result string from a blank result tree returns an empty string instead of throwing an exception (#38)
 
+### Changed
+- Recording properties will now generate separate entries for the getter and the setter and prefix them with `get_` and `set_` respectively (#31)
+
 ### Added
 - Add changelog file (#35)
 

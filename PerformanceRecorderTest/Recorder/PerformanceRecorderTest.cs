@@ -114,6 +114,21 @@ namespace PerformanceRecorderTest.Recorder
                 + " When the logger is null, this should not trigger a NullReferenceException");
         }
 
+        [Test]
+        public void Given_ActiveRecorder_When_RecordingProperties_Then_GettersAndSettersAreLabelled()
+        {
+            StaticRecorderManager.IsRecordingEnabled = true;
+
+            int _ = HelperPropertyToRecord10MsOnGetAndSet;
+            HelperPropertyToRecord10MsOnGetAndSet = 10;
+
+            var results = StaticRecorderManager.GetResults().FlattenAndCombine().ToList();
+            Assert.AreEqual(1, results.Count(r => r.MethodName == "get_HelperPropertyToRecord10MsOnGetAndSet"),
+                "Recording results do not include the expected getter");
+            Assert.AreEqual(1, results.Count(r => r.MethodName == "set_HelperPropertyToRecord10MsOnGetAndSet"),
+                "Recording results do not include the expected setter");
+        }
+
         private double HelperFunctionToRunTimedTest(Action actionToRun)
         {
             StaticRecorderManager.IsRecordingEnabled = true;
@@ -132,6 +147,13 @@ namespace PerformanceRecorderTest.Recorder
 
             stopwatch.Stop();
             return stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        [PerformanceLogging]
+        private int HelperPropertyToRecord10MsOnGetAndSet
+        {
+            get { System.Threading.Thread.Sleep(10); return 0; }
+            set => System.Threading.Thread.Sleep(10);
         }
 
         [PerformanceLogging]
