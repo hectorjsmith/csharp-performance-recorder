@@ -3,17 +3,21 @@ image: microsoft/dotnet:latest
 stages:
     - build
     - test
-    - publish
 
 before_script:
     - apt-get update
     - apt-get install nuget -y
     - nuget restore
 
-build:
+package:
     stage: build
     script:
-        - dotnet build
+    - chmod +x BuildTools/*.sh
+    - ./BuildTools/Build.sh
+    artifacts:
+      paths:
+      - PerformanceRecorder/bin/Release/*.nupkg
+      expire_in: 1 day
 
 test:
     stage: test
@@ -25,16 +29,3 @@ example:
     script:
     - dotnet run --project ExampleApplication/ExampleApplication.csproj
 
-publish:
-    stage: publish
-    only:
-    - master
-    - develop
-    - /^v.+$/
-    script:
-    - chmod +x BuildTools/*.sh
-    - ./BuildTools/Build.sh
-    artifacts:
-      paths:
-      - PerformanceRecorder/bin/Release/*.nupkg
-      expire_in: 1 day
