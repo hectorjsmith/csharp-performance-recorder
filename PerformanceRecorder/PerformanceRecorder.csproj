@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspectInjector" Version="2.2.5" />
+    <PackageReference Include="AspectInjector" Version="2.2.5" PrivateAssets="None" />
   </ItemGroup>
 
   <ItemGroup>
