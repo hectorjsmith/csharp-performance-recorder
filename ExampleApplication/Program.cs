@@ -12,6 +12,7 @@ namespace ExampleApplication
         {
             // Create a new instance of the performance logging API
             IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
+            api.SetLogger(new ConsoleLogger());
 
             // Enable performance logging (this will enable all attributes)
             api.EnablePerformanceRecording();
