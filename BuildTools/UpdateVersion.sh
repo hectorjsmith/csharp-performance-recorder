@@ -6,7 +6,7 @@ versionTag=`git describe --tags --abbrev=0`
 cleanVersion=`echo ${versionTag} | sed -e "s;v;;g"`
 revList=`git rev-list ${versionTag}..HEAD --count`
 
-finalVersion=${cleanVersion}.${revList}
+finalVersion=${cleanVersion}-dev${revList}
 if [[ ${revList} == 0 ]]; then
     finalVersion=${cleanVersion}
 fi
