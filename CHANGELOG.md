@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_No unreleased changes_
+
+## [0.5.0] - 2020-08-05
+
 ### Fixed
 - Generating a nested result string from a blank result tree returns an empty string instead of throwing an exception (#38)
+- Fixed aspect injections not working when referencing the .nupkg file without adding a dependency on AspectInjector (#44)
 
 ### Changed
 - Recording properties will now generate separate entries for the getter and the setter and prefix them with `get_` and `set_` respectively (#31)
+- Updated AspectInjector to version `2.4.1` (#34)
 
 ### Added
 - Add changelog file (#35)
