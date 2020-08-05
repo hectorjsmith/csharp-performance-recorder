@@ -15,7 +15,6 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <Title>Performance Recorder</Title>
     <PackageProjectUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder</PackageProjectUrl>
-    <PackageLicenseUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder/-/blob/develop/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +24,7 @@
   <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 </Project>
