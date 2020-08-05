@@ -13,4 +13,4 @@ fi
 
 echo "Updating version to: ${finalVersion}"
 
-sed -e "s;<Version>.*</Version>;<Version>${finalVersion}</Version>;g" -e "s;<PackageReleaseNotes>.*</PackageReleaseNotes>;<PackageReleaseNotes>${gitDescribe}</PackageReleaseNotes>;g" -i ${csprojPath} -b
+sed -e "s;<Version>.*</Version>;<Version>${finalVersion}</Version>;g" -i ${csprojPath} -b

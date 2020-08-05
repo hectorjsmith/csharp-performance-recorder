@@ -8,13 +8,17 @@
     <Authors>hectorjsmith</Authors>
     <Copyright>2019 Hector</Copyright>
     <Description>C# Performance recorder library using aspect oriented programming</Description>
-    <Summary>C# Performance recorder library using aspect oriented programming</Summary>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder</RepositoryUrl>
     <PackageTags>Performance</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>
+      - Generating a nested result string from a blank result tree returns an empty string instead of throwing an exception (#38)
+      - Recording properties will now generate separate entries for the getter and the setter and prefix them with `get_` and `set_` respectively (#31)
+      - Add changelog file (#35)
+    </PackageReleaseNotes>
     <Title>Performance Recorder</Title>
     <PackageProjectUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
