@@ -1,10 +1,5 @@
-*.swp
-*.*~
-project.lock.json
-.DS_Store
-*.pyc
-nupkg/
-.vs
+# Rider Specific
+.idea/
 
 # Visual Studio Code
 .vscode
@@ -30,3 +25,12 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+# Misc
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+.vs
