@@ -12,8 +12,8 @@ before_script:
 package:
     stage: build
     script:
-    - chmod +x BuildTools/*.sh
-    - ./BuildTools/Build.sh
+    - chmod +x tools/build/*.sh
+    - ./tools/build/build.sh
     artifacts:
       paths:
       - PerformanceRecorder/bin/Release/*.nupkg
@@ -32,4 +32,3 @@ example:
     stage: test
     script:
     - dotnet run --project ExampleApplication/ExampleApplication.csproj
-
