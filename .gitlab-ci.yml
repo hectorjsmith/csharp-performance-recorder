@@ -6,7 +6,7 @@ stages:
 
 before_script:
     - apt-get update
-    - apt-get install nuget -y
+    - apt-get install nuget build-essential -y
     - nuget restore
 
 package:
