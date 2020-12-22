@@ -34,3 +34,6 @@ project.lock.json
 *.pyc
 nupkg/
 .vs
+
+# Exclusions
+!tools/build/
