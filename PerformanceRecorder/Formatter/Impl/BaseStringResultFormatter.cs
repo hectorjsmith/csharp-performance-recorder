@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using PerformanceRecorder.Result;
 
-namespace PerformanceRecorder.Result.Formatter.Impl
+namespace PerformanceRecorder.Formatter.Impl
 {
     internal abstract class BaseStringResultFormatter<TRecordingType> : IResultFormatter<string, TRecordingType>
         where TRecordingType : IRecordingResult
@@ -43,9 +44,9 @@ namespace PerformanceRecorder.Result.Formatter.Impl
 
         protected int DecimalPlacesInResult { get; }
 
-        public abstract string FormatAs(IRecordingTree results, Func<TRecordingType, bool> filterFunction);
+        public abstract string FormatAs(IRecordingSessionResult results, Func<TRecordingType, bool> filterFunction);
 
-        public string FormatAs(IRecordingTree results)
+        public string FormatAs(IRecordingSessionResult results)
         {
             return FormatAs(results, r => true);
         }

@@ -1,11 +1,13 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
+using PerformanceRecorder.API;
+using PerformanceRecorder.Formatter;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
-using System;
 
-namespace PerformanceRecorderTest.Result.Formatter
+namespace PerformanceRecorderTest.Formatter
 {
     internal class PlainStringResultFormatterTest
     {
@@ -15,7 +17,9 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string output = sessionResult.ToRawString();
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPlainStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
+            
             string expectedOutput = "n.c.m1  count: 2  sum: 110.000  avg: 55.000  max: 100.000  min: 10.000"
                 + Environment.NewLine
                 + "n.c.m0  count: 2  sum: 0.000  avg: 0.000  max: 0.000  min: 0.000"
@@ -30,9 +34,13 @@ namespace PerformanceRecorderTest.Result.Formatter
         {
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
-            sessionResult.IncludeNamespaceInString = false;
-
-            string output = sessionResult.ToRawString();
+            
+            IFormatterFactoryApi formatterFactory = new FormatterFactoryApiImpl();
+            formatterFactory.IncludeNamespaceInString = false;
+            
+            IStringResultFormatter formatter = formatterFactory.NewPlainStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
+            
             string expectedOutput
                 = "c.m1  count: 2  sum: 110.000  avg: 55.000  max: 100.000  min: 10.000" + Environment.NewLine
                 + "c.m0  count: 2  sum: 0.000  avg: 0.000  max: 0.000  min: 0.000" + Environment.NewLine;
@@ -46,8 +54,10 @@ namespace PerformanceRecorderTest.Result.Formatter
         {
             IRecordingTree results = new RecordingTreeImpl();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
+            
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPlainStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
-            string output = sessionResult.ToRawString();
             Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
@@ -57,8 +67,10 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string rawOutput = sessionResult.ToRawString();
-            string filteredOutput = sessionResult.ToRawString(r => r.Sum > 0);
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPlainStringResultFormatter();
+            string rawOutput = formatter.FormatAs(sessionResult);
+            string filteredOutput = formatter.FormatAs(sessionResult, r => r.Sum > 0);
+            
             string expectedOutput
                 = "n.c.m1  count: 2  sum: 110.000  avg: 55.000  max: 100.000  min: 10.000" + Environment.NewLine;
 
@@ -72,8 +84,11 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            sessionResult.DecimalPlacesInResults = 0;
-            string output = sessionResult.ToRawString();
+            IFormatterFactoryApi formatterFactory = new FormatterFactoryApiImpl();
+            formatterFactory.DecimalPlacesInResults = 0;
+            
+            IStringResultFormatter formatter = formatterFactory.NewPlainStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
             string expectedOutput
                 = "n.c.m1  count: 2  sum: 110  avg: 55  max: 100  min: 10" + Environment.NewLine
@@ -91,7 +106,8 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             // Act
-            string output = sessionResult.ToRawString();
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPlainStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
             // Assert
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");

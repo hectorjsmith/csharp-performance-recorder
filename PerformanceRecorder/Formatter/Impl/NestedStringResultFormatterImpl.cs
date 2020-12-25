@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PerformanceRecorder.Result;
 
-namespace PerformanceRecorder.Result.Formatter.Impl
+namespace PerformanceRecorder.Formatter.Impl
 {
     internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>, IStringResultWithDepthFormatter
     {
@@ -12,9 +13,9 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         {
         }
 
-        public override string FormatAs(IRecordingTree results, Func<IRecordingResultWithDepth, bool> filterFunction)
+        public override string FormatAs(IRecordingSessionResult results, Func<IRecordingResultWithDepth, bool> filterFunction)
         {
-            IList<IRecordingResult> flatResults = results.FlattenAndCombine().ToList();
+            IList<IRecordingResult> flatResults = results.FlatData().ToList();
             if (!flatResults.Any())
             {
                 return "";
@@ -23,7 +24,7 @@ namespace PerformanceRecorder.Result.Formatter.Impl
             int countLenght = FindLengthOfLongestCount(flatResults);
             int fieldLength = FindLengthOfLongestValue(flatResults);
 
-            IRecordingTree filteredTree = results.Filter(filterFunction);
+            IRecordingTree filteredTree = results.RecordingTree.Filter(filterFunction);
             return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLenght, fieldLength));
         }
 

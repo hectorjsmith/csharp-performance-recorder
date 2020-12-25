@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder.RecordingTree
 {
-    internal interface ITreeNode<TValue, TRec> where TRec : ITreeNode<TValue, TRec>
+    public interface ITreeNode<TValue, TRec> where TRec : ITreeNode<TValue, TRec>
     {
         int ChildCount { get; }
 

@@ -10,6 +10,7 @@ using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
 using System;
 using System.Linq;
+using PerformanceRecorder.Formatter;
 
 namespace PerformanceRecorderTest.API
 {
@@ -133,10 +134,13 @@ namespace PerformanceRecorderTest.API
             IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
             api.EnablePerformanceRecording();
             HelperMethodToWrapRecordAction(api, testMethodName);
-
-            // TODO: Need a better way to test this, this is messy. Might need to expose the actual result tree.
-            string rawResult = api.GetResults().ToNestedString(r => r.Depth == 0);
-            bool methodFoundInResult = rawResult.Contains(testMethodName);
+            
+            bool methodFoundInResult = api
+                .GetResults()
+                .RecordingTree
+                .Children()
+                .Any(r => r.Value.MethodName == testMethodName);
+            
             Assert.False(methodFoundInResult,
                 "Recorded action should not have depth 0, it should be nested under another method");
         }

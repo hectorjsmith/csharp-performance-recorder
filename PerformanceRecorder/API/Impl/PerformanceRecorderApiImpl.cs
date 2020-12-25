@@ -61,5 +61,10 @@ namespace PerformanceRecorder.API.Impl
                 StaticRecordingWorker.RecordMethodDurationAfterItRuns();
             }
         }
+
+        public IFormatterFactoryApi NewFormatterFactoryApi()
+        {
+            return new FormatterFactoryApiImpl();
+        }
     }
 }

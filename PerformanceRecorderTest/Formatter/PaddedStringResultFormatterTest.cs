@@ -1,12 +1,14 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Text;
+using NUnit.Framework;
+using PerformanceRecorder.API;
+using PerformanceRecorder.Formatter;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Recorder.RecordingTree.Impl;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
-using System;
-using System.Text;
 
-namespace PerformanceRecorderTest.Result.Formatter
+namespace PerformanceRecorderTest.Formatter
 {
     internal class PaddedStringResultFormatterTest
     {
@@ -16,7 +18,9 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string output = sessionResult.ToPaddedString();
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPaddedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
+
             string expectedOutput
                 = "nnnn.cccc.mmmm2  count:  3  sum: 1240.000  avg:  413.333  max: 1020.000  min:   20.000" + Environment.NewLine
                 + "   nnn.ccc.mmm1  count:  3  sum:  620.000  avg:  206.667  max:  510.000  min:   10.000" + Environment.NewLine
@@ -31,9 +35,13 @@ namespace PerformanceRecorderTest.Result.Formatter
         {
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
-            sessionResult.IncludeNamespaceInString = false;
 
-            string output = sessionResult.ToPaddedString();
+            IFormatterFactoryApi formatterFactory = new FormatterFactoryApiImpl();
+            formatterFactory.IncludeNamespaceInString = false;
+            
+            IStringResultFormatter formatter = formatterFactory.NewPaddedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
+            
             string expectedOutput
                 = "cccc.mmmm2  count:  3  sum: 1240.000  avg:  413.333  max: 1020.000  min:   20.000" + Environment.NewLine
                 + "  ccc.mmm1  count:  3  sum:  620.000  avg:  206.667  max:  510.000  min:   10.000" + Environment.NewLine
@@ -49,7 +57,9 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = new RecordingTreeImpl();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string output = sessionResult.ToPaddedString();
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPaddedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
+
             Assert.AreEqual(0, output.Length, "Output string length should be zero");
         }
 
@@ -59,8 +69,10 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string rawOutput = sessionResult.ToPaddedString();
-            string filteredOutput = sessionResult.ToPaddedString(r => r.Sum > 0);
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPaddedStringResultFormatter();
+            string rawOutput = formatter.FormatAs(sessionResult);
+            string filteredOutput = formatter.FormatAs(sessionResult, r => r.Sum > 0);
+            
             string expectedOutput
                 = "nnnn.cccc.mmmm2  count:  3  sum: 1240.000  avg:  413.333  max: 1020.000  min:   20.000" + Environment.NewLine
                 + "   nnn.ccc.mmm1  count:  3  sum:  620.000  avg:  206.667  max:  510.000  min:   10.000" + Environment.NewLine;
@@ -75,8 +87,11 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults();
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            sessionResult.DecimalPlacesInResults = 0;
-            string output = sessionResult.ToPaddedString();
+            IFormatterFactoryApi formatterFactory = new FormatterFactoryApiImpl();
+            formatterFactory.DecimalPlacesInResults = 0;
+            
+            IStringResultFormatter formatter = formatterFactory.NewPaddedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
             string expectedOutput
                 = "nnnn.cccc.mmmm2  count:  3  sum: 1240  avg:  413  max: 1020  min:   20" + Environment.NewLine
@@ -95,7 +110,8 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             // Act
-            string output = sessionResult.ToPaddedString();
+            IStringResultFormatter formatter = new FormatterFactoryApiImpl().NewPaddedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
             // Assert
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");

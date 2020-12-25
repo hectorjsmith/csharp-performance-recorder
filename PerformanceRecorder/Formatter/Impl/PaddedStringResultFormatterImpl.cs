@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PerformanceRecorder.Result;
 
-namespace PerformanceRecorder.Result.Formatter.Impl
+namespace PerformanceRecorder.Formatter.Impl
 {
     internal class PaddedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResult>, IStringResultFormatter
     {
@@ -15,9 +16,9 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         {
         }
 
-        public override string FormatAs(IRecordingTree treeResults, Func<IRecordingResult, bool> filterFunction)
+        public override string FormatAs(IRecordingSessionResult treeResults, Func<IRecordingResult, bool> filterFunction)
         {
-            IList<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
+            IList<IRecordingResult> results = treeResults.FlatData().ToList();
             if (!results.Any())
             {
                 return "";
