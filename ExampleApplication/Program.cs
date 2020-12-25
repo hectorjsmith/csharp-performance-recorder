@@ -36,13 +36,20 @@ namespace ExampleApplication
             // Get the results off the API
             IRecordingSessionResult results = api.GetResults();
 
+            // Get formatter
+            var formatterFactory = api.NewFormatterFactoryApi();
+            
             // Hide the namespace in the output data
-            results.IncludeNamespaceInString = false;
+            formatterFactory.IncludeNamespaceInString = false;
 
+            // Build formatters
+            var nestedFormatter = formatterFactory.NewNestedStringResultFormatter();
+            var paddedFormatter = formatterFactory.NewPaddedStringResultFormatter();
+            
             // Use the built-in formatter to generate result output
-            Console.Write(results.ToNestedString());
+            Console.Write(nestedFormatter.FormatAs(results));
             Console.WriteLine();
-            Console.Write(results.ToPaddedString());
+            Console.Write(paddedFormatter.FormatAs(results));
         }
     }
 }

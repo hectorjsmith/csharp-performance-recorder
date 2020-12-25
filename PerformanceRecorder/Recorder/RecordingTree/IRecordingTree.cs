@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder.RecordingTree
 {
-    internal interface IRecordingTree : ITreeNode<IRecordingResultWithDepth, IRecordingTree>
+    public interface IRecordingTree : ITreeNode<IRecordingResultWithDepth, IRecordingTree>
     {
         IEnumerable<IRecordingResult> FlattenAndCombine();
 

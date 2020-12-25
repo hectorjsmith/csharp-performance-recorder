@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PerformanceRecorder.Result;
 
-namespace PerformanceRecorder.Result.Formatter.Impl
+namespace PerformanceRecorder.Formatter.Impl
 {
     internal class PlainStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResult>, IStringResultFormatter
     {
@@ -13,12 +14,12 @@ namespace PerformanceRecorder.Result.Formatter.Impl
         {
         }
 
-        public override string FormatAs(IRecordingTree treeResults, Func<IRecordingResult, bool> filterFunction)
+        public override string FormatAs(IRecordingSessionResult treeResults, Func<IRecordingResult, bool> filterFunction)
         {
             string formatString = "{0} " + GetPlainResultFormat();
             StringBuilder sb = new StringBuilder();
 
-            ICollection<IRecordingResult> results = treeResults.FlattenAndCombine().ToList();
+            ICollection<IRecordingResult> results = treeResults.FlatData().ToList();
             foreach (IRecordingResult result in results.Where(filterFunction).OrderByDescending(r => r.Sum))
             {
                 sb.Append(string.Format(formatString,

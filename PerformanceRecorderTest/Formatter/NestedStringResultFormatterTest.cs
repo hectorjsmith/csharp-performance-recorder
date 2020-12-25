@@ -1,11 +1,13 @@
+using System;
 using NUnit.Framework;
+using PerformanceRecorder.API;
+using PerformanceRecorder.Formatter;
 using PerformanceRecorder.Recorder.Impl;
 using PerformanceRecorder.Recorder.RecordingTree;
 using PerformanceRecorder.Result;
 using PerformanceRecorder.Result.Impl;
-using System;
 
-namespace PerformanceRecorderTest.Result.Formatter
+namespace PerformanceRecorderTest.Formatter
 {
     internal class NestedStringResultFormatterTest
     {
@@ -15,7 +17,9 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults(2, 2, 2);
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string output = sessionResult.ToNestedString();
+            IStringResultWithDepthFormatter formatter = new FormatterFactoryApiImpl().NewNestedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
+            
             Console.WriteLine(output);
             string expectedOutput =
                 @"+- 
@@ -44,9 +48,11 @@ namespace PerformanceRecorderTest.Result.Formatter
         {
             IRecordingTree results = GenerateMockResults(2, 2, 2);
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
-
-            string rawOutput = sessionResult.ToNestedString();
-            string filteredOutput = sessionResult.ToNestedString(r => r.Sum > 10);
+            
+            IStringResultWithDepthFormatter formatter = new FormatterFactoryApiImpl().NewNestedStringResultFormatter();
+            string rawOutput = formatter.FormatAs(sessionResult);
+            string filteredOutput = formatter.FormatAs(sessionResult, r => r.Sum > 10);
+            
             string expectedOutput =
                 @"+- 
    +- ni1.ci1.mi1                    count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
@@ -70,8 +76,10 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults(2, 2, 2);
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            string rawOutput = sessionResult.ToNestedString();
-            string filteredOutput = sessionResult.ToNestedString(r => r.Depth < 2);
+            IStringResultWithDepthFormatter formatter = new FormatterFactoryApiImpl().NewNestedStringResultFormatter();
+            string rawOutput = formatter.FormatAs(sessionResult);
+            string filteredOutput = formatter.FormatAs(sessionResult, r => r.Depth < 2);
+            
             string expectedOutput =
                 @"+- 
    +- ni1.ci1.mi1           count: 15  sum:  15.000  avg:   1.000  max:   1.000  min:   1.000
@@ -94,8 +102,11 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingTree results = GenerateMockResults(1, 1, 0);
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
-            sessionResult.DecimalPlacesInResults = 0;
-            string output = sessionResult.ToNestedString();
+            IFormatterFactoryApi formatterFactory = new FormatterFactoryApiImpl();
+            formatterFactory.DecimalPlacesInResults = 0;
+            
+            IStringResultWithDepthFormatter formatter = formatterFactory.NewNestedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
             string expectedOutput =
                 @"+- 
@@ -116,7 +127,8 @@ namespace PerformanceRecorderTest.Result.Formatter
             IRecordingSessionResult sessionResult = new RecordingSessionResultImpl(results);
 
             // Act
-            string output = sessionResult.ToNestedString();
+            IStringResultWithDepthFormatter formatter = new FormatterFactoryApiImpl().NewNestedStringResultFormatter();
+            string output = formatter.FormatAs(sessionResult);
 
             // Assert
             Assert.AreEqual(expectedOutput, output, "Formatted output did not match expected format");

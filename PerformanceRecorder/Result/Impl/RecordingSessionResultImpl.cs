@@ -1,6 +1,4 @@
 ﻿using PerformanceRecorder.Recorder.RecordingTree;
-using PerformanceRecorder.Result.Formatter;
-using PerformanceRecorder.Result.Formatter.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,51 +16,15 @@ namespace PerformanceRecorder.Result.Impl
             _treeData = treeData ?? throw new ArgumentNullException(nameof(treeData));
         }
 
-        public bool IncludeNamespaceInString { get; set; } = true;
-
-        public int DecimalPlacesInResults { get; set; } = 3;
-
         public int Count => FlatResultData.Count;
+        
+        public IRecordingTree RecordingTree => _treeData;
 
         private ICollection<IRecordingResult> FlatResultData => _flatResultData ?? (_flatResultData = _treeData.FlattenAndCombine().ToList());
 
         public ICollection<IRecordingResult> FlatData()
         {
             return FlatResultData;
-        }
-
-        public string ToRawString()
-        {
-            return ToRawString(r => true);
-        }
-
-        public string ToRawString(Func<IRecordingResult, bool> filterFunction)
-        {
-            IStringResultFormatter formatter = new PlainStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
-            return formatter.FormatAs(_treeData, filterFunction);
-        }
-
-        public string ToPaddedString()
-        {
-            return ToPaddedString(r => true);
-        }
-
-        public string ToPaddedString(Func<IRecordingResult, bool> filterFunction)
-        {
-            IStringResultFormatter formatter = new PaddedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
-            return formatter.FormatAs(_treeData, filterFunction);
-        }
-
-        public string ToNestedString()
-        {
-            return ToNestedString(r => true);
-        }
-
-        public string ToNestedString(Func<IRecordingResultWithDepth, bool> filterFunction)
-        {
-            IStringResultWithDepthFormatter formatter
-                = new NestedStringResultFormatterImpl(IncludeNamespaceInString, DecimalPlacesInResults);
-            return formatter.FormatAs(_treeData, filterFunction);
         }
     }
 }

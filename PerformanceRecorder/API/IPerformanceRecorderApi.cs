@@ -19,5 +19,7 @@ namespace PerformanceRecorder.API
         IRecordingSessionResult GetResults();
 
         void RecordAction(string actionName, Action actionToRecord);
+
+        IFormatterFactoryApi NewFormatterFactoryApi();
     }
 }
