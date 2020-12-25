@@ -7,12 +7,13 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 ## [Unreleased]
 
 ### Features
+- (de774c1) feat: split string formatters from result data ([#48](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/48))
 - (7d4f9ae) feat: auto-generate changelog file based on commits ([#47](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/47))
 
 ### BREAKING CHANGE
 
-The CHANGELOG file no longer includes detailed release notes for previous versions.
-
+- Remove result formatters from the IRecordingSessionResult interface.
+- The CHANGELOG file no longer includes detailed release notes for previous versions.
 
 ## [v0.5.0] - 2020-08-05
 ### Merge Requests

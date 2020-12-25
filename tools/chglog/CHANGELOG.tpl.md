@@ -21,7 +21,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 {{ range .Unreleased.NoteGroups -}}
 ### {{ .Title }}
 {{ range .Notes }}
-{{ .Body }}
+- {{ .Body -}}
 {{ end }}
 {{ end -}}
 {{ end -}}
