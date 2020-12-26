@@ -85,7 +85,7 @@ namespace PerformanceRecorderTest.Recorder
             Assert.AreEqual(1, results.Count, "One result was expected, even when exception thrown");
 
             IRecordingResult firstResult = results.First();
-            Assert.AreEqual(sleepBefore, firstResult.Sum, 1,
+            Assert.IsTrue(firstResult.Sum >= sleepBefore,
                 "Recorded execution time should include the execution time before the exception was thrown");
         }
 
