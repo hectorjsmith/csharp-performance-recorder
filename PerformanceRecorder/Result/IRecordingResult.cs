@@ -1,4 +1,4 @@
-﻿namespace PerformanceRecorder.Result
+namespace PerformanceRecorder.Result
 {
     public interface IRecordingResult
     {
@@ -19,7 +19,5 @@
         double Min { get; }
 
         double Avg { get; }
-
-        void AddResult(double result);
     }
 }

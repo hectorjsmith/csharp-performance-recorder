@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace PerformanceRecorder.Result.Impl
 {
-    internal class RecordingResultImpl : IRecordingResult
+    internal class WritableRecordingResultImpl : IWritableRecordingResult
     {
         private IMethodDefinition _method;
 
         private string _id;
 
-        public RecordingResultImpl(IEnumerable<IRecordingResult> recordings)
+        public WritableRecordingResultImpl(IEnumerable<IRecordingResult> recordings)
         {
             if (!recordings.Any())
             {
@@ -31,7 +31,7 @@ namespace PerformanceRecorder.Result.Impl
             }
         }
 
-        public RecordingResultImpl(IMethodDefinition method)
+        public WritableRecordingResultImpl(IMethodDefinition method)
         {
             _method = method ?? throw new ArgumentNullException(nameof(method));
         }

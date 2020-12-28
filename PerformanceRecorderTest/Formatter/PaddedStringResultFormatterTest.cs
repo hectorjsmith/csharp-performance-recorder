@@ -122,7 +122,7 @@ namespace PerformanceRecorderTest.Formatter
             IRecordingTree results = new RecordingTreeImpl();
             for (int i = 0; i < 3; i++)
             {
-                IRecordingResultWithDepth result = new RecordingResultWithDepthImpl(
+                var result = new RecordingResultWithDepthImpl(
                     new MethodDefinitionImpl(RepeatString("n", i + 2), RepeatString("c", i + 2), RepeatString("m", i + 2) + i), 0);
                 result.AddResult(i * 10);
                 result.AddResult(i * 100);

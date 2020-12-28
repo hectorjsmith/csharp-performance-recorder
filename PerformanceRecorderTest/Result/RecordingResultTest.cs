@@ -12,7 +12,7 @@ namespace PerformanceRecorderTest.Result
         [Test]
         public void TestGivenTwoResultsWhenAddedToResultObjectThenCountEqualsTwo()
         {
-            IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
+            IWritableRecordingResult result = new WritableRecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
             result.AddResult(110);
             Assert.AreEqual(1, result.Count, "Result count should be set to 1 on new object");
 
@@ -62,11 +62,11 @@ namespace PerformanceRecorderTest.Result
         public void TestGivenResultListWhenNewResultCreatedFromListThenMethodIsSetCorrectly()
         {
             MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
-            IEnumerable<IRecordingResult> recordingResults = HelperMethodToGenerateDuplicateRecordingList(method);
+            IEnumerable<IWritableRecordingResult> recordingResults = HelperMethodToGenerateDuplicateRecordingList(method);
 
-            RecordingResultImpl combinedRecording = new RecordingResultImpl(recordingResults);
+            WritableRecordingResultImpl combinedWritableRecording = new WritableRecordingResultImpl(recordingResults);
 
-            Assert.AreEqual(method.ToString(), combinedRecording.Id,
+            Assert.AreEqual(method.ToString(), combinedWritableRecording.Id,
                 "Combined recording ID should match the method data");
         }
 
@@ -74,15 +74,15 @@ namespace PerformanceRecorderTest.Result
         public void TestGivenResultListWhenNewResultCreatedFromListThenDataIsMergedCorrectly()
         {
             MethodDefinitionImpl method = new MethodDefinitionImpl("n", "c", "m");
-            IEnumerable<IRecordingResult> recordingResults = HelperMethodToGenerateDuplicateRecordingList(method);
+            IEnumerable<IWritableRecordingResult> recordingResults = HelperMethodToGenerateDuplicateRecordingList(method);
 
-            RecordingResultImpl combinedRecording = new RecordingResultImpl(recordingResults);
+            WritableRecordingResultImpl combinedWritableRecording = new WritableRecordingResultImpl(recordingResults);
 
-            Assert.AreEqual(50.0, combinedRecording.Max, "Max value on combined result is not correct");
-            Assert.AreEqual(5.0, combinedRecording.Min, "Min value on combined result is not correct");
-            Assert.AreEqual(4, combinedRecording.Count, "Count value on combined result is not correct");
-            Assert.AreEqual(21.25, combinedRecording.Avg, "Avg value on combined result is not correct");
-            Assert.AreEqual(85.0, combinedRecording.Sum, "Sum value on combined result is not correct");
+            Assert.AreEqual(50.0, combinedWritableRecording.Max, "Max value on combined result is not correct");
+            Assert.AreEqual(5.0, combinedWritableRecording.Min, "Min value on combined result is not correct");
+            Assert.AreEqual(4, combinedWritableRecording.Count, "Count value on combined result is not correct");
+            Assert.AreEqual(21.25, combinedWritableRecording.Avg, "Avg value on combined result is not correct");
+            Assert.AreEqual(85.0, combinedWritableRecording.Sum, "Sum value on combined result is not correct");
         }
 
         private static IEnumerable<int[]> NumberProviderForResultObjectTesting()
@@ -99,10 +99,10 @@ namespace PerformanceRecorderTest.Result
             };
         }
 
-        private IEnumerable<IRecordingResult> HelperMethodToGenerateDuplicateRecordingList(IMethodDefinition method)
+        private IEnumerable<IWritableRecordingResult> HelperMethodToGenerateDuplicateRecordingList(IMethodDefinition method)
         {
-            RecordingResultImpl result1 = new RecordingResultImpl(method);
-            RecordingResultImpl result2 = new RecordingResultImpl(method);
+            WritableRecordingResultImpl result1 = new WritableRecordingResultImpl(method);
+            WritableRecordingResultImpl result2 = new WritableRecordingResultImpl(method);
 
             result1.AddResult(10.0);
             result1.AddResult(5.0);
@@ -110,12 +110,12 @@ namespace PerformanceRecorderTest.Result
 
             result2.AddResult(50.0);
 
-            return new List<IRecordingResult> { result1, result2 };
+            return new List<IWritableRecordingResult> { result1, result2 };
         }
 
-        private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IRecordingResult, double> resultProvider)
+        private void HelperFunctionForRecordingResultTesting(int[] values, double expected, Func<IWritableRecordingResult, double> resultProvider)
         {
-            IRecordingResult result = new RecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
+            IWritableRecordingResult result = new WritableRecordingResultImpl(new MethodDefinitionImpl("t", "t", "t"));
             foreach (int value in values)
             {
                 result.AddResult(value);

@@ -77,7 +77,8 @@ namespace PerformanceRecorder.Recorder.Impl
             if (methodNode != null)
             {
                 // Update node
-                methodNode.Value.AddResult(duration);
+                var writableResult = (IWritableRecordingResult) methodNode.Value;
+                writableResult.AddResult(duration);
             }
             else
             {
