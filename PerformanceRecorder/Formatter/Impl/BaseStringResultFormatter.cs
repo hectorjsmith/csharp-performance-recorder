@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using PerformanceRecorder.Formatter.Helper;
 using PerformanceRecorder.Result;
 
 namespace PerformanceRecorder.Formatter.Impl
@@ -101,27 +102,17 @@ namespace PerformanceRecorder.Formatter.Impl
             {
                 string line = lines[lineIndex];
                 int indexOfMarker = line.IndexOf(DolarSignCharacter);
-                line = line.Replace(DolarSignCharacter, RepeatString(" ", targetIndex - indexOfMarker));
+                line = line.Replace(DolarSignCharacter, " ".Repeat(targetIndex - indexOfMarker));
                 lines[lineIndex] = line;
             }
             return string.Join(Environment.NewLine, lines);
-        }
-
-        protected string RepeatString(string input, int count)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < count; i++)
-            {
-                sb.Append(input);
-            }
-            return sb.ToString();
         }
 
         private string ReplaceDecimalPlacePaddingInString(string formatString)
         {
             if (DecimalPlacesInResult > 0)
             {
-                return formatString.Replace(DecimalPointPlaceholder, "." + RepeatString("0", DecimalPlacesInResult));
+                return formatString.Replace(DecimalPointPlaceholder, "." + "0".Repeat(DecimalPlacesInResult));
             }
             else
             {
