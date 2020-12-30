@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PerformanceRecorder.Formatter.Helper;
 using PerformanceRecorder.Result;
 
 namespace PerformanceRecorder.Formatter.Impl
@@ -21,11 +22,11 @@ namespace PerformanceRecorder.Formatter.Impl
                 return "";
             }
 
-            int countLenght = FindLengthOfLongestCount(flatResults);
-            int fieldLength = FindLengthOfLongestValue(flatResults);
+            int countLength = flatResults.FindLengthOfLongestCount();
+            int sumLength = flatResults.FindLengthOfLongestSum(DecimalPlacesInResult);
 
             IRecordingTree filteredTree = results.RecordingTree.Filter(filterFunction);
-            return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLenght, fieldLength));
+            return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLength, sumLength));
         }
 
         // Inspired by: https://stackoverflow.com/a/8567550

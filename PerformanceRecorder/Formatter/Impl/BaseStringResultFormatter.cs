@@ -62,25 +62,6 @@ namespace PerformanceRecorder.Formatter.Impl
             return ReplaceDecimalPlacePaddingInString(PaddedResultFormat);
         }
 
-        protected int FindLengthOfLongestResultName(ICollection<IRecordingResult> results)
-        {
-            return results.Select(r => GenerateResultName(r).Length).Max();
-        }
-
-        protected int FindLengthOfLongestCount(ICollection<IRecordingResult> results)
-        {
-            double maxSum = results.Select(r => r.Count).DefaultIfEmpty(0).Max();
-            return string.Format("{0:0}", maxSum).Length;
-        }
-
-        protected int FindLengthOfLongestValue(ICollection<IRecordingResult> results)
-        {
-            double maxSum = results.Select(r => r.Sum).DefaultIfEmpty(0).Max();
-            string sumFormat = ReplaceDecimalPlacePaddingInString("{0:0" + DecimalPointPlaceholder + "}");
-
-            return string.Format(sumFormat, maxSum).Length;
-        }
-
         protected string GenerateResultName(IRecordingResult result)
         {
             if (IncludeNamespaceInString)

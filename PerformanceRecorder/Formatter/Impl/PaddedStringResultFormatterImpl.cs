@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PerformanceRecorder.Formatter.Helper;
 using PerformanceRecorder.Result;
 
 namespace PerformanceRecorder.Formatter.Impl
@@ -24,15 +25,15 @@ namespace PerformanceRecorder.Formatter.Impl
                 return "";
             }
 
-            int keyLength = FindLengthOfLongestResultName(results);
-            int countLength = FindLengthOfLongestCount(results);
-            int numLength = FindLengthOfLongestValue(results);
+            int keyLength = results.FindLengthOfLongestResultName(IncludeNamespaceInString);
+            int countLength = results.FindLengthOfLongestCount();
+            int sumLength = results.FindLengthOfLongestSum(DecimalPlacesInResult);
 
             string rawString = "{0," + KeyLengthPlaceholder + "}  " + GetPaddedResultFormat();
             string formatString = rawString
                 .Replace(KeyLengthPlaceholder, "" + keyLength)
                 .Replace(CountLengthPlaceholder, "" + countLength)
-                .Replace(NumberLengthPlaceholder, "" + numLength);
+                .Replace(NumberLengthPlaceholder, "" + sumLength);
 
             StringBuilder sb = new StringBuilder();
             foreach (IRecordingResult result in results.Where(filterFunction).OrderByDescending(r => r.Sum))
