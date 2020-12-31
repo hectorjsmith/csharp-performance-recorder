@@ -13,7 +13,6 @@ namespace PerformanceRecorder.Formatter.Impl
         protected const string NumberLengthPlaceholder = "_num_len_";
         protected const string CountLengthPlaceholder = "_count_len_";
         protected const string DecimalPointPlaceholder = "_dec_len_";
-        protected const string DolarSignCharacter = "$";
         private const string PlainResultFormat = " count: {1}  sum: {2:0._dec_len_}  avg: {3:0._dec_len_}  max: {4:0._dec_len_}  min: {5:0._dec_len_}";
         private const string PaddedResultFormat = "count: {1,_count_len_}  sum: {2,_num_len_:0._dec_len_}  avg: {3,_num_len_:0._dec_len_}  max: {4,_num_len_:0._dec_len_}  min: {5,_num_len_:0._dec_len_}";
 
@@ -57,21 +56,6 @@ namespace PerformanceRecorder.Formatter.Impl
         protected string GetPaddedResultFormat()
         {
             return ReplaceDecimalPlacePaddingInString(PaddedResultFormat);
-        }
-
-        protected string AlignAndRemoveDolarSigns(string input)
-        {
-            string[] lines = Regex.Split(input, Environment.NewLine);
-            int targetIndex = lines.Select(l => l.IndexOf(DolarSignCharacter)).Max();
-
-            for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
-            {
-                string line = lines[lineIndex];
-                int indexOfMarker = line.IndexOf(DolarSignCharacter);
-                line = line.Replace(DolarSignCharacter, " ".Repeat(targetIndex - indexOfMarker));
-                lines[lineIndex] = line;
-            }
-            return string.Join(Environment.NewLine, lines);
         }
 
         private string ReplaceDecimalPlacePaddingInString(string formatString)

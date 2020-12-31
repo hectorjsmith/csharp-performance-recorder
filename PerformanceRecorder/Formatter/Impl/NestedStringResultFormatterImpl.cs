@@ -9,6 +9,8 @@ namespace PerformanceRecorder.Formatter.Impl
 {
     internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>, IStringResultWithDepthFormatter
     {
+        private const string AlignmentMarker = "%";
+        
         public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)
         {
@@ -26,7 +28,8 @@ namespace PerformanceRecorder.Formatter.Impl
             int sumLength = flatResults.FindLengthOfLongestSum(DecimalPlacesInResult);
 
             IRecordingTree filteredTree = results.RecordingTree.Filter(filterFunction);
-            return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLength, sumLength));
+            string printedTree = PrintTree(filteredTree, "", true, countLength, sumLength);
+            return printedTree.AlignStringsToMarker(AlignmentMarker);
         }
 
         // Inspired by: https://stackoverflow.com/a/8567550
@@ -53,7 +56,7 @@ namespace PerformanceRecorder.Formatter.Impl
                 return "";
             }
 
-            string rawString = "{0} $ " + GetPaddedResultFormat();
+            string rawString = "{0}" + $" {AlignmentMarker} {GetPaddedResultFormat()}";
             string formatString = rawString
                 .Replace(CountLengthPlaceholder, "" + maxCountLength)
                 .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
