@@ -56,12 +56,15 @@ namespace PerformanceRecorder.Formatter.Impl
                 return "";
             }
 
-            string rawString = "{0}" + $" {AlignmentMarker} {GetPaddedResultFormat()}";
-            string formatString = rawString
+            string formatString = PaddedResultFormatString
                 .Replace(CountLengthPlaceholder, "" + maxCountLength)
                 .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
+
+            string resultNameWithAlignmentMarker =
+                result.GenerateResultName(IncludeNamespaceInString) + AlignmentMarker;
+            
             return string.Format(formatString,
-                result.GenerateResultName(IncludeNamespaceInString), result.Count, result.Sum, result.Avg, result.Max, result.Min);
+                resultNameWithAlignmentMarker, result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }
     }
 }

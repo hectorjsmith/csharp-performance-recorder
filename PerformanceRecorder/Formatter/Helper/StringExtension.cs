@@ -19,13 +19,20 @@ namespace PerformanceRecorder.Formatter.Helper
             }
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// Align multiple lines in the input string such that the marker string is aligned across all lines.
         /// 
         /// Note that the marker string is removed from the output.
         /// </summary>
-        public static string AlignStringsToMarker(this string input, string marker)
+        /// <param name="marker">Marker string that all strings are aligned to.</param>
+        /// <param name="input">Input string</param>
+        /// <param name="alignRight">
+        /// If set to true, whitespace will be inserted at the start of each line to get alignment - this causes the
+        /// strings to appear right-aligned.
+        /// If set to false, whitespace is inserted just before the marker string.
+        /// </param>
+        public static string AlignStringsToMarker(this string input, string marker, bool alignRight = false)
         {
             string[] lines = Regex.Split(input, Environment.NewLine);
             
@@ -38,8 +45,19 @@ namespace PerformanceRecorder.Formatter.Helper
             for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
             {
                 string line = lines[lineIndex];
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
                 int indexOfMarker = line.IndexOf(marker, StringComparison.Ordinal);
-                line = line.Replace(marker, " ".Repeat(targetIndex - indexOfMarker));
+                if (alignRight)
+                {
+                    line = " ".Repeat(targetIndex - indexOfMarker) + line.Replace(marker, "");
+                }
+                else
+                {
+                    line = line.Replace(marker, " ".Repeat(targetIndex - indexOfMarker));
+                }
                 lines[lineIndex] = line;
             }
             return string.Join(Environment.NewLine, lines);
