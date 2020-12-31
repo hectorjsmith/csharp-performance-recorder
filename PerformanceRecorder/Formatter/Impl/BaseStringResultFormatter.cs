@@ -1,9 +1,6 @@
 using PerformanceRecorder.Manager;
-using PerformanceRecorder.Recorder.RecordingTree;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using PerformanceRecorder.Formatter.Helper;
 using PerformanceRecorder.Result;
@@ -26,13 +23,13 @@ namespace PerformanceRecorder.Formatter.Impl
             if (decimalPlacesInResult < 0)
             {
                 StaticRecorderManager.Logger.Error(
-                    string.Format("Provided number of decimal places ({0}) must be greater than 0, defaulting to 0", decimalPlacesInResult));
+                    $"Provided number of decimal places ({decimalPlacesInResult}) must be greater than 0, defaulting to 0");
                 DecimalPlacesInResult = 0;
             }
             else if (decimalPlacesInResult > 3)
             {
                 StaticRecorderManager.Logger.Error(
-                    string.Format("Provided number of decimal places ({0}) must not be greater than 3, defaulting to 3", decimalPlacesInResult));
+                    $"Provided number of decimal places ({decimalPlacesInResult}) must not be greater than 3, defaulting to 3");
                 DecimalPlacesInResult = 3;
             }
             else
@@ -60,18 +57,6 @@ namespace PerformanceRecorder.Formatter.Impl
         protected string GetPaddedResultFormat()
         {
             return ReplaceDecimalPlacePaddingInString(PaddedResultFormat);
-        }
-
-        protected string GenerateResultName(IRecordingResult result)
-        {
-            if (IncludeNamespaceInString)
-            {
-                return string.Format("{0}.{1}.{2}", result.Namespace, result.ClassName, result.MethodName);
-            }
-            else
-            {
-                return string.Format("{0}.{1}", result.ClassName, result.MethodName);
-            }
         }
 
         protected string AlignAndRemoveDolarSigns(string input)

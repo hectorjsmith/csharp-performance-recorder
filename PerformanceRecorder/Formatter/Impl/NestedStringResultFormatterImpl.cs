@@ -58,7 +58,7 @@ namespace PerformanceRecorder.Formatter.Impl
                 .Replace(CountLengthPlaceholder, "" + maxCountLength)
                 .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
             return string.Format(formatString,
-                GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min);
+                result.GenerateResultName(IncludeNamespaceInString), result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }
     }
 }
