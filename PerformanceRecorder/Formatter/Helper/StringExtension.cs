@@ -7,6 +7,9 @@ namespace PerformanceRecorder.Formatter.Helper
 {
     public static class StringExtension
     {
+        /// <summary>
+        /// Repeat string a given number of times.
+        /// </summary>
         public static String Repeat(this String input, int count)
         {
             StringBuilder sb = new StringBuilder();
@@ -17,15 +20,25 @@ namespace PerformanceRecorder.Formatter.Helper
             return sb.ToString();
         }
         
+        /// <summary>
+        /// Align multiple lines in the input string such that the marker string is aligned across all lines.
+        /// 
+        /// Note that the marker string is removed from the output.
+        /// </summary>
         public static string AlignStringsToMarker(this string input, string marker)
         {
             string[] lines = Regex.Split(input, Environment.NewLine);
-            int targetIndex = lines.Select(l => l.IndexOf(marker, StringComparison.Ordinal)).Max();
+            
+            // Find the largest index of the marker string across all lines. All other lines will be aligned to this index.
+            int targetIndex = lines
+                .Select(line => line.IndexOf(marker, StringComparison.Ordinal))
+                .Max();
 
+            // Align all lines to the largest marker index
             for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
             {
                 string line = lines[lineIndex];
-                int indexOfMarker = line.IndexOf(marker);
+                int indexOfMarker = line.IndexOf(marker, StringComparison.Ordinal);
                 line = line.Replace(marker, " ".Repeat(targetIndex - indexOfMarker));
                 lines[lineIndex] = line;
             }
