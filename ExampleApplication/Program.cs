@@ -3,6 +3,7 @@ using PerformanceRecorder.API;
 using PerformanceRecorder.API.Impl;
 using PerformanceRecorder.Result;
 using System;
+using ExampleApplication.Formatter;
 
 namespace ExampleApplication
 {
@@ -46,10 +47,14 @@ namespace ExampleApplication
             var nestedFormatter = formatterFactory.NewNestedStringResultFormatter();
             var paddedFormatter = formatterFactory.NewPaddedStringResultFormatter();
             
-            // Use the built-in formatter to generate result output
+            // Use the built-in formatters to generate result output
             Console.Write(nestedFormatter.FormatAs(results));
             Console.WriteLine();
             Console.Write(paddedFormatter.FormatAs(results));
+            
+            // Use a custom formatter to format the results
+            Console.WriteLine();
+            Console.Write(new MyCustomFormatter().FormatAs(results));
         }
     }
 }
