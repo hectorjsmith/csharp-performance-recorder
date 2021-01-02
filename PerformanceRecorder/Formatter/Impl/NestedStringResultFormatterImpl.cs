@@ -18,7 +18,7 @@ namespace PerformanceRecorder.Formatter.Impl
 
         public override string FormatAs(IRecordingSessionResult results, Func<IRecordingResultWithDepth, bool> filterFunction)
         {
-            IList<IRecordingResult> flatResults = results.FlatData().ToList();
+            ICollection<IRecordingResult> flatResults = results.FlatRecordingData;
             if (!flatResults.Any())
             {
                 return "";

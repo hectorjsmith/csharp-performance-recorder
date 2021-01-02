@@ -16,24 +16,24 @@ namespace PerformanceRecorder.Formatter.Impl
         {
         }
 
-        public override string FormatAs(IRecordingSessionResult treeResults,
+        public override string FormatAs(IRecordingSessionResult results,
             Func<IRecordingResult, bool> filterFunction)
         {
-            IList<IRecordingResult> results = treeResults.FlatData().ToList();
-            if (!results.Any())
+            ICollection<IRecordingResult> flatResults = results.FlatRecordingData;
+            if (!flatResults.Any())
             {
                 return "";
             }
 
-            int countLength = results.FindLengthOfLongestCount();
-            int sumLength = results.FindLengthOfLongestSum(DecimalPlacesInResult);
+            int countLength = flatResults.FindLengthOfLongestCount();
+            int sumLength = flatResults.FindLengthOfLongestSum(DecimalPlacesInResult);
 
             string formatString = PaddedResultFormatString
                 .Replace(CountLengthPlaceholder, "" + countLength)
                 .Replace(NumberLengthPlaceholder, "" + sumLength);
 
             StringBuilder sb = new StringBuilder();
-            foreach (IRecordingResult result in results.Where(filterFunction).OrderByDescending(r => r.Sum))
+            foreach (IRecordingResult result in flatResults.Where(filterFunction).OrderByDescending(r => r.Sum))
             {
                 string resultNameWithAlignmentMarker =
                     result.GenerateResultName(IncludeNamespaceInString) + AlignmentMarker;

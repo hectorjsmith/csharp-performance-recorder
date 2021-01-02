@@ -21,6 +21,9 @@ namespace PerformanceRecorder.Recorder.RecordingTree
 
         TRec Find(TValue value);
 
+        /// <summary>
+        /// Flatten all children of this tree into a flat enumerable collection.
+        /// </summary>
         IEnumerable<TValue> Flatten();
     }
 }
