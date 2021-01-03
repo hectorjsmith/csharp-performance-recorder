@@ -4,18 +4,27 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.4.0</Version>
+    <Version>0.0.0</Version>
     <Authors>hectorjsmith</Authors>
     <Copyright>2019 Hector</Copyright>
-    <Description>C# Performance recorder library using aspect oriented programming</Description>
+    <Description>
+This library provides an easy way to record the performance of your application to help identify bottlenecks.
+
+Instrument your classes, methods, and properties by adding the [PerformanceLogging] attribute, enable performance recording, and use one of the provided formatters to generate the results.
+
+Check out the documentation, changelog, and example project here:
+https://gitlab.com/hectorjsmith/csharp-performance-recorder
+    </Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder</RepositoryUrl>
     <PackageTags>Performance</PackageTags>
     <PackageReleaseNotes>
-      - Generating a nested result string from a blank result tree returns an empty string instead of throwing an exception (#38)
-      - Fixed aspect injections not working when referencing the .nupkg file without adding a dependency on AspectInjector (#44)
-      - Recording properties will now generate separate entries for the getter and the setter and prefix them with `get_` and `set_` respectively (#31)
-      - Updated AspectInjector to version `2.4.1` (#34)
+BREAKING CHANGES:
+- Remove Count property from IRecordingSessionResult, use FlatRecordingData.Count instead.
+- Remove FlatData() method from IRecordingSessionResult, use the FlatRecordingData property instead.
+- Remove result formatters from the IRecordingSessionResult interface.
+
+See the project CHANGELOG for full release notes: https://gitlab.com/hectorjsmith/csharp-performance-recorder/-/blob/develop/CHANGELOG.md
     </PackageReleaseNotes>
     <Title>Performance Recorder</Title>
     <PackageProjectUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder</PackageProjectUrl>

@@ -53,7 +53,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 {{ range .NoteGroups -}}
 ### {{ .Title }}
 {{ range .Notes }}
-{{ .Body }}
+- {{ .Body -}}
 {{ end }}
 {{ end -}}
 {{ end -}}
@@ -68,7 +68,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [git-chglog]: https://github.com/git-chglog/git-chglog
 
 {{- if .Versions }}
-[Unreleased]: {{ .Info.RepositoryURL }}/compare/{{ $latest := index .Versions 0 }}{{ $latest.Tag.Name }}...main
+[Unreleased]: {{ .Info.RepositoryURL }}/compare/{{ $latest := index .Versions 0 }}{{ $latest.Tag.Name }}...develop
 {{ range .Versions -}}
 {{ if .Tag.Previous -}}
 [{{ .Tag.Name }}]: {{ $.Info.RepositoryURL }}/compare/{{ .Tag.Previous.Name }}...{{ .Tag.Name }}
