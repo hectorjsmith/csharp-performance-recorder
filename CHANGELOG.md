@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+### Bug Fixes
+- (0fe8541) fix: hide namespaces in generic types ([#37](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/37))
+
 ### Features
 - (f0c040b) feat: refactor recording session result interface ([#32](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/32))
 - (de774c1) feat: split string formatters from result data ([#48](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/48))
