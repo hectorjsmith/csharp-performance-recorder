@@ -18,7 +18,9 @@ namespace PerformanceRecorder.Recorder.RecordingTree.Impl
 
         public IEnumerable<IRecordingResult> FlattenAndCombine()
         {
-            return Flatten().GroupBy(r => r.Id).Select(group => new RecordingResultImpl(group));
+            return Flatten()
+                .GroupBy(r => r.Id)
+                .Select(group => new WritableRecordingResultImpl(group));
         }
 
         public IRecordingTree Filter(Func<IRecordingResultWithDepth, bool> filterFunction)

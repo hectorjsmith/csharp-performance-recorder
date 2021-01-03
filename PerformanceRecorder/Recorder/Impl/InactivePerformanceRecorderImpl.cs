@@ -21,12 +21,12 @@ namespace PerformanceRecorder.Recorder.Impl
         {
         }
 
-        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition)
+        public IRecordingTree RegisterMethod(IMethodDefinition methodDefinition)
         {
             return new RecordingTreeImpl();
         }
 
-        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent)
+        public IRecordingTree RegisterMethod(IMethodDefinition methodDefinition, IRecordingTree parent)
         {
             return new RecordingTreeImpl();
         }

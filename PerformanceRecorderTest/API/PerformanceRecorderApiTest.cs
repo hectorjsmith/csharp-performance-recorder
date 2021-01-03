@@ -70,11 +70,11 @@ namespace PerformanceRecorderTest.API
             RecordDummyData(recorder);
 
             int recorderCount = recorder.GetFlatResults().Count;
-            Assert.AreEqual(recorderCount, api.GetResults().Count,
+            Assert.AreEqual(recorderCount, api.GetResults().FlatRecordingData.Count,
                 "Expecing correct number of results reported by the API");
 
             api.DisablePerformanceRecording();
-            Assert.AreEqual(recorderCount, api.GetResults().Count,
+            Assert.AreEqual(recorderCount, api.GetResults().FlatRecordingData.Count,
                 "Expecing correct number of results reported by the API, even when recorder disabled");
         }
 
@@ -123,7 +123,7 @@ namespace PerformanceRecorderTest.API
             api.EnablePerformanceRecording();
             api.RecordAction(testMethodName, () => { });
 
-            bool resultFound = api.GetResults().FlatData().Any(r => r.MethodName == testMethodName);
+            bool resultFound = api.GetResults().FlatRecordingData.Any(r => r.MethodName == testMethodName);
             Assert.True(resultFound, "Recorded action should appear in result data");
         }
 
@@ -158,7 +158,7 @@ namespace PerformanceRecorderTest.API
             for (int i = 0; i < testCount; i++)
             {
                 var method = NewMethodDefinition(i);
-                IRecordingTree node = recorder.RegisterMethd(method);
+                IRecordingTree node = recorder.RegisterMethod(method);
                 recorder.RecordMethodDuration(node, sleepTime);
             }
 

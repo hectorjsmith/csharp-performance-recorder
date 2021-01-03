@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PerformanceRecorder.Formatter.Helper;
 using PerformanceRecorder.Result;
 
 namespace PerformanceRecorder.Formatter.Impl
 {
     internal class NestedStringResultFormatterImpl : BaseStringResultFormatter<IRecordingResultWithDepth>, IStringResultWithDepthFormatter
     {
+        private const string AlignmentMarker = "%";
+        
         public NestedStringResultFormatterImpl(bool includeNamespaceInString, int decimalPlacesInResult)
             : base(includeNamespaceInString, decimalPlacesInResult)
         {
@@ -15,17 +18,18 @@ namespace PerformanceRecorder.Formatter.Impl
 
         public override string FormatAs(IRecordingSessionResult results, Func<IRecordingResultWithDepth, bool> filterFunction)
         {
-            IList<IRecordingResult> flatResults = results.FlatData().ToList();
+            ICollection<IRecordingResult> flatResults = results.FlatRecordingData;
             if (!flatResults.Any())
             {
                 return "";
             }
 
-            int countLenght = FindLengthOfLongestCount(flatResults);
-            int fieldLength = FindLengthOfLongestValue(flatResults);
+            int countLength = flatResults.FindLengthOfLongestCount();
+            int sumLength = flatResults.FindLengthOfLongestSum(DecimalPlacesInResult);
 
             IRecordingTree filteredTree = results.RecordingTree.Filter(filterFunction);
-            return AlignAndRemoveDolarSigns(PrintTree(filteredTree, "", true, countLenght, fieldLength));
+            string printedTree = PrintTree(filteredTree, "", true, countLength, sumLength);
+            return printedTree.AlignStringsToMarker(AlignmentMarker);
         }
 
         // Inspired by: https://stackoverflow.com/a/8567550
@@ -52,12 +56,15 @@ namespace PerformanceRecorder.Formatter.Impl
                 return "";
             }
 
-            string rawString = "{0} $ " + GetPaddedResultFormat();
-            string formatString = rawString
+            string formatString = PaddedResultFormatString
                 .Replace(CountLengthPlaceholder, "" + maxCountLength)
                 .Replace(NumberLengthPlaceholder, "" + maxFieldLength);
+
+            string resultNameWithAlignmentMarker =
+                result.GenerateResultName(IncludeNamespaceInString) + AlignmentMarker;
+            
             return string.Format(formatString,
-                GenerateResultName(result), result.Count, result.Sum, result.Avg, result.Max, result.Min);
+                resultNameWithAlignmentMarker, result.Count, result.Sum, result.Avg, result.Max, result.Min);
         }
     }
 }

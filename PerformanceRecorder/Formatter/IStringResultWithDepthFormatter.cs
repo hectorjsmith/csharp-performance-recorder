@@ -2,7 +2,7 @@
 
 namespace PerformanceRecorder.Formatter
 {
-    public interface IStringResultWithDepthFormatter : IResultFormatter<string, IRecordingResultWithDepth>
+    public interface IStringResultWithDepthFormatter : IResultWithDepthFormatter<string, IRecordingResultWithDepth>
     {
     }
 }

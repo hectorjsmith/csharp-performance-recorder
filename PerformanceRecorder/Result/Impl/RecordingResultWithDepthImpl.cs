@@ -1,6 +1,6 @@
 ﻿namespace PerformanceRecorder.Result.Impl
 {
-    internal class RecordingResultWithDepthImpl : RecordingResultImpl, IRecordingResultWithDepth
+    internal class RecordingResultWithDepthImpl : WritableRecordingResultImpl, IRecordingResultWithDepth
     {
         public RecordingResultWithDepthImpl(IMethodDefinition method, int depth) : base(method)
         {

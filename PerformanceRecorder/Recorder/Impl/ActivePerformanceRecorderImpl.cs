@@ -25,12 +25,12 @@ namespace PerformanceRecorder.Recorder.Impl
             return GetResults().FlattenAndCombine().ToList();
         }
 
-        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition)
+        public IRecordingTree RegisterMethod(IMethodDefinition methodDefinition)
         {
-            return RegisterMethd(methodDefinition, null);
+            return RegisterMethod(methodDefinition, null);
         }
 
-        public IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent)
+        public IRecordingTree RegisterMethod(IMethodDefinition methodDefinition, IRecordingTree parent)
         {
             return AddNewMethodToTree(methodDefinition, parent);
         }
@@ -77,7 +77,8 @@ namespace PerformanceRecorder.Recorder.Impl
             if (methodNode != null)
             {
                 // Update node
-                methodNode.Value.AddResult(duration);
+                var writableResult = (IWritableRecordingResult) methodNode.Value;
+                writableResult.AddResult(duration);
             }
             else
             {

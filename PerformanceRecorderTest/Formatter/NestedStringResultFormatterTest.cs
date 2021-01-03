@@ -140,17 +140,17 @@ namespace PerformanceRecorderTest.Formatter
             for (int i = 0; i < topLevelCount; i++)
             {
                 string iId = "i" + i;
-                IRecordingTree subTree = recorder.RegisterMethd(new MethodDefinitionImpl("n" + iId, "c" + iId, "m" + iId));
+                IRecordingTree subTree = recorder.RegisterMethod(new MethodDefinitionImpl("n" + iId, "c" + iId, "m" + iId));
                 HelperMethodToGetRecordingResult(recorder, i, subTree);
                 for (int j = 0; j < midLevelCount; j++)
                 {
                     string jId = iId + "j" + j;
-                    IRecordingTree subSubTree = recorder.RegisterMethd(new MethodDefinitionImpl("n" + jId, "c" + jId, "m" + jId), subTree);
+                    IRecordingTree subSubTree = recorder.RegisterMethod(new MethodDefinitionImpl("n" + jId, "c" + jId, "m" + jId), subTree);
                     HelperMethodToGetRecordingResult(recorder, j + i, subSubTree);
                     for (int k = 0; k < bottomLevelCount; k++)
                     {
                         string kId = jId + "k" + k;
-                        IRecordingTree subSubSubTree = recorder.RegisterMethd(new MethodDefinitionImpl("n" + kId, "c" + kId, "m" + kId), subSubTree);
+                        IRecordingTree subSubSubTree = recorder.RegisterMethod(new MethodDefinitionImpl("n" + kId, "c" + kId, "m" + kId), subSubTree);
                         HelperMethodToGetRecordingResult(recorder, k + i + j, subSubSubTree);
                     }
                 }

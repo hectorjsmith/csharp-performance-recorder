@@ -21,7 +21,7 @@ namespace PerformanceRecorder.Recorder.Worker
 
             IPerformanceRecorder recorder = StaticRecorderManager.GetRecorder();
             IMethodDefinition methodDefinition = GenerateMethodDefinition(instance.GetType(), methodName);
-            IRecordingTree methodNode = recorder.RegisterMethd(methodDefinition, parent?.Node);
+            IRecordingTree methodNode = recorder.RegisterMethod(methodDefinition, parent?.Node);
             MethodStack.Push(new RecorderStackItem(methodNode, GetCurrentTimeInMs()));
         }
 
