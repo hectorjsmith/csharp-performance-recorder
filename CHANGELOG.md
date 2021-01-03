@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+
+## [v0.6.0] - 2021-01-03
 ### Bug Fixes
 - (0fe8541) fix: hide namespaces in generic types ([#37](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/37))
 
@@ -13,6 +15,19 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - (f0c040b) feat: refactor recording session result interface ([#32](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/32))
 - (de774c1) feat: split string formatters from result data ([#48](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/48))
 - (7d4f9ae) feat: auto-generate changelog file based on commits ([#47](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/47))
+
+### Merge Requests
+- (7a4fa8e) Merge branch '37-show-namespace-flag-should-apply-to-generic-types' into 'develop'
+- (7ff92a6) Merge branch '32-support-custom-formatters' into 'develop'
+- (f0fb4a4) Merge branch '46-remove-non-deterministic-test' into 'develop'
+- (083598d) Merge branch 'agile/update-project-dependencies' into 'develop'
+- (7f10d71) Merge branch 'agile/update-aspect-injector' into 'develop'
+- (7d8713c) Merge branch '48-split-formatters-from-result-data' into 'develop'
+- (d4b5337) Merge branch 'agile/fix-typo-in-property-folder-name' into 'develop'
+- (6803fad) Merge branch 'agile/organize-build-tools' into 'develop'
+- (dd7d148) Merge branch 'develop' into 'agile/organize-build-tools'
+- (89d6846) Merge branch 'agile/update-changelog' into 'develop'
+- (ac32caf) Merge branch '47-auto-gen-changelog' into 'develop'
 
 ### BREAKING CHANGE
 
@@ -91,7 +106,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 [git-chglog]: https://github.com/git-chglog/git-chglog
-[Unreleased]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.5.0...main
+[Unreleased]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.6.0...develop
+[v0.6.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.4.0...v0.5.0
 [v0.4.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.2.0...v0.3.0
