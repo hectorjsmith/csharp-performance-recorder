@@ -12,6 +12,11 @@ namespace PerformanceRecorderTest.Formatter.Helper
         {
             yield return new TestCaseData("n.a", "cls", "mtd", true, "n.a.cls.mtd");
             yield return new TestCaseData("n.a", "cls", "mtd", false, "cls.mtd");
+            yield return new TestCaseData("n.a", "cls<a.b>", "mtd<a.b>", true, "n.a.cls<a.b>.mtd<a.b>");
+            yield return new TestCaseData("n.a", "cls<a.b>", "mtd<a.b>", false, "cls<b>.mtd<b>");
+            yield return new TestCaseData("n.a", "cls<a.b, a.c>", "mtd<a.b<a.c>>", false, "cls<b, c>.mtd<b<c>>");
+            yield return new TestCaseData("n.a", "cls<a.b, a.c>", ".ctor", true, "n.a.cls<a.b, a.c>..ctor");
+            yield return new TestCaseData("n.a", "cls<a.b, a.c>", ".ctor", false, "cls<b, c>..ctor");
         }
 
         [Test]
