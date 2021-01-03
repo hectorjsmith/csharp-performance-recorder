@@ -158,7 +158,7 @@ namespace PerformanceRecorderTest.API
             for (int i = 0; i < testCount; i++)
             {
                 var method = NewMethodDefinition(i);
-                IRecordingTree node = recorder.RegisterMethd(method);
+                IRecordingTree node = recorder.RegisterMethod(method);
                 recorder.RecordMethodDuration(node, sleepTime);
             }
 

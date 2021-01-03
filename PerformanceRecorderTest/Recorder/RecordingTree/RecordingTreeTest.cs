@@ -176,12 +176,12 @@ namespace PerformanceRecorderTest.Recorder.RecordingTree
             for (int i = 0; i < 1; i++)
             {
                 MethodDefinitionImpl method = new MethodDefinitionImpl("n" + i, "c" + i, "m" + i);
-                IRecordingTree tree = recorder.RegisterMethd(method);
+                IRecordingTree tree = recorder.RegisterMethod(method);
                 recorder.RecordMethodDuration(tree, 10);
                 for (int j = 0; j < 1; j++)
                 {
                     MethodDefinitionImpl subMethod = new MethodDefinitionImpl("nn" + j, "cc" + j, "mm" + j);
-                    IRecordingTree subTree = recorder.RegisterMethd(subMethod, tree);
+                    IRecordingTree subTree = recorder.RegisterMethod(subMethod, tree);
                     recorder.RecordMethodDuration(subTree, 10);
                 }
             }

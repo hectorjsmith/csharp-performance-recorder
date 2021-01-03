@@ -8,9 +8,9 @@ namespace PerformanceRecorder.Recorder
     {
         void RecordMethodDuration(IRecordingTree methodNode, double duration);
 
-        IRecordingTree RegisterMethd(IMethodDefinition methodDefinition);
+        IRecordingTree RegisterMethod(IMethodDefinition methodDefinition);
 
-        IRecordingTree RegisterMethd(IMethodDefinition methodDefinition, IRecordingTree parent);
+        IRecordingTree RegisterMethod(IMethodDefinition methodDefinition, IRecordingTree parent);
 
         IRecordingTree GetResults();
 
