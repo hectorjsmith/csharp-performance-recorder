@@ -9,6 +9,10 @@ C# performance recorder library using aspect oriented programming.
 
 *See the included example project to see it in action*
 
+### Installation
+
+Add the library to your project by following the instructions on the [nuget.org package page](https://www.nuget.org/packages/PerformanceRecorder/).
+
 ### Attribute
 
 Use the `[PerfomanceLogging]` attribute on your methods, properties, or classes to have their execution time recorded.
