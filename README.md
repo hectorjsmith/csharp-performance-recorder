@@ -1,6 +1,7 @@
 # C# Performance Recorder
 
 [![pipeline status](https://gitlab.com/hectorjsmith/csharp-performance-recorder/badges/develop/pipeline.svg)](https://gitlab.com/hectorjsmith/csharp-performance-recorder/commits/develop)
+[![project version on nuget](https://badgen.net/nuget/v/PerformanceRecorder/latest)](https://www.nuget.org/packages/PerformanceRecorder/)
 
 C# performance recorder library using aspect oriented programming.
 
