@@ -1,12 +1,17 @@
 # C# Performance Recorder
 
 [![pipeline status](https://gitlab.com/hectorjsmith/csharp-performance-recorder/badges/develop/pipeline.svg)](https://gitlab.com/hectorjsmith/csharp-performance-recorder/commits/develop)
+[![project version on nuget](https://badgen.net/nuget/v/PerformanceRecorder/latest)](https://www.nuget.org/packages/PerformanceRecorder/)
 
 C# performance recorder library using aspect oriented programming.
 
 ## How to Use
 
 *See the included example project to see it in action*
+
+### Installation
+
+Add the library to your project by following the instructions on the [nuget.org package page](https://www.nuget.org/packages/PerformanceRecorder/).
 
 ### Attribute
 
