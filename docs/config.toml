@@ -1,4 +1,4 @@
-baseURL = "http://localhost"
+baseURL = "https://hectorjsmith.gitlab.io/csharp-performance-recorder"
 title = "C# Performance Recorder"
 theme = "hugo-geekdoc"
 
