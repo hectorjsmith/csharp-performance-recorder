@@ -1,5 +1,6 @@
 # C# Performance Recorder
 
+[![documentation](https://img.shields.io/badge/docs-latest-orange)](https://hectorjsmith.gitlab.io/csharp-performance-recorder/)
 [![pipeline status](https://gitlab.com/hectorjsmith/csharp-performance-recorder/badges/develop/pipeline.svg)](https://gitlab.com/hectorjsmith/csharp-performance-recorder/commits/develop)
 [![project version on nuget](https://badgen.net/nuget/v/PerformanceRecorder/latest)](https://www.nuget.org/packages/PerformanceRecorder/)
 

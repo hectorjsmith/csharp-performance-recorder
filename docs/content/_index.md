@@ -24,17 +24,17 @@ Use the `[PerformanceLogging]` attribute to record the execution time of methods
 
 ### Instrumented Method
 
-```csharp
+{{< highlight csharp "linenos=table" >}}
 [PerformanceLogging]
 public void RunApplication()
 {
     // ...
 }
-```
+{{< /highlight >}}
 
 ### Output
 
-```
+{{< highlight text "linenos=table" >}}
 +-
    +- ApplicationImpl.RunApplication              count:  1  sum: 1.85  avg: 1.85  max: 1.85  min: 1.85
       +- WorkerImpl.RunOperationB                 count:  1  sum: 1.13  avg: 1.13  max: 1.13  min: 1.13
@@ -42,4 +42,4 @@ public void RunApplication()
       |  |  +- WorkerImpl.RunPrivateOperationB21  count:  1  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00
       +- ApplicationImpl.Worker                   count: 11  sum: 0.16  avg: 0.01  max: 0.14  min: 0.00
          +- WorkerImpl..ctor                      count: 11  sum: 0.00  avg: 0.00  max: 0.00  min: 0.00
-```
+{{< /highlight >}}

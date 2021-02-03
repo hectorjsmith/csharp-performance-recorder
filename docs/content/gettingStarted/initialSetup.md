@@ -9,9 +9,10 @@ The library exposes an API class to serve as the main entry point to the functio
 
 Create a new instance of the API using the default constructor:
 
-```csharp
+{{< highlight csharp "linenos=table" >}}
+// Build new API instance
 IPerformanceRecorderApi api = new PerformanceRecorderApiImpl();
-```
+{{< /highlight >}}
 
 {{< hint info >}}
 **NOTE**: In the background all instances of the API link back to a static state.
@@ -22,13 +23,13 @@ This means that any number of API instances can be created and they will all sha
 
 Add the `[PerformanceLogging]` attribute to any method you want to record.
 
-```csharp
+{{< highlight csharp "linenos=table" >}}
 [PerformanceLogging]
 public void RunApplication()
 {
     // ...
 }
-```
+{{< /highlight >}}
 
 It is possible to add the attribute to
 - Instance methods (any visibility)
@@ -36,7 +37,7 @@ It is possible to add the attribute to
 - Classes (all methods & properties of that class inherit the attribute)
 
 {{< hint warning >}}
-**NOTE:** Instrumenting `static` methods is currently not supported.
+**NOTE:** `static` methods are currently not supported.
 {{< /hint >}}
 
 ## Toggle Recording
@@ -48,22 +49,24 @@ This takes effect immediately across the entire application.
 {{< tabs "initialSetupToggleRecording" >}}
 {{< tab "Methods" >}}
 
-```csharp
+{{< highlight csharp "linenos=table" >}}
 api.EnablePerformanceRecording();
 // ...
 api.DisablePerformanceRecording();
-```
+{{< /highlight >}}
 
 {{< /tab >}}
 {{< tab "Property" >}}
 
-```csharp
+{{< highlight csharp "linenos=table" >}}
 api.IsRecordingEnabled = true;
 // ...
 api.IsRecordingEnabled = false;
-```
+{{< /highlight >}}
 
 {{< /tab >}}
 {{< /tabs >}}
 
-Related: [Print Results](/gettingStarted/printResults) | [Recording Actions](/advanced/recordActions)
+---
+
+Related: [Print Results](/gettingStarted/printResults)
