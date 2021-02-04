@@ -1,16 +1,30 @@
-image: microsoft/dotnet:latest
-
 stages:
+    - docs
     - build
     - test
 
-before_script:
+.dotnet_template:
+    image: microsoft/dotnet:latest
+    before_script:
     - apt-get update
     - apt-get install nuget build-essential -y
-    - nuget restore
+
+pages:
+    stage: docs
+    image: registry.gitlab.com/pages/hugo/hugo:latest
+    script:
+    - cd docs
+    - hugo
+    - mv public/ ../public
+    artifacts:
+      paths:
+      - public/
+    only:
+    - develop
 
 package:
     stage: build
+    extends: .dotnet_template
     script:
     - make updateVersion
     - make build
@@ -21,6 +35,7 @@ package:
 
 test:
     stage: test
+    extends: .dotnet_template
     script:
     - 'dotnet test PerformanceRecorderTest/PerformanceRecorderTest.csproj --test-adapter-path:. --logger:"junit;LogFilePath=..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"'
     artifacts:
@@ -30,5 +45,7 @@ test:
 
 example:
     stage: test
+    extends: .dotnet_template
     script:
     - dotnet run --project ExampleApplication/ExampleApplication.csproj
+
