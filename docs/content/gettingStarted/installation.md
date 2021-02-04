@@ -13,7 +13,7 @@ These are the same steps the CI/CD process uses to compile the library.
 
 **1. Set Version**
 
-Use the `tools/build/updateVersion.sh` script to inject the project version into the `.csproj` file.
+Use the `tools/build/updateVersion.sh` script to inject the current project version into the `.csproj` file.
 
 {{< hint info >}}
 **NOTE:** The project is versioned based on git tags. The `.csproj` file in the repository has the version set to `0.0.0`.

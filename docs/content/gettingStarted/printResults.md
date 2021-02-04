@@ -30,7 +30,7 @@ IFormatterFactoryApi formatterFactory = api.NewFormatterFactoryApi();
 The factory has methods to control the behaviour of the formatters it generates.
 
 - `IncludeNamespaceInString` - controls whether the full method namespace is included in the results
-- `DecimalPlacesInResults` - controls how many decimal places to show when showing execution times
+- `DecimalPlacesInResults` - controls how many decimal places to show when showing execution times (max: 3)
 
 ### Nested Formatter
 
@@ -59,4 +59,4 @@ Console.WriteLine(formatter.FormatAs(results)
 
 ---
 
-Related: [Result Data](/advanced/resultData) | [Filtering](/advanced/filtering) | [Custom Formatters](/advanced/customFormatters)
+Related: [Result Data]({{< ref "/advanced/resultData" >}}) | [Filtering]({{< ref "/advanced/filtering" >}}) | [Custom Formatters]({{< ref "/advanced/customFormatters" >}}) 

@@ -1,6 +1,6 @@
 ---
 title: Recording Actions
-weight: 10
+weight: 40
 ---
 
 It is not always possible to split the code we want to record into a separate method.
