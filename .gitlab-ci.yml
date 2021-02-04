@@ -19,6 +19,8 @@ pages:
     artifacts:
       paths:
       - public/
+    only:
+    - develop
 
 package:
     stage: build
