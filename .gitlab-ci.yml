@@ -13,9 +13,10 @@ pages:
     stage: docs
     image: registry.gitlab.com/pages/hugo/hugo:latest
     script:
-    - cd docs
-    - hugo
-    - mv public/ ../public
+    - apk add make
+    - make docs/downloadTheme
+    - make docs/build
+    - mv docs/public public/
     artifacts:
       paths:
       - public/
