@@ -3,7 +3,7 @@ using PerformanceRecorder.Result;
 namespace PerformanceRecorder.Formatter
 {
     /// <summary>
-    /// More specific interface of <see cref="IResultFormatter{T}{V}"/> that handles recoring depth.
+    /// More specific interface of <see cref="IResultFormatter{TOutputType, TRecordingType}"/> that handles recoring depth.
     /// </summary>
     public interface IResultWithDepthFormatter<out TOutputType, out TRecordingType>
         : IResultFormatter<TOutputType, TRecordingType>
