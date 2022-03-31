@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace PerformanceRecorder.Recorder.RecordingTree
 {
+    /// <summary>
+    /// Represents a tree structure of recorded data.
+    /// The tree structure comes from the call hierarchy of each method included in the results.
+    /// </summary>
     public interface IRecordingTree : ITreeNode<IRecordingResultWithDepth, IRecordingTree>
     {
         /// <summary>
@@ -16,6 +20,10 @@ namespace PerformanceRecorder.Recorder.RecordingTree
         /// </summary>
         IEnumerable<IRecordingResult> FlattenAndCombine();
 
+        /// <summary>
+        /// Return a copy of the tree after applying the given filter.
+        /// The new tree will only include nodes (i.e. results) where the filter function evaluates to true.
+        /// </summary>
         IRecordingTree Filter(Func<IRecordingResultWithDepth, bool> filterFunction);
     }
 }

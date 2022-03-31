@@ -4,6 +4,9 @@ using PerformanceRecorder.Recorder.RecordingTree;
 
 namespace PerformanceRecorder.Result
 {
+    /// <summary>
+    /// Represents the recording results from a particular "session" or period of time.
+    /// </summary>
     public interface IRecordingSessionResult
     {
         /// <summary>
