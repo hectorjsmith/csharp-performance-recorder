@@ -29,6 +29,7 @@ See the project CHANGELOG for full release notes: https://gitlab.com/hectorjsmit
     <Title>Performance Recorder</Title>
     <PackageProjectUrl>https://gitlab.com/hectorjsmith/csharp-performance-recorder</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
