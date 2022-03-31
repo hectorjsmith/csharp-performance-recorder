@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace PerformanceRecorder.Formatter.Helper
 {
+    /// <summary>
+    /// General purpose extensions for <see cref="String"/>.
+    /// </summary>
     public static class StringExtension
     {
         /// <summary>
