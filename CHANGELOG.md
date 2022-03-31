@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
+*Nothing yet*
+
+## [v0.6.1] - 2022-03-31
+### Bug Fixes
+- (e5da149) fix: include code docs in the built nupkg file ([#51](https://gitlab.com/hectorjsmith/csharp-performance-recorder/issues/51))
+- (67a6db2) fix: use new image for ci/cd
 
 
 ## [v0.6.0] - 2021-01-03
@@ -106,7 +112,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 [git-chglog]: https://github.com/git-chglog/git-chglog
-[Unreleased]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.6.0...develop
+[Unreleased]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.6.1...develop
+[v0.6.1]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.6.0...v0.6.1
 [v0.6.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.4.0...v0.5.0
 [v0.4.0]: https://gitlab.com/hectorjsmith/csharp-performance-recorder/compare/v0.3.0...v0.4.0
