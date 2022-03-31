@@ -7,6 +7,9 @@ using System;
 
 namespace PerformanceRecorder.API.Impl
 {
+    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    // No sense documenting this class as it will be exactly the same as the interface.
+    // Ideally this class should be internal and hidden behind a builder function.
     public class PerformanceRecorderApiImpl : IPerformanceRecorderApi
     {
         public bool IsRecordingEnabled
@@ -67,4 +70,5 @@ namespace PerformanceRecorder.API.Impl
             return new FormatterFactoryApiImpl();
         }
     }
+    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
