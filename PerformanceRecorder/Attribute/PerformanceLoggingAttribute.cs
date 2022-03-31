@@ -7,12 +7,18 @@ using System.Reflection;
 
 namespace PerformanceRecorder.Attribute
 {
+    /// <summary>
+    /// Main attribute used to add instrumentation to a method, class, or property.
+    /// </summary>
     [Aspect(Scope.Global)]
     [Injection(typeof(PerformanceLoggingAttribute))]
     public class PerformanceLoggingAttribute : System.Attribute
     {
         private static ILogger Logger => StaticRecorderManager.Logger;
 
+        /// <summary>
+        /// This method is called before an annotated function is called and wraps around it.
+        /// </summary>
         [Advice(Kind.Around)]
         public object HandleAround(
             [Argument(Source.Metadata)] MethodBase metadata,
@@ -32,6 +38,9 @@ namespace PerformanceRecorder.Attribute
             }
         }
 
+        /// <summary>
+        /// This method is called before an annotated function is executed.
+        /// </summary>
         [Advice(Kind.Before)]
         public void HandleBefore(
             [Argument(Source.Metadata)] MethodBase metadata,
@@ -48,6 +57,9 @@ namespace PerformanceRecorder.Attribute
             }
         }
 
+        /// <summary>
+        /// This method is called after an annotated function is executed.
+        /// </summary>
         [Advice(Kind.After)]
         public void HandleAfter(
             [Argument(Source.Metadata)] MethodBase metadata)
